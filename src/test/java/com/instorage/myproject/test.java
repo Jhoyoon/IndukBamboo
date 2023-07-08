@@ -1,4 +1,4 @@
-package com.hoyoon.board;
+package com.instorage.myproject;
 
 import jakarta.validation.constraints.AssertTrue;
 import org.junit.Test;

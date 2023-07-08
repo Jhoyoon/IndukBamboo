@@ -1,4 +1,4 @@
-package com.hoyoon.board.controller;
+package com.instorage.myproject.controller;
 
 import java.net.URLEncoder;
 import java.text.DateFormat;

@@ -3,11 +3,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <html>
 <head>
-	<title>Home</title>
+  <title>Home</title>
 </head>
 <body>
-<jsp:include page="template/header.jsp" />
-<h1>이곳은 home입니다.</h1>
-<jsp:include page="template/footer.jsp" />
+<%--<jsp:include page="template/header.jsp" />--%>
+
+<%-- 이곳에 내용물을 작성하세요--%>
+
+<%--<jsp:include page="template/footer.jsp" />--%>
 </body>
 </html>

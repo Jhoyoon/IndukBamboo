@@ -1,8 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- jdbc를 사용해서 데이터베이스에 접근 할 때 사용되는 객체이다. -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
+		<property name="url" value="jdbc:log4jdbc:mysql://localhost:3306/springmvc?useUnicode=true&amp;characterEncoding=utf8"></property>
+<!--		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>-->
+<!--		<property name="url" value="jdbc:mysql://localhost:3306/springbasic?useUnicode=true&amp;characterEncoding=utf8"></property>-->
+		<property name="username" value="hoyoon"></property>
+		<property name="password" value="Wjdqleoeo1!"></property>
+	</bean>
+	<!-- sqlSessionFactory를 생성한다.설정파일과 mapper 파일 위치를 지정한다.-->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="configLocation"  value="classpath:mybatis-config.xml"/>
+		<property name="mapperLocations" value="classpath:mapper/*Mapper.xml"/>
+	</bean>
+	<!-- sqlsession을 구현한 클래스이다.spring의 트랜잭션 관리와 함께 사용된다.-->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory"/>
+	</bean>
+	<!-- jdbc 트랜잭션을 관리해준다.-->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	<!-- @Transactional 에너테이션을 사용할수 있다. -->
+	<tx:annotation-driven/>
+	<context:component-scan base-package="com.instorage.myproject"/>
 		
 </beans>

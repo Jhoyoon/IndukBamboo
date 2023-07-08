@@ -21,7 +21,8 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.hoyoon.board" />
+	<context:component-scan base-package="com.instorage.myproject" />
+	<!-- validator에서 지정해주는 error_message 저장소 등록-->
 	<beans:bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
 		<beans:property name="basenames">
 			<beans:list>

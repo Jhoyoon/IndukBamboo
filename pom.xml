@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.hoyoon</groupId>
-	<artifactId>board</artifactId>
+	<artifactId>instorage</artifactId>
 	<name>board</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
@@ -28,6 +28,7 @@
 			<artifactId>tomcat-catalina</artifactId>
 			<version>9.0.71</version>
 		</dependency>
+
 		<!-- java 객체와 json 객체를 상호 변환하는데 사용되는 라이브러리-->
 		<!-- @ResponseBody @RequestBody @RestController  -->
 		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
@@ -36,6 +37,7 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.15.2</version>
 		</dependency>
+
 		<!-- test시 어떤 sql문들이 작동했는지 log를 알려준다.-->
 		<!-- https://mvnrepository.com/artifact/org.bgee.log4jdbc-log4j2/log4jdbc-log4j2-jdbc4.1 -->
 		<dependency>
@@ -43,6 +45,7 @@
 			<artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
 			<version>1.16</version>
 		</dependency>
+
 		<!-- srping에서 mybatis를 사용하기 위한 두개의 모듈 -->
 		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
 		<dependency>
@@ -57,6 +60,7 @@
 			<artifactId>mybatis-spring</artifactId>
 			<version>2.0.7</version>
 		</dependency>
+
 		<!-- 트랜젝션 기능을 활용하려면 spring-jdbc와 mybatis를 같이 활용해야 한다. -->
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
 		<dependency>
@@ -178,9 +182,16 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.7</version>
+			<version>4.12</version>
 			<scope>test</scope>
-		</dependency>        
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${org.springframework-version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
     <build>
         <plugins>

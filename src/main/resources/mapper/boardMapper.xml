@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.instorage.myproject.boardMapper">
+   <!-- 게시물 개수 카운트 반환 -->
+   <select id="count" resultType="int">
+      SELECT count(*) FROM board;
+   </select>
+   <!-- bno로 게시물 탐색 후 객체 반환 -->
+   <select id="select" parameterType="int" resultType="BoardDto">
+      select * from board where bno=#{bno};
+   </select>
+   <!-- 모든 게시물 list로 반환 -->
+   <select id="selectAll" resultType="BoardDto">
+    select * from board  ORDER BY reg_date DESC, bno DESC;
+   </select>
+   <!-- 페에지에 담기는 객체들을 반환한다.-->
+   <select id="selectPage" resultType="BoardDto" parameterType="map">
+      select * from board ORDER BY reg_date ASC, bno ASC limit #{offset},#{pageSize}
+   </select>
+   <!-- 모든 게시물 삭제하기.삭제된 행 개수 반환 -->
+   <delete id="deleteAll">
+      delete from board;
+   </delete>
+   <!-- writer와 bno가 일치할시 게시물 삭제하기 -->
+   <delete id="delete" parameterType="map">
+      delete
+      from board
+      where bno=#{bno} and writer=#{writer};
+   </delete>
+   <!-- 게시물 db 저장 -->
+   <insert id="insert" parameterType="BoardDto">
+      insert into board (writer, title, content)
+      values (#{writer},#{title},#{content});
+   </insert>
+   <!-- 게시물 업데이트.bno로 탐색 -->
+   <update id="update" parameterType="BoardDto">
+      update board set title=#{title},content=#{content} where bno=#{bno};
+   </update>
+   <update id="increaseViewCnt" parameterType="int">
+      update board set view_cnt = view_cnt+1 where bno=#{bno};
+   </update>
+
+
+
+</mapper>

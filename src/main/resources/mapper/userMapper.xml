@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.instorage.myproject.userMapper">
+    <insert id="insertUser" parameterType="UserDto">
+        insert into user_info (id, pwd, nickname,reg_date)
+        values (#{id},#{pwd},#{nickname},#{reg_date});
+    </insert>
+    <delete id="deleteAll">
+        delete from user_info;
+    </delete>
+
+
+</mapper>
