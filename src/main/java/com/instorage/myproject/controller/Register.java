@@ -5,6 +5,7 @@ import com.instorage.myproject.domain.UserValidator;
 import com.instorage.myproject.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -39,18 +40,14 @@ public class Register {
             System.out.println(error.getField());
             return "register";
         }
-        int rowCnt = 0;
+
         try{
-        rowCnt=userService.registerUser(userDto);
-        }catch (Exception e){
-            e.printStackTrace();
-            String msg = URLEncoder.encode("회원가입에 실패했습니다.다시 시도해주세요.","utf-8");
-            return "redirect:/register?msg="+msg;
+            userService.registerUser(userDto);
+        }catch(DuplicateKeyException e){
+            m.addAttribute("msg","키 중복 옵션");
+            return "redirect:/register";
         }
-        if(rowCnt == 1) return "registerInfo";
-        else{
-            String msg = URLEncoder.encode("회원가입에 실패했습니다.다시 시도해주세요.","utf-8");
-            return "redirect:/register?msg="+msg;
-        }
+        return "redirect:/";
+
     }
 }

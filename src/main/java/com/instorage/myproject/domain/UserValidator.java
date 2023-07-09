@@ -15,7 +15,7 @@ public class UserValidator implements Validator {
         String pwd = userDto.getPwd();
         String nickname = userDto.getNickname();
 
-        userDto.setReg_date(LocalDate.now());
+
 //        String email = userDto.getEmail();
 //        String birth = userDto.getbirth();
 
