@@ -45,6 +45,7 @@ public class BoardService {
     public int update(BoardDto boardDto){
         return boardDao.update(boardDto);
     }
-
-
+    public int increaseView(Integer bno){
+        return boardDao.increaseViewCnt(bno);
+    }
 }

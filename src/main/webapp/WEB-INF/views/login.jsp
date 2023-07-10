@@ -14,14 +14,16 @@
 </c:if>
 <form:form>
   <label for="id">id</label>
-  <input type="text" id="id" name="id" placeholder="id를 입력해주세요">
+  <input type="text" id="id" name="id" placeholder="id를 입력해주세요" value="${cookie.id.value}">
 
   <label for="pwd">pwd</label>
   <input type="password" id="pwd" name="pwd" placeholder="pwd를 입력해주세요">
+
+  <input type="text" value="${param.uri}"/>
   <button>로그인</button>
 
   <label for="rememberId">아이디 기억하기</label>
-  <input type="checkbox" id="rememberId">
+  <input type="checkbox" id="rememberId" name="rememberId" ${empty cookie.id.value ? "" : "checked"}>
 </form:form>
 
 <jsp:include page="template/footer.jsp" />

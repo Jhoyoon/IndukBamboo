@@ -72,4 +72,5 @@ public class BoardDao {
     public int increaseViewCnt(Integer bno){
         return session.update(namespace+"increaseViewCnt",bno);
     }
+
 }

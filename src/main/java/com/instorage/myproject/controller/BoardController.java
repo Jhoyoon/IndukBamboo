@@ -7,9 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,14 +24,31 @@ public class BoardController {
     BoardService boardService;
 
     @GetMapping(value="/remove")
-    public String boardRemove(Integer bno,Integer page,Integer pageSize,Model m){
-        boardService.remove(bno,"writer");
-        m.addAttribute("page",page);
-        m.addAttribute("pageSize",pageSize);
-        return "redirect:/board/list";
+    public String boardRemove(Integer bno, Integer page, Integer pageSize, Model m, HttpSession session,RedirectAttributes rda){
+        String id =(String)session.getAttribute("id");
+        int result = boardService.remove(bno,id);
+        if(result == 1){
+            rda.addFlashAttribute("msg","삭제성공");
+            return "redirect:/board/list?page="+page+"&pageSize="+pageSize;
+        }else{
+            m.addAttribute("bno",bno);
+            m.addAttribute("page",page);
+            m.addAttribute("pageSize",pageSize);
+            String uri = "redirect:/board/read?bno="+bno+"&page="+page+"&pageSize="+pageSize;
+            rda.addFlashAttribute("msg","삭제실패");
+            return uri;
+        }
     }
     @GetMapping(value="/list")
     public String boardList(Integer page, Integer pageSize, HttpServletRequest request, Model m){
+        // req에서 sessionid로 서버에서 세션을 찾는다.
+        HttpSession session = request.getSession();
+        //그 세션에서 id를 찾잖아.
+//        System.out.println("session id="+session.getAttribute("id"));
+        if(session.getAttribute("id")==null){
+            m.addAttribute("uri","/board/list");
+            return "redirect:/login/login";
+        }
         if(page == null) page = 1;
         if(pageSize == null) pageSize = 10;
         try{
@@ -50,8 +70,20 @@ public class BoardController {
         BoardDto boardDto = boardService.read(bno);
         int totalCnt = boardService.count();
         PageHandler ph = new PageHandler(totalCnt,page,pageSize);
+        boardService.increaseView(bno);
         m.addAttribute("ph",ph);
         m.addAttribute("board",boardDto);
         return "boardRead";
+    }
+    @GetMapping(value="/write")
+    public String boardWriteGet(){
+        return "boardWrite";
+    }
+    @PostMapping(value="/write")
+    public String boardWritePost(String title,String content,HttpSession session,Model m){
+        String writer = (String)session.getAttribute("id");
+        BoardDto boardDto = new BoardDto(writer,title,content);
+        boardService.write(boardDto);
+        return "redirect:/board/list";
     }
 }

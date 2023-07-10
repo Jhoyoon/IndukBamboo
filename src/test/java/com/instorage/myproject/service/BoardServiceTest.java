@@ -43,7 +43,7 @@ public class BoardServiceTest {
     @Test
     public void testDate(){
         for(int i=0;i<=200;i++){
-        BoardDto boardDto = new BoardDto("writer","title"+i,"content");
+        BoardDto boardDto = new BoardDto("wjddbs9350","title"+i,"content");
         boardService.write(boardDto);
         }
     }

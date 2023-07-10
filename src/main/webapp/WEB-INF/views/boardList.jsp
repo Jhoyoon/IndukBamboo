@@ -7,7 +7,7 @@
 </head>
 <body>
 <jsp:include page="template/header.jsp" />
-
+<a href="<c:url value="/board/write"/>">게시글 작성</a>
 <table>
   <tr>
     <th>번호</th>
@@ -18,7 +18,6 @@
   </tr>
   <c:forEach var="board" items="${list}">
   <tr>
-
     <td>${board.bno}</td>
     <td><a href="<c:url value="/board/read?bno=${board.bno}&page=${ph.page}&pageSize=${ph.pageSize}"/>">${board.title}</a></td>
     <td>${board.writer}</td>
