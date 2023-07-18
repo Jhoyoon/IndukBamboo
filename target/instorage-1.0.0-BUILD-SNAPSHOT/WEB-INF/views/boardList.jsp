@@ -7,7 +7,7 @@
 </head>
 <body>
 <jsp:include page="template/header.jsp" />
-<a href="<c:url value="/board/write"/>">게시글 작성</a>
+<a href="<c:url value="/board/write?pageSize=${ph.pageSize}"/>">게시글 작성</a>
 <c:if test="${not empty msg}">
   <span>${msg}</span>
 </c:if>

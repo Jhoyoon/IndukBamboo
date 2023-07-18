@@ -50,7 +50,6 @@ public class BoardController {
         }
         if(page == null) page = 1;
         if(pageSize == null) pageSize = 10;
-
             int totalSize=boardService.count();
             PageHandler ph = new PageHandler(totalSize,page,pageSize);
             Map map = new HashMap();
@@ -59,7 +58,6 @@ public class BoardController {
             List<BoardDto> list =boardService.getPage(map);
             m.addAttribute("list",list);
             m.addAttribute("ph",ph);
-
         return "boardList";
     }
     @GetMapping(value="/read")
@@ -67,13 +65,15 @@ public class BoardController {
         BoardDto boardDto = boardService.read(bno);
         int totalCnt = boardService.count();
         PageHandler ph = new PageHandler(totalCnt,page,pageSize);
-        boardService.increaseView(bno);
+        System.out.println(boardService.increaseView(bno));
         m.addAttribute("ph",ph);
         m.addAttribute("board",boardDto);
         return "boardRead";
     }
     @GetMapping(value="/write")
-    public String boardWriteGet(){
+    public String boardWriteGet(Integer pageSize,Model m){
+        if(pageSize == null) pageSize = 10;
+        m.addAttribute("pageSize",pageSize);
         return "boardWrite";
     }
     @PostMapping(value="/write")
@@ -86,16 +86,16 @@ public class BoardController {
     @GetMapping(value="/edit")
     public String boardEditGet(Integer bno,String page,String pageSize,Model m){
         BoardDto boardDto = boardService.read(bno);
+        m.addAttribute("mode","edit");
         m.addAttribute("boardDto",boardDto);
         return "boardEdit";
     }
     @PostMapping(value="/edit")
-    public String boardEditPost(Integer bno,String title,String content,Integer pageSize,HttpSession session,Model m){
+    public String boardEditPost(BoardDto boardDto,Integer pageSize,HttpSession session,Model m){
         String writer = (String)session.getAttribute("id");
-        BoardDto boardDto = new BoardDto(writer,title,content);
-        boardDto.setBno(bno);
+        boardDto.setWriter("writer");
         boardService.update(boardDto);
-        m.addAttribute("bno",bno);
+        m.addAttribute("bno",boardDto.getBno());
         m.addAttribute("page",1);
         m.addAttribute("pageSize",pageSize);
         return "redirect:/board/read";
