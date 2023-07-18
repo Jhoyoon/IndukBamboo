@@ -27,17 +27,16 @@ public class BoardController {
     public String boardRemove(Integer bno, Integer page, Integer pageSize, Model m, HttpSession session,RedirectAttributes rda){
         String id =(String)session.getAttribute("id");
         int result = boardService.remove(bno,id);
+        System.out.println(result);
+        String uri;
         if(result == 1){
+            uri = "redirect:/board/list?page=" + page + "&pageSize=" + pageSize ;
             rda.addFlashAttribute("msg","삭제성공");
-            return "redirect:/board/list?page="+page+"&pageSize="+pageSize;
         }else{
-            m.addAttribute("bno",bno);
-            m.addAttribute("page",page);
-            m.addAttribute("pageSize",pageSize);
-            String uri = "redirect:/board/read?bno="+bno+"&page="+page+"&pageSize="+pageSize;
+            uri = "redirect:/board/read?bno=" + bno + "&page=" + page + "&pageSize=" + pageSize;
             rda.addFlashAttribute("msg","삭제실패");
-            return uri;
         }
+        return uri;
     }
     @GetMapping(value="/list")
     public String boardList(Integer page, Integer pageSize, HttpServletRequest request, Model m){
@@ -51,7 +50,7 @@ public class BoardController {
         }
         if(page == null) page = 1;
         if(pageSize == null) pageSize = 10;
-        try{
+
             int totalSize=boardService.count();
             PageHandler ph = new PageHandler(totalSize,page,pageSize);
             Map map = new HashMap();
@@ -60,9 +59,7 @@ public class BoardController {
             List<BoardDto> list =boardService.getPage(map);
             m.addAttribute("list",list);
             m.addAttribute("ph",ph);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+
         return "boardList";
     }
     @GetMapping(value="/read")
@@ -80,10 +77,27 @@ public class BoardController {
         return "boardWrite";
     }
     @PostMapping(value="/write")
-    public String boardWritePost(String title,String content,HttpSession session,Model m){
+    public String boardWritePost(BoardDto boardDto,HttpSession session,Model m){
         String writer = (String)session.getAttribute("id");
-        BoardDto boardDto = new BoardDto(writer,title,content);
+        boardDto.setWriter(writer);
         boardService.write(boardDto);
         return "redirect:/board/list";
+    }
+    @GetMapping(value="/edit")
+    public String boardEditGet(Integer bno,String page,String pageSize,Model m){
+        BoardDto boardDto = boardService.read(bno);
+        m.addAttribute("boardDto",boardDto);
+        return "boardEdit";
+    }
+    @PostMapping(value="/edit")
+    public String boardEditPost(Integer bno,String title,String content,Integer pageSize,HttpSession session,Model m){
+        String writer = (String)session.getAttribute("id");
+        BoardDto boardDto = new BoardDto(writer,title,content);
+        boardDto.setBno(bno);
+        boardService.update(boardDto);
+        m.addAttribute("bno",bno);
+        m.addAttribute("page",1);
+        m.addAttribute("pageSize",pageSize);
+        return "redirect:/board/read";
     }
 }

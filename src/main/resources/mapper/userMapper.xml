@@ -18,6 +18,9 @@
     <select id="checkId" resultType="boolean">
         SELECT EXISTS (SELECT 1 FROM user_info WHERE id =#{id});
     </select>
+    <select id="checkNickname" resultType="boolean">
+        SELECT EXISTS (SELECT 1 FROM user_info WHERE nickname = #{nickname});
+    </select>
     <update id="update" parameterType="UserDto">
         UPDATE user_info SET pwd = #{pwd}, nickname = #{nickname} WHERE id = #{id};
     </update>

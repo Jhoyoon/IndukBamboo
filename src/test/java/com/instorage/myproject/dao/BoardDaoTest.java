@@ -65,6 +65,7 @@ public class BoardDaoTest extends TestCase {
         BoardDto boardDto = new BoardDto("writer","title2","content2");
         boardDto.setBno(1);
         int rowCnt = boardDao.update(boardDto);
+        System.out.println(rowCnt);
         assertTrue(rowCnt == 1);
         BoardDto boardDto2 = boardDao.select(1);
         assertTrue(boardDto2.getTitle().equals("title2"));

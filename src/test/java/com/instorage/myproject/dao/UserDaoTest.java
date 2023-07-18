@@ -21,7 +21,7 @@ public class UserDaoTest extends TestCase {
         int rowCnt=userdao.deleteAll();
         assertTrue(rowCnt == 1);
         UserDto user = new UserDto("id","pwd","nickname");
-        rowCnt=userdao.insert(user);
+        rowCnt=userdao.insertUser(user);
         assertTrue(rowCnt == 1);
         rowCnt=userdao.deleteAll();
         assertTrue(rowCnt == 1);
@@ -35,9 +35,9 @@ public class UserDaoTest extends TestCase {
     public void testSelectUser(){
         userdao.deleteAll();
         UserDto userDto = new UserDto("id","pwd","nickname");
-        int rowCnt = userdao.insert(userDto);
+        int rowCnt = userdao.insertUser(userDto);
         assertTrue(rowCnt == 1);
-        UserDto userDto2 = userdao.select(userDto.getId());
+        UserDto userDto2 = userdao.selectUserById(userDto.getId());
         assertTrue(userDto.equals(userDto2));
         userdao.deleteAll();
     }
@@ -45,11 +45,11 @@ public class UserDaoTest extends TestCase {
     public void testCheckId(){
         userdao.deleteAll();
         UserDto userDto = new UserDto("id","pwd","nickname");
-        int rowCnt = userdao.insert(userDto);
+        int rowCnt = userdao.insertUser(userDto);
         assertTrue(rowCnt==1);
-        boolean check = userdao.checkId(userDto.getId());
+        boolean check = userdao.checkUserById(userDto.getId());
         assertTrue(check);
-        boolean check2 = userdao.checkId("dd");
+        boolean check2 = userdao.checkUserById("dd");
         assertTrue(!check2);
         userdao.deleteAll();
     }
@@ -57,21 +57,21 @@ public class UserDaoTest extends TestCase {
     public void testDelete(){
         userdao.deleteAll();
         UserDto userDto = new UserDto("id","pwd","nickname");
-        int rowCnt = userdao.insert(userDto);
+        int rowCnt = userdao.insertUser(userDto);
         assertTrue(rowCnt==1);
-        rowCnt = userdao.delete(userDto.getId());
+        rowCnt = userdao.deleteUserById(userDto.getId());
         assertTrue(rowCnt == 1);
     }
     @Test
     public void testUpdate(){
         userdao.deleteAll();
         UserDto userDto = new UserDto("id","pwd","nickname");
-        int rowCnt = userdao.insert(userDto);
+        int rowCnt = userdao.insertUser(userDto);
         assertTrue(rowCnt==1);
         UserDto userDto2 = new UserDto("id","pwd2","nickname2");
-        rowCnt = userdao.update(userDto2);
+        rowCnt = userdao.updateUser(userDto2);
         assertTrue(rowCnt == 1);
-        UserDto userDto3 = userdao.select(userDto.getId());
+        UserDto userDto3 = userdao.selectUserById(userDto.getId());
         assertTrue(userDto3.getId().equals(userDto.getId()));
         assertTrue(userDto3.getPwd().equals(userDto2.getPwd()));
 

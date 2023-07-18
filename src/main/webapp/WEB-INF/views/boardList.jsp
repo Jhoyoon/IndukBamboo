@@ -8,6 +8,9 @@
 <body>
 <jsp:include page="template/header.jsp" />
 <a href="<c:url value="/board/write"/>">게시글 작성</a>
+<c:if test="${not empty msg}">
+  <span>${msg}</span>
+</c:if>
 <table>
   <tr>
     <th>번호</th>

@@ -40,14 +40,29 @@ public class Register {
             System.out.println(error.getField());
             return "register";
         }
-
-        try{
-            userService.registerUser(userDto);
-        }catch(DuplicateKeyException e){
-            m.addAttribute("msg","키 중복 옵션");
+        int key = userService.registerUser(userDto);
+        if(key == 2){
+            m.addAttribute("error","이미 존재하는 id입니다..");
+            return "redirect:/register"; 
+        }
+        if(key == 3){
+            m.addAttribute("error","이미 존재하는 nickname입니다.");
+            return "redirect:/register";
+        }
+        if(key == 4){
+            m.addAttribute("error","유효하지 않은 입력값입니다.다시 입력해주세요.");
+            return "redirect:/register";
+        }
+        if(key == 5){
+            m.addAttribute("error","sql 구문 오류");
+            return "redirect:/register";
+        }
+        if(key == 6){
+            m.addAttribute("error","jdbc 연결 오류");
             return "redirect:/register";
         }
         return "redirect:/";
+            
 
     }
 }
