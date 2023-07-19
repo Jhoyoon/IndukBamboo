@@ -8,11 +8,12 @@
 </head>
 <body>
 <jsp:include page="template/header.jsp" />
-<h1>이곳은 write입니다.</h1>
+<h1>이곳은 ${mode == "edit" ? "edit" : "write"}입니다.</h1>
 <form:form>
-    <input type="text" placeholder="title" name="title" value="${boardDto.title}">
+    <input type="number" placeholder="bno" name="bno" value="${boardDto.bno}">
+    <input type="text" placeholder="title" name="title" value="${boardDto.title}" >
     <input type="text" placeholder="content" name="content" value="${boardDto.content}">
-    <input type="text" placeholder="pageSize" name="pageSize" value="${pageSize}">
+    <input type="number" placeholder="pageSize" name="pageSize" value="${pageSize}">
     <button>작성</button>
 </form:form>
 

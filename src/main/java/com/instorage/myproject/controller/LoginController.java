@@ -59,12 +59,14 @@ public class LoginController {
         res.addCookie(cookie);
         HttpSession session = req.getSession();
         session.setAttribute("id",id);
+        // 세션 수명을 6시간으로 설정
+        session.setMaxInactiveInterval(60*60*6);
         // session이 만들어진 시간을 이런식으로 볼수있다.
 //        long creationTime = session.getCreationTime();
 //        Date creationDate = new Date(creationTime);
 //        System.out.println("Session creation time: " + creationDate);
 //        // 어째서 req로부터 session을 얻어오는가?요청 헤더에 jsessionid가 들어있기 때문.
-//        // 아 쿠키는 그냥 아이디 저장용이지 로그인 할 때 사용하는게 전혀 아니구나
+//        // 아 id를 저장한 쿠키는 그냥 아이디 저장용이지 로그인 할 때 사용하는게 전혀 아니구나
 //        System.out.println("sessionID = "+session.getId());
 //        System.out.println("seesion은 새거인가? "+session.isNew());
         // 로그인 검증 성공

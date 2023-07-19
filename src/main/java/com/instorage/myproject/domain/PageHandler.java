@@ -1,24 +1,33 @@
 package com.instorage.myproject.domain;
 
 public class PageHandler {
-    private int totalCnt; // 총 게시물 개수
-    private int pageSize; // 페이지의 크기
+    private SearchCondition sc;
+    private int totalPage;
+    private int totalCnt;
     private int naviSize = 10; // 페이지 네비게이션 크기
-    private int totalPage; // 전체 페이즈의 수
-    private int page; // 현재 페이지
     private int beginPage; // 시작페이지
     private int endPage; // 끝 페이지
     private boolean showPrev; // 이전 페이지를 보여줄지 여부 결정
     private boolean showNext; // 다음 페이지를 보여줄지 여부 결정
 
+    public SearchCondition getSc() {
+        return sc;
+    }
 
-    public PageHandler(int totalCnt, int page,int pageSize) {
+    public void setSc(SearchCondition sc) {
+        this.sc = sc;
+    }
+    public PageHandler(int totalCnt,SearchCondition sc){
+        this.totalCnt =  totalCnt;
+        this.sc = sc;
+        doPaging(totalCnt,sc);
+    }
+
+    public void doPaging(int totalCnt, SearchCondition sc) {
         this.totalCnt = totalCnt;
-        this.page = page;
-        this.pageSize = pageSize;
-        if(totalCnt%pageSize == 0) this.totalPage = totalCnt/pageSize;
-        else this.totalPage = totalCnt/pageSize +1;
-        this.beginPage = (page -1) / this.naviSize * this.naviSize + 1;
+        if(totalCnt%sc.getPageSize() == 0) this.totalPage = totalCnt/sc.getPageSize();
+        else this.totalPage = totalCnt/sc.getPageSize() +1;
+        this.beginPage = (sc.getPage() -1) / this.naviSize * this.naviSize + 1;
 
         endPage = Math.min(beginPage+9,totalPage);
 
@@ -27,7 +36,7 @@ public class PageHandler {
 
         if(endPage == totalPage) showNext = false;
         else showNext = true;
-        
+
 //        this.totalCnt = totalCnt;
 //        this.page = page;
 //        this.pageSize = pageSize;
@@ -59,13 +68,6 @@ public class PageHandler {
         this.totalCnt = totalCnt;
     }
 
-    public int getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
 
     public int getNaviSize() {
         return naviSize;
@@ -83,13 +85,6 @@ public class PageHandler {
         this.totalPage = totalPage;
     }
 
-    public int getPage() {
-        return page;
-    }
-
-    public void setPage(int page) {
-        this.page = page;
-    }
 
     public int getBeginPage() {
         return beginPage;
@@ -121,20 +116,5 @@ public class PageHandler {
 
     public void setShowNext(boolean showNext) {
         this.showNext = showNext;
-    }
-
-    @Override
-    public String toString() {
-        return "PageHandler{" +
-                "totalCnt=" + totalCnt +
-                ", pageSize=" + pageSize +
-                ", naviSize=" + naviSize +
-                ", totalPage=" + totalPage +
-                ", page=" + page +
-                ", beginPage=" + beginPage +
-                ", endPage=" + endPage +
-                ", showPrev=" + showPrev +
-                ", showNext=" + showNext +
-                '}';
     }
 }

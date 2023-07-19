@@ -2,6 +2,7 @@ package com.instorage.myproject.service;
 
 import com.instorage.myproject.dao.BoardDao;
 import com.instorage.myproject.domain.BoardDto;
+import com.instorage.myproject.domain.SearchCondition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,5 +48,11 @@ public class BoardService {
     }
     public int increaseView(Integer bno){
         return boardDao.increaseViewCnt(bno);
+    }
+    public List<BoardDto> selectSearchPage(SearchCondition search){
+        return boardDao.selectSearchPage(search);
+    }
+    public int countSearch(SearchCondition search){
+        return boardDao.countSearch(search);
     }
 }

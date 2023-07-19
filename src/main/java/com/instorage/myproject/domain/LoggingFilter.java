@@ -12,6 +12,8 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
 // 필터를 적용할 요청의 패턴 지정 - 모든 요청에 필터를 적용.
+// 로그 찍을시 에너테이션을 사용하자.pom에 추가해야 함.
+//@log4j
 @WebFilter(urlPatterns="/*")
 public class LoggingFilter implements Filter {
     @Override

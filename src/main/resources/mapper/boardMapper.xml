@@ -40,6 +40,38 @@
    <update id="increaseViewCnt" parameterType="int">
       update board set view_cnt = view_cnt+1 where bno=#{bno};
    </update>
+   <select id="selectSearchPage" parameterType="SearchCondition" resultType="BoardDto">
+        <choose>
+           <when test='option == "T"'>
+            select * from board where title like concat('%',#{keyword},'%') order by reg_date desc,bno desc limit #{offset},#{pageSize};
+           </when>
+            <when test='option == "A"'>
+               select * from board where title like concat('%',#{keyword},'%') or content like concat('%',#{keyword},'%') order by reg_date desc,bno desc limit #{offset},#{pageSize};
+            </when>
+            <when test='option == "W"'>
+               select * from board where writer like concat('%',#{keyword},'%') order by reg_date desc,bno desc limit #{offset},#{pageSize};
+            </when>
+            <otherwise>
+               select * from board order by reg_date desc,bno desc limit #{offset},#{pageSize};;
+            </otherwise>
+        </choose>
+   </select>
+   <select id="searchCnt" resultType="int" parameterType="SearchCondition">
+        <choose>
+           <when test='option == "T"'>
+              select count(*) from board where title like concat('%',#{keyword},'%');
+           </when>
+           <when test='option == "A"'>
+              select count(*) from board where title like concat('%',#{keyword},'%') or content like concat('%',#{keyword},'%');
+           </when>
+           <when test='option == "W"'>
+              select count(*) from board where writer like concat('%',#{keyword},'%');
+           </when>
+            <otherwise>
+               select count(*) from board;
+            </otherwise>
+        </choose>
+   </select>
 
 
 

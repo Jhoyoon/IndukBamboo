@@ -1,6 +1,7 @@
 package com.instorage.myproject.dao;
 
 import com.instorage.myproject.domain.BoardDto;
+import com.instorage.myproject.domain.SearchCondition;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -110,6 +111,35 @@ public class BoardDaoTest extends TestCase {
         boardDto.setComment_cnt(0);
         int rowCnt = boardDao.increaseViewCnt(1);
         assertTrue(rowCnt == 1);
+        boardDao.deleteAll();
+    }
+    @Test
+    public void testSelectSearchPage(){
+        boardDao.deleteAll();
+        SearchCondition search = new SearchCondition("t","title",1,10);
+        boardDao.insert(new BoardDto("writer","title","content"));
+        List<BoardDto> list= boardDao.selectSearchPage(search);
+        assertTrue(list.size() == 1);
+        boardDao.insert(new BoardDto("writer","title","content"));
+        list = boardDao.selectSearchPage(search);
+        assertTrue(list.size() == 2);
+    }
+    @Test
+    public void testCountSearch(){
+        boardDao.deleteAll();
+        SearchCondition search = new SearchCondition("t","title",1,10);
+        boardDao.insert(new BoardDto("writer","title","content"));
+        int count = boardDao.countSearch(search);
+        assertTrue(count == 1);
+        boardDao.insert(new BoardDto("writer","title2","content"));
+        count = boardDao.countSearch(search);
+        assertTrue(count == 2);
+        boardDao.insert(new BoardDto("writer","title28dd","content"));
+        count = boardDao.countSearch(search);
+        assertTrue(count == 3);
+        boardDao.insert(new BoardDto("writer","titl","content"));
+        count = boardDao.countSearch(search);
+        assertTrue(count == 3);
         boardDao.deleteAll();
     }
 }

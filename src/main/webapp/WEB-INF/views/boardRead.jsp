@@ -16,12 +16,12 @@
 <textarea readonly>${board.content}</textarea>
 <span>${board.reg_date}</span>
 <span>${board.view_cnt}</span>
-<span><a href="<c:url value="/board/list?page=${ph.page}&pageSize=${ph.pageSize}"/>">목록</a></span>
+<span><a href="<c:url value="/board/list?page=${page}&pageSize=${pageSize}"/>">목록</a></span>
 <c:if test="${board.writer == sessionScope.id}">
-  <span><a href="<c:url value="/board/remove?bno=${board.bno}&page=${ph.page}&pageSize=${ph.pageSize}"/>">삭제</a></span>
+  <span><a href="<c:url value="/board/remove?bno=${board.bno}&page=${page}&pageSize=${pageSize}"/>">삭제</a></span>
 </c:if>
 <c:if test="${board.writer == sessionScope.id}">
-  <span><a href="<c:url value="/board/edit?bno=${board.bno}&page=${ph.page}&pageSize=${ph.pageSize}"/>">수정</a></span>
+  <span><a href="<c:url value="/board/edit?bno=${board.bno}&page=${page}&pageSize=${pageSize}"/>">수정</a></span>
 </c:if>
 <%--<jsp:include page="template/footer.jsp" />--%>
 </body>

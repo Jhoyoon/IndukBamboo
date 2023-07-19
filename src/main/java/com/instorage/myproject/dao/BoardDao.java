@@ -1,6 +1,7 @@
 package com.instorage.myproject.dao;
 
 import com.instorage.myproject.domain.BoardDto;
+import com.instorage.myproject.domain.SearchCondition;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -72,5 +73,10 @@ public class BoardDao {
     public int increaseViewCnt(Integer bno){
         return session.update(namespace+"increaseViewCnt",bno);
     }
-
+    public List<BoardDto> selectSearchPage(SearchCondition search){
+        return session.selectList(namespace+"selectSearchPage",search);
+    }
+    public int countSearch(SearchCondition search){
+        return session.selectOne(namespace+"searchCnt",search);
+    }
 }
