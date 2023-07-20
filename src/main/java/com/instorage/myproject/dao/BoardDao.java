@@ -79,4 +79,11 @@ public class BoardDao {
     public int countSearch(SearchCondition search){
         return session.selectOne(namespace+"searchCnt",search);
     }
+
+    public int updateCommentCnt(Integer bno, int num) {
+        Map map = new HashMap();
+        map.put("bno",bno);
+        map.put("num",num);
+        return session.update(namespace+"updateCommentCnt",map);
+    }
 }

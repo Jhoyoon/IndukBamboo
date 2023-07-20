@@ -1,6 +1,7 @@
 package com.instorage.myproject.dao;
 
 import com.instorage.myproject.domain.BoardDto;
+import com.instorage.myproject.domain.CommentDto;
 import com.instorage.myproject.domain.SearchCondition;
 import junit.framework.TestCase;
 import org.junit.Test;
@@ -18,6 +19,8 @@ import java.util.Map;
 public class BoardDaoTest extends TestCase {
     @Autowired
     BoardDao boardDao;
+    @Autowired
+    CommentDao commentDao;
     @Test
     public void testCount() {
         boardDao.deleteAll();
@@ -141,5 +144,19 @@ public class BoardDaoTest extends TestCase {
         count = boardDao.countSearch(search);
         assertTrue(count == 3);
         boardDao.deleteAll();
+    }
+    @Test
+    public void testUpdateCommentCnt() throws Exception{
+        boardDao.deleteAll();
+        boardDao.insert(new BoardDto("writer","title","content"));
+        int count = commentDao.count(1);
+        assertTrue(count == 0);
+        int bno = boardDao.selectAll().get(0).getBno();
+        commentDao.deleteAll(bno);
+        int rowCnt=commentDao.insert(new CommentDto(bno,"content","commenter"));
+        assertTrue(rowCnt == 1);
+        rowCnt=boardDao.updateCommentCnt(bno,1);
+        assertTrue(rowCnt == 1);
+        assertTrue(boardDao.selectAll().get(0).getComment_cnt() == 1);
     }
 }

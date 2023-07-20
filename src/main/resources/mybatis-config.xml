@@ -7,5 +7,6 @@
         <typeAlias alias="BoardDto" type="com.instorage.myproject.domain.BoardDto"/>
         <typeAlias alias="UserDto" type="com.instorage.myproject.domain.UserDto"/>
         <typeAlias alias="SearchCondition" type="com.instorage.myproject.domain.SearchCondition"/>
+        <typeAlias alias="CommentDto" type="com.instorage.myproject.domain.CommentDto"/>
     </typeAliases>
 </configuration>
