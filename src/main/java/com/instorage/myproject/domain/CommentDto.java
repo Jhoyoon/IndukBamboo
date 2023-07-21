@@ -11,7 +11,6 @@ public class CommentDto {
     private String  comment;
     private String  commenter;
     private Date    reg_date;
-    private Date    up_date;
 
     public CommentDto() {}
     public CommentDto(Integer bno,String comment,String commenter){
@@ -77,14 +76,6 @@ public class CommentDto {
         this.reg_date = reg_date;
     }
 
-    public Date getUp_date() {
-        return up_date;
-    }
-
-    public void setUp_date(Date up_date) {
-        this.up_date = up_date;
-    }
-
     public Integer getCno() {
         return cno;
     }
@@ -102,7 +93,6 @@ public class CommentDto {
                 ", comment='" + comment + '\'' +
                 ", commenter='" + commenter + '\'' +
                 ", reg_date=" + reg_date +
-                ", up_date=" + up_date +
                 '}';
     }
 }

@@ -72,7 +72,9 @@
             </otherwise>
         </choose>
    </select>
-
+    <update id="updateCommentCnt" parameterType="map">
+        update board set comment_cnt = comment_cnt + #{num} where bno=#{bno};
+    </update>
 
 
 </mapper>

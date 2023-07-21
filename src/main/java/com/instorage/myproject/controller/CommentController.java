@@ -24,7 +24,7 @@ public class CommentController {
         String commenter = "wjddbs9350";
         dto.setCommenter(commenter);
         dto.setBno(bno);
-
+        System.out.println(dto.getPcno());
         try {
             if(commentService.write(dto)!=1)
                 throw new Exception("Write failed.");
@@ -42,7 +42,6 @@ public class CommentController {
         String commenter = "commenter";
         try{
             int rowCnt = commentService.remove(cno,bno,commenter);
-
             if(rowCnt!=1) throw new Exception("delete failed");
         }catch (Exception e){
             e.printStackTrace();
@@ -54,6 +53,7 @@ public class CommentController {
     @PatchMapping(value="/comments/{cno}")
     public ResponseEntity<String> update(@PathVariable Integer cno,@RequestBody CommentDto commentDto){
         commentDto.setCno(cno);
+        commentDto.setCommenter("wjddbs9350");
         try{
             commentService.modify(commentDto);
         }catch(Exception e){

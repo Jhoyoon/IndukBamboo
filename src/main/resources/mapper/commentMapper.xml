@@ -25,10 +25,10 @@
     </insert>
     <!-- 게시물 번호를 이용해서 특정 게시물의 댓글을 전부 가져온다.과거 댓글부터 정렬 -->
     <select id="selectAll" parameterType="int" resultType="CommentDto">
-        SELECT cno, bno, pcno, comment, commenter, reg_date
+        SELECT cno, bno, ifnull(pcno,cno) as pcno, comment, commenter, reg_date
         FROM comment
         WHERE bno = #{bno}
-        ORDER BY reg_date ASC, cno ASC
+        ORDER BY pcno asc,cno asc;
     </select>
     <!-- 댓글 번호를 통해서 댓글을 하나 가져온다 -->
     <select id="select" parameterType="int" resultType="CommentDto">
