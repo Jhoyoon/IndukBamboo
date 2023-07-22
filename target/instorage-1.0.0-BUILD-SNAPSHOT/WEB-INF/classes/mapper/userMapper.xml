@@ -2,26 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.instorage.myproject.userMapper">
-    <insert id="insert" parameterType="UserDto">
+    <insert id="insertUser" parameterType="UserDto">
         insert into user_info (id, pwd, nickname)
         values (#{id},#{pwd},#{nickname});
     </insert>
-    <delete id="deleteAll">
+    <delete id="deleteAllUser">
         delete from user_info;
     </delete>
-    <delete id="delete">
+    <delete id="deleteUserById">
         delete from user_info where id=#{id}
     </delete>
-    <select id="select" resultType="UserDto">
+    <select id="selectUserById" resultType="UserDto">
         select * from user_info where id=#{id};
     </select>
-    <select id="checkId" resultType="boolean">
+    <select id="selectUserByNickname" resultType="UserDto">
+        select * from user_info where nickname=#{nickname};
+    </select>
+    <select id="checkUserById" resultType="boolean">
         SELECT EXISTS (SELECT 1 FROM user_info WHERE id =#{id});
     </select>
-    <select id="checkNickname" resultType="boolean">
+    <select id="checkUserByNickname" resultType="boolean">
         SELECT EXISTS (SELECT 1 FROM user_info WHERE nickname = #{nickname});
     </select>
-    <update id="update" parameterType="UserDto">
+    <update id="updateUser" parameterType="UserDto">
         UPDATE user_info SET pwd = #{pwd}, nickname = #{nickname} WHERE id = #{id};
     </update>
 

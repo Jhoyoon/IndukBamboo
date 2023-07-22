@@ -20,56 +20,56 @@ public class CommentDaoTest {
 
     @Test
     public void count() throws Exception {
-        commentDao.deleteAll(1);
-        assertTrue(commentDao.count(1)==0);
+        commentDao.deleteAllCommentByBno(1);
+        assertTrue(commentDao.countCommentByBno(1)==0);
     }
 
     @Test
     public void delete() throws Exception {
-        commentDao.deleteAll(1);
+        commentDao.deleteAllCommentByBno(1);
         CommentDto commentDto = new CommentDto(1, 0, "comment", "asdf");
-        assertTrue(commentDao.insert(commentDto)==1);
-        assertTrue(commentDao.count(1)==1);
+        assertTrue(commentDao.insertComment(commentDto)==1);
+        assertTrue(commentDao.countCommentByBno(1)==1);
     }
 
     @Test
     public void insert() throws Exception {
-        commentDao.deleteAll(1);
+        commentDao.deleteAllCommentByBno(1);
         CommentDto commentDto = new CommentDto(1, 0, "comment", "asdf");
-        assertTrue(commentDao.insert(commentDto)==1);
-        assertTrue(commentDao.count(1)==1);
+        assertTrue(commentDao.insertComment(commentDto)==1);
+        assertTrue(commentDao.countCommentByBno(1)==1);
 
         commentDto = new CommentDto(1, 0, "comment", "asdf");
-        assertTrue(commentDao.insert(commentDto)==1);
-        assertTrue(commentDao.count(1)==2);
+        assertTrue(commentDao.insertComment(commentDto)==1);
+        assertTrue(commentDao.countCommentByBno(1)==2);
     }
 
     @Test
     public void selectAll() throws Exception {
-        commentDao.deleteAll(1);
+        commentDao.deleteAllCommentByBno(1);
         CommentDto commentDto = new CommentDto(1, 0, "comment", "asdf");
-        assertTrue(commentDao.insert(commentDto)==1);
-        assertTrue(commentDao.count(1)==1);
+        assertTrue(commentDao.insertComment(commentDto)==1);
+        assertTrue(commentDao.countCommentByBno(1)==1);
 
-        List<CommentDto> list = commentDao.selectAll(1);
+        List<CommentDto> list = commentDao.selectAllCommentByBnoToList(1);
         assertTrue(list.size()==1);
 
         commentDto = new CommentDto(1, 0, "comment", "asdf");
-        assertTrue(commentDao.insert(commentDto)==1);
-        assertTrue(commentDao.count(1)==2);
+        assertTrue(commentDao.insertComment(commentDto)==1);
+        assertTrue(commentDao.countCommentByBno(1)==2);
 
-        list = commentDao.selectAll(1);
+        list = commentDao.selectAllCommentByBnoToList(1);
         assertTrue(list.size()==2);
     }
 
     @Test
     public void select() throws Exception {
-        commentDao.deleteAll(1);
+        commentDao.deleteAllCommentByBno(1);
         CommentDto commentDto = new CommentDto(1, 0, "comment", "asdf");
-        assertTrue(commentDao.insert(commentDto)==1);
-        assertTrue(commentDao.count(1)==1);
+        assertTrue(commentDao.insertComment(commentDto)==1);
+        assertTrue(commentDao.countCommentByBno(1)==1);
 
-        List<CommentDto> list = commentDao.selectAll(1);
+        List<CommentDto> list = commentDao.selectAllCommentByBnoToList(1);
         String comment = list.get(0).getComment();
         String commenter = list.get(0).getCommenter();
         assertTrue(comment.equals(commentDto.getComment()));
@@ -78,17 +78,17 @@ public class CommentDaoTest {
 
     @Test
     public void update() throws Exception {
-        commentDao.deleteAll(1);
+        commentDao.deleteAllCommentByBno(1);
         CommentDto commentDto = new CommentDto(1, 0, "comment", "asdf");
-        assertTrue(commentDao.insert(commentDto)==1);
-        assertTrue(commentDao.count(1)==1);
+        assertTrue(commentDao.insertComment(commentDto)==1);
+        assertTrue(commentDao.countCommentByBno(1)==1);
 
-        List<CommentDto> list = commentDao.selectAll(1);
+        List<CommentDto> list = commentDao.selectAllCommentByBnoToList(1);
         commentDto.setCno(list.get(0).getCno());
         commentDto.setComment("comment2");
-        assertTrue(commentDao.update(commentDto)==1);
+        assertTrue(commentDao.updateComment(commentDto)==1);
 
-        list = commentDao.selectAll(1);
+        list = commentDao.selectAllCommentByBnoToList(1);
         String comment = list.get(0).getComment();
         String commenter = list.get(0).getCommenter();
         assertTrue(comment.equals(commentDto.getComment()));

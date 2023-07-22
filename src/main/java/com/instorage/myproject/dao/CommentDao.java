@@ -16,40 +16,40 @@ public class CommentDao {
 
 
     // 글 번호를 통해서 댓글이 몇개인지 개수를 반환한다.
-    public int count(Integer bno) throws Exception {
-        return session.selectOne(namespace+"count", bno);
+    public int countCommentByBno(Integer bno) throws Exception {
+        return session.selectOne(namespace+"countCommentByBno", bno);
     } // T selectOne(String statement)
 
     // 글 번호를 가지고 해당 글의 댓글을 전부 삭제한다.
-    public int deleteAll(Integer bno) {
-        return session.delete(namespace+"deleteAll", bno);
+    public int deleteAllCommentByBno(Integer bno) {
+        return session.delete(namespace+"deleteAllCommentByBno", bno);
     } // int delete(String statement)
 
     // 댓글 번화와 작성자를 가지고 특정 댓글 한개를 삭제한다.
-    public int delete(Integer cno, String commenter) throws Exception {
+    public int deleteCommentByCnoAndCommenter(Integer cno, String commenter) throws Exception {
         Map map = new HashMap();
         map.put("cno", cno);
         map.put("commenter", commenter);
-        return session.delete(namespace+"delete", map);
+        return session.delete(namespace+"deleteCommentByCnoAndCommenter", map);
     } // int delete(String statement, Object parameter)
 
     // commentDto를 통해서 댓글 하나를 작성한다.
-    public int insert(CommentDto dto) throws Exception {
-        return session.insert(namespace+"insert", dto);
+    public int insertComment(CommentDto dto) throws Exception {
+        return session.insert(namespace+"insertComment", dto);
     } // int insert(String statement, Object parameter)
 
     // 글 번호를 통해서 해당 글에 달려있는 모든 댓글들을 list 형태로 반환한다
-    public List<CommentDto> selectAll(Integer bno) throws Exception {
-        return session.selectList(namespace+"selectAll", bno);
+    public List<CommentDto> selectAllCommentByBnoToList(Integer bno) throws Exception {
+        return session.selectList(namespace+"selectAllCommentByBnoToList", bno);
     } // List<E> selectList(String statement)
 
     // 댓글 번호를 통해서 하나의 댓글을 CommentDto로 반환한다.
-    public CommentDto select(Integer cno) throws Exception {
-        return session.selectOne(namespace + "select", cno);
+    public CommentDto selectCommentByCno(Integer cno) throws Exception {
+        return session.selectOne(namespace + "selectCommentByCno", cno);
     } // T selectOne(String statement, Object parameter)
 
     // CommentDto를 통해서 댓글 하나를 업데이트 한다.
-    public int update(CommentDto dto) throws Exception {
-        return session.update(namespace+"update", dto);
+    public int updateComment(CommentDto dto) throws Exception {
+        return session.update(namespace+"updateComment", dto);
     } // int update(String statement, Object parameter)
 }

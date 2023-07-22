@@ -149,11 +149,11 @@ public class BoardDaoTest extends TestCase {
     public void testUpdateCommentCnt() throws Exception{
         boardDao.deleteAllBoard();
         boardDao.insertBoard(new BoardDto("writer","title","content"));
-        int count = commentDao.count(1);
+        int count = commentDao.countCommentByBno(1);
         assertTrue(count == 0);
         int bno = boardDao.selectAllBoard().get(0).getBno();
-        commentDao.deleteAll(bno);
-        int rowCnt=commentDao.insert(new CommentDto(bno,"content","commenter"));
+        commentDao.deleteAllCommentByBno(bno);
+        int rowCnt=commentDao.insertComment(new CommentDto(bno,"content","commenter"));
         assertTrue(rowCnt == 1);
         rowCnt=boardDao.updateCommentCntByBnoAndNum(bno,1);
         assertTrue(rowCnt == 1);

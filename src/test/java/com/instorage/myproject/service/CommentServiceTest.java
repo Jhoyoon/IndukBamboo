@@ -30,18 +30,18 @@ public class CommentServiceTest {
         Integer bno = boardDao.selectAllBoard().get(0).getBno();
         System.out.println("bno = " + bno);
 
-        commentDao.deleteAll(bno);
+        commentDao.deleteAllCommentByBno(bno);
         CommentDto commentDto = new CommentDto(bno,0,"hi","qwer");
 
         assertTrue(boardDao.selectBoardByBno(bno).getComment_cnt() == 0);
-        assertTrue(commentService.write(commentDto)==1);
+        assertTrue(commentService.writeComment(commentDto)==1);
         System.out.println(boardDao.selectBoardByBno(bno).getComment_cnt());
         assertTrue(boardDao.selectBoardByBno(bno).getComment_cnt() == 1);
 
-        Integer cno = commentDao.selectAll(bno).get(0).getCno();
+        Integer cno = commentDao.selectAllCommentByBnoToList(bno).get(0).getCno();
 
         // 일부러 예외를 발생시키고 Tx가 취소되는지 확인해야.
-        int rowCnt = commentService.remove(cno, bno, commentDto.getCommenter());
+        int rowCnt = commentService.removeCommentByCnoAndBnoAndCommenter(cno, bno, commentDto.getCommenter());
         assertTrue(rowCnt==1);
         assertTrue(boardDao.selectBoardByBno(bno).getComment_cnt() == 0);
     }
@@ -55,13 +55,13 @@ public class CommentServiceTest {
         Integer bno = boardDao.selectAllBoard().get(0).getBno();
         System.out.println("bno = " + bno);
 
-        commentDao.deleteAll(bno);
+        commentDao.deleteAllCommentByBno(bno);
         CommentDto commentDto = new CommentDto(bno,0,"hi","qwer");
 
         assertTrue(boardDao.selectBoardByBno(bno).getComment_cnt() == 0);
-        assertTrue(commentService.write(commentDto)==1);
+        assertTrue(commentService.writeComment(commentDto)==1);
 
-        Integer cno = commentDao.selectAll(bno).get(0).getCno();
+        Integer cno = commentDao.selectAllCommentByBnoToList(bno).get(0).getCno();
         assertTrue(boardDao.selectBoardByBno(bno).getComment_cnt() == 1);
     }
 
@@ -72,14 +72,14 @@ public class CommentServiceTest {
         int rowCnt=boardDao.insertBoard(boardDto);
         assertTrue(rowCnt == 1);
         Integer bno = boardDao.selectAllBoard().get(0).getBno();
-        commentDao.deleteAll(bno);
+        commentDao.deleteAllCommentByBno(bno);
         CommentDto commentDto = new CommentDto(bno,0,"hi","qwer");
-        rowCnt = commentService.write(commentDto);
+        rowCnt = commentService.writeComment(commentDto);
         assertTrue(rowCnt==1);
         assertTrue(boardDao.selectAllBoard().get(0).getComment_cnt() == 1);
-        Integer cno = commentDao.selectAll(bno).get(0).getCno();
+        Integer cno = commentDao.selectAllCommentByBnoToList(bno).get(0).getCno();
         System.out.println(bno+" "+cno);
-        rowCnt  = commentService.remove(cno,bno,"qwer");
+        rowCnt  = commentService.removeCommentByCnoAndBnoAndCommenter(cno,bno,"qwer");
         assertTrue(rowCnt == 1);
 
     }

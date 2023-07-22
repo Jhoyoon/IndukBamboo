@@ -23,17 +23,17 @@ public class CommentService{
     }
 
 
-    public int getCount(Integer bno) throws Exception {
-        return commentDao.count(bno);
+    public int countCommentByBno(Integer bno) throws Exception {
+        return commentDao.countCommentByBno(bno);
     }
 
     // board의 댓글 개수를 하나 줄이고 삭제해야 한다.그렇기에 transactional을 검
     @Transactional(rollbackFor = Exception.class)
-    public int remove(Integer cno, Integer bno, String commenter) throws Exception {
+    public int removeCommentByCnoAndBnoAndCommenter(Integer cno, Integer bno, String commenter) throws Exception {
         int rowCnt = boardDao.updateCommentCntByBnoAndNum(bno, -1);
         System.out.println("updateCommentCnt - rowCnt = " + rowCnt);
 //        throw new Exception("test");
-        rowCnt = commentDao.delete(cno, commenter);
+        rowCnt = commentDao.deleteCommentByCnoAndCommenter(cno, commenter);
         System.out.println("rowCnt = " + rowCnt);
         return rowCnt;
     }
@@ -49,25 +49,25 @@ public class CommentService{
 
 
     @Transactional(rollbackFor = Exception.class)
-    public int write(CommentDto commentDto) throws Exception {
+    public int writeComment(CommentDto commentDto) throws Exception {
         boardDao.updateCommentCntByBnoAndNum(commentDto.getBno(), 1);
                 //throw new Exception("test");
-        return commentDao.insert(commentDto);
+        return commentDao.insertComment(commentDto);
     }
 
 
-    public List<CommentDto> getList(Integer bno) throws Exception {
+    public List<CommentDto> getCommentByBnoToList(Integer bno) throws Exception {
 //        throw new Exception("test");
-        return commentDao.selectAll(bno);
+        return commentDao.selectAllCommentByBnoToList(bno);
     }
 
 
-    public CommentDto read(Integer cno) throws Exception {
-        return commentDao.select(cno);
+    public CommentDto readCommentByCno(Integer cno) throws Exception {
+        return commentDao.selectCommentByCno(cno);
     }
 
 
-    public int modify(CommentDto commentDto) throws Exception {
-        return commentDao.update(commentDto);
+    public int updateComment(CommentDto commentDto) throws Exception {
+        return commentDao.updateComment(commentDto);
     }
 }

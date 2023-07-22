@@ -4,40 +4,40 @@
 <!-- 게시물 번호를 가지고 일괄적으로 삭제한다-->
 <mapper namespace="com.instorage.myproject.commentMapper">
     <!-- bnn를 가지고 특정 게시물의 댓글 개수를 가져온다. -->
-    <select id="count" parameterType="int" resultType="int">
+    <select id="countCommentByBno" parameterType="int" resultType="int">
         SELECT count(*) FROM comment
         WHERE  bno = #{bno}
     </select>
-    <delete id="deleteAll" parameterType="int">
+    <delete id="deleteAllCommentByBno" parameterType="int">
         DELETE FROM comment
         WHERE  bno = #{bno}
     </delete>
     <!-- 댓글 번호와 적은 사람을 확인한뒤 삭제한다 -->
-    <delete id="delete" parameterType="map">
+    <delete id="deleteCommentByCnoAndCommenter" parameterType="map">
         DELETE FROM comment WHERE cno = #{cno} AND commenter = #{commenter}
     </delete>
     <!-- 댓글을 저장한다.게시물 번호 부모댓글 번호 내용물 작성자 작성일자 -->
-    <insert id="insert" parameterType="CommentDto">
+    <insert id="insertComment" parameterType="CommentDto">
         INSERT INTO comment
             (bno, pcno, comment, commenter, reg_date)
         VALUES
             (#{bno}, #{pcno}, #{comment}, #{commenter}, now())
     </insert>
     <!-- 게시물 번호를 이용해서 특정 게시물의 댓글을 전부 가져온다.과거 댓글부터 정렬 -->
-    <select id="selectAll" parameterType="int" resultType="CommentDto">
+    <select id="selectAllCommentByBnoToList" parameterType="int" resultType="CommentDto">
         SELECT cno, bno, ifnull(pcno,cno) as pcno, comment, commenter, reg_date
         FROM comment
         WHERE bno = #{bno}
         ORDER BY pcno asc,cno asc;
     </select>
     <!-- 댓글 번호를 통해서 댓글을 하나 가져온다 -->
-    <select id="select" parameterType="int" resultType="CommentDto">
+    <select id="selectCommentByCno" parameterType="int" resultType="CommentDto">
         SELECT cno, bno, pcno, comment, commenter, reg_date, up_date
         FROM comment
         WHERE cno = #{cno}
     </select>
     <!-- 댓글 번호와 댓글 작성자를 확인한뒤 내용물과 등록일자를 업데이트 한다. -->
-    <update id="update" parameterType="CommentDto">
+    <update id="updateComment" parameterType="CommentDto">
         UPDATE comment
         SET comment = #{comment}
           , reg_date = now()

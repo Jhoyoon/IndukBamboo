@@ -26,7 +26,7 @@ public class CommentController {
         dto.setBno(bno);
         System.out.println(dto.getPcno());
         try {
-            if(commentService.write(dto)!=1)
+            if(commentService.writeComment(dto)!=1)
                 throw new Exception("Write failed.");
 
             return new ResponseEntity<String>("WRT_OK", HttpStatus.OK);
@@ -41,7 +41,7 @@ public class CommentController {
         String commenter = (String)session.getAttribute("id");
 
         try{
-            int rowCnt = commentService.remove(cno,bno,commenter);
+            int rowCnt = commentService.removeCommentByCnoAndBnoAndCommenter(cno,bno,commenter);
             if(rowCnt!=1) throw new Exception("delete failed");
         }catch (Exception e){
             e.printStackTrace();
@@ -56,7 +56,7 @@ public class CommentController {
         commentDto.setCno(cno);
         commentDto.setCommenter("wjddbs9350");
         try{
-            commentService.modify(commentDto);
+            commentService.updateComment(commentDto);
         }catch(Exception e){
             e.printStackTrace();
             return new ResponseEntity<String>("update failed",HttpStatus.BAD_REQUEST);
@@ -68,7 +68,7 @@ public class CommentController {
     public ResponseEntity<List<CommentDto>> read(Integer bno){
         List<CommentDto> list=null;
         try{
-            list = commentService.getList(bno);
+            list = commentService.getCommentByBnoToList(bno);
         }catch(Exception e){
             e.printStackTrace();
             return new ResponseEntity<List<CommentDto>>(HttpStatus.BAD_REQUEST);

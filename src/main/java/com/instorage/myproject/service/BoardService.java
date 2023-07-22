@@ -27,7 +27,7 @@ public class BoardService {
     @Transactional(rollbackFor = Exception.class)
     public int removeBoardByBnoAndWriter(Integer bno,String writer){
         int rowCnt = boardDao.deleteBoardByBnoAndWriter(bno,writer);
-        commentDao.deleteAll(bno);
+        commentDao.deleteAllCommentByBno(bno);
         return rowCnt;
     }
     // 모든 게시물 삭제.삭제된 게시물 개수 반환
