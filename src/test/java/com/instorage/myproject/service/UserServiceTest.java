@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -22,14 +23,15 @@ public class UserServiceTest {
     }
 
     @Test
-    public void loginCheck() {
-        userDao.deleteAll();
+    @Transactional
+    public void loginCheck() throws Exception{
+        userDao.deleteAllUser();
         UserDto userDto = new UserDto("id","pwd","nickname");
-        int rowCnt = userService.registerUser(userDto);
-        assertTrue(rowCnt == 1);
-        int check = userService.loginCheck("id","pwd");
+        String result = userService.registerUser(userDto);
+        assertTrue(result.equals("success"));
+        String check = userService.loginCheck("id","pwd");
         System.out.println(check);
-        assertTrue(check == 0);
-        userDao.deleteAll();
+        assertTrue(check.equals("success"));
+        userDao.deleteAllUser();
     }
 }

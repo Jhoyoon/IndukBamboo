@@ -16,8 +16,8 @@
     <form:errors path="id" id="Error"></form:errors>
     <form:errors path="pwd" id="Error"></form:errors>
     <form:errors path="nickname" id="Error"></form:errors>
-    <c:if test="${not empty param.msg}">
-        <h1>${param.msg}</h1>
+    <c:if test="${not empty param.error}">
+        <h1>${param.error}</h1>
     </c:if>
     <label for="id">id</label>
     <input type="text" id="id" name="id" placeholder="id를 입력해주세요">
@@ -27,8 +27,6 @@
 
     <label for="nickname">nickname</label>
     <input type="text" id="nickname" name="nickname" placeholder="nickname을 입력해주세요">
-
-
 
     <button>제출</button>
 </form:form>

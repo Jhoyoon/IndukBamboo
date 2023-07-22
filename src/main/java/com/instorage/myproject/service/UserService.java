@@ -8,50 +8,50 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLDataException;
 import java.sql.SQLException;
 
 @Service
+@Transactional
 public class UserService {
     @Autowired
     UserDao userDao;
-    public int registerUser (UserDto user){
+    public String registerUser (UserDto user) throws Exception{
+        // id가 이미 존재할시
         boolean checkId =userDao.checkUserById(user.getId());
-        if(checkId) return 2;
+        if(checkId) return "duplicateId";
+        // nickname이 이미 존재할시
         boolean checkNickname = userDao.checkUserByNickname(user.getNickname());
-        if(checkNickname) return 3;
-        try{
+        if(checkNickname) return "duplicateNickname";
+
         int rowCnt = userDao.insertUser(user);
-        return rowCnt;
-        }catch(DataIntegrityViolationException e){
-            e.printStackTrace();
-            return 4;
-        }catch(BadSqlGrammarException e){
-            e.printStackTrace();
-            return 5;
-        }catch(CannotGetJdbcConnectionException e) {
-            e.printStackTrace();
-            return 6;
-        }
+        if(rowCnt == 1) return "success";
+        else return "fail";
+
     }
-    public int loginCheck(String id,String pwd){
+    public String loginCheck(String id,String pwd) throws Exception{
         boolean idCheck = userDao.checkUserById(id);
-        if(!idCheck) return 1;
+        if(!idCheck) return "NonexistentID";
         String dbPwd = userDao.selectUserById(id).getPwd();
-        if(pwd.equals(dbPwd)) return 0;
-        else return 2;
+        if(!pwd.equals(dbPwd)) return "MismatchedPassword";
+
+        return "success";
     }
-    public int removeAll(){
-        return userDao.deleteAll();
+    public int removeAllUser() throws Exception{
+        return userDao.deleteAllUser();
     }
-    public int remove(String id){
+    public int removeUserById(String id) throws Exception{
         return userDao.deleteUserById(id);
     }
-    public int update(UserDto userDto){
+    public int updateUser(UserDto userDto) throws Exception{
         return userDao.updateUser(userDto);
     }
-    public UserDto read(String id){
+    public UserDto readUserById(String id) throws Exception{
         return userDao.selectUserById(id);
+    }
+    public UserDto readUserByNickname(String nickname) throws Exception{
+        return userDao.selectUserByNickname(nickname);
     }
 }

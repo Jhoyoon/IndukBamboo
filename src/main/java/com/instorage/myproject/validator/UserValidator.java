@@ -1,5 +1,6 @@
-package com.instorage.myproject.domain;
+package com.instorage.myproject.validator;
 
+import com.instorage.myproject.domain.UserDto;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 

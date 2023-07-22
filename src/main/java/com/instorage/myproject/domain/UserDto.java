@@ -1,7 +1,10 @@
 package com.instorage.myproject.domain;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.Objects;
 import java.time.*;
+@Repository
 public class UserDto{
     private String id;
     private String pwd;

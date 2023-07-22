@@ -1,4 +1,4 @@
-package com.instorage.myproject.domain;
+package com.instorage.myproject.filter;
 
 import java.io.IOException;
 

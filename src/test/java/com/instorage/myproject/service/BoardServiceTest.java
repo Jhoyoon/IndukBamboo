@@ -14,37 +14,37 @@ public class BoardServiceTest {
     @Autowired
     BoardService boardService;
     @Test
-    public void testCount(){
-        boardService.removeAll();
-        int rowCnt = boardService.count();
+    public void testCount()throws Exception{
+        boardService.removeAllBoard();
+        int rowCnt = boardService.countAllBoard();
         assertTrue(rowCnt == 0);
         BoardDto boardDto = new BoardDto("writer","title","content");
-        rowCnt = boardService.write(boardDto);
+        rowCnt = boardService.writeBoard(boardDto);
         assertTrue(rowCnt == 1);
-        boardDto = boardService.read(1);
+        boardDto = boardService.readBoardByBno(1);
         assertTrue(boardDto.getTitle().equals("title"));
-        boardService.removeAll();
+        boardService.removeAllBoard();
     }
     @Test
-    public void testUpdate(){
-        boardService.removeAll();
+    public void testUpdate()throws Exception{
+        boardService.removeAllBoard();
         BoardDto boardDto1 = new BoardDto("writer","title","content");
         boardDto1.setBno(1);
-        int rowCnt = boardService.write(boardDto1);
+        int rowCnt = boardService.writeBoard(boardDto1);
         assertTrue(rowCnt == 1);
         BoardDto boardDto2 = new BoardDto("writer","title2","content2");
         boardDto2.setBno(1);
-        rowCnt = boardService.update(boardDto2);
+        rowCnt = boardService.updateBoard(boardDto2);
         assertTrue(rowCnt == 1);
-        BoardDto boardDto3 = boardService.read(1);
+        BoardDto boardDto3 = boardService.readBoardByBno(1);
         assertTrue(boardDto3.getTitle().equals("title2"));
-        boardService.removeAll();
+        boardService.removeAllBoard();
     }
     @Test
-    public void testDate(){
+    public void testDate()throws Exception{
         for(int i=0;i<=200;i++){
         BoardDto boardDto = new BoardDto("wjddbs9350","title"+i,"content");
-        boardService.write(boardDto);
+        boardService.writeBoard(boardDto);
         }
     }
 }

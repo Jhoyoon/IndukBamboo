@@ -3,41 +3,41 @@
 
 <mapper namespace="com.instorage.myproject.boardMapper">
    <!-- 게시물 개수 카운트 반환 -->
-   <select id="count" resultType="int">
+   <select id="countAllBoard" resultType="int">
       SELECT count(*) FROM board;
    </select>
    <!-- bno로 게시물 탐색 후 객체 반환 -->
-   <select id="select" parameterType="int" resultType="BoardDto">
+   <select id="selectBoardByBno" parameterType="int" resultType="BoardDto">
       select * from board where bno=#{bno};
    </select>
    <!-- 모든 게시물 list로 반환 -->
-   <select id="selectAll" resultType="BoardDto">
+   <select id="selectAllBoard" resultType="BoardDto">
     select * from board  ORDER BY reg_date desc , bno desc;
    </select>
    <!-- 페에지에 담기는 객체들을 반환한다.-->
-   <select id="selectPage" resultType="BoardDto" parameterType="map">
+   <select id="selectPageByMap" resultType="BoardDto" parameterType="map">
       select * from board ORDER BY reg_date desc , bno desc limit #{offset},#{pageSize}
    </select>
    <!-- 모든 게시물 삭제하기.삭제된 행 개수 반환 -->
-   <delete id="deleteAll">
+   <delete id="deleteAllBoard">
       delete from board;
    </delete>
    <!-- writer와 bno가 일치할시 게시물 삭제하기 -->
-   <delete id="delete" parameterType="map">
+   <delete id="deleteBoardByBnoAndWriter" parameterType="map">
       delete
       from board
       where bno=#{bno} and writer=#{writer};
    </delete>
    <!-- 게시물 db 저장 -->
-   <insert id="insert" parameterType="BoardDto">
+   <insert id="insertBoard" parameterType="BoardDto">
       insert into board (writer, title, content)
       values (#{writer},#{title},#{content});
    </insert>
    <!-- 게시물 업데이트.bno로 탐색 -->
-   <update id="update" parameterType="BoardDto">
+   <update id="updateBoard" parameterType="BoardDto">
       update board set title=#{title},content=#{content} where bno=#{bno};
    </update>
-   <update id="increaseViewCnt" parameterType="int">
+   <update id="increaseViewCntByBno" parameterType="int">
       update board set view_cnt = view_cnt+1 where bno=#{bno};
    </update>
    <select id="selectSearchPage" parameterType="SearchCondition" resultType="BoardDto">
@@ -56,7 +56,7 @@
             </otherwise>
         </choose>
    </select>
-   <select id="searchCnt" resultType="int" parameterType="SearchCondition">
+   <select id="countSearchPage" resultType="int" parameterType="SearchCondition">
         <choose>
            <when test='option == "T"'>
               select count(*) from board where title like concat('%',#{keyword},'%');
@@ -72,9 +72,12 @@
             </otherwise>
         </choose>
    </select>
-    <update id="updateCommentCnt" parameterType="map">
+    <update id="updateCommentCntByBnoAndNum" parameterType="map">
         update board set comment_cnt = comment_cnt + #{num} where bno=#{bno};
     </update>
+    <select id="checkBoardByBno" resultType="boolean">
+        SELECT EXISTS (SELECT 1 FROM board WHERE bno=#{bno});
+    </select>
 
 
 </mapper>

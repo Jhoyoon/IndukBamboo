@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,32 +19,32 @@ public class UserDaoTest extends TestCase {
     UserDao userdao;
     @Test
     public void testInsertUser() throws Exception{
-        int rowCnt=userdao.deleteAll();
+        int rowCnt=userdao.deleteAllUser();
         assertTrue(rowCnt == 1);
         UserDto user = new UserDto("id","pwd","nickname");
         rowCnt=userdao.insertUser(user);
         assertTrue(rowCnt == 1);
-        rowCnt=userdao.deleteAll();
+        rowCnt=userdao.deleteAllUser();
         assertTrue(rowCnt == 1);
-        userdao.deleteAll();
+        userdao.deleteAllUser();
     }
 @Test
-    public void testDeleteUser() {
-        System.out.println(userdao.deleteAll());
+    public void testDeleteUser() throws Exception{
+        System.out.println(userdao.deleteAllUser());
     }
     @Test
-    public void testSelectUser(){
-        userdao.deleteAll();
+    public void testSelectUser()throws Exception{
+        userdao.deleteAllUser();
         UserDto userDto = new UserDto("id","pwd","nickname");
         int rowCnt = userdao.insertUser(userDto);
         assertTrue(rowCnt == 1);
         UserDto userDto2 = userdao.selectUserById(userDto.getId());
         assertTrue(userDto.equals(userDto2));
-        userdao.deleteAll();
+        userdao.deleteAllUser();
     }
     @Test
-    public void testCheckId(){
-        userdao.deleteAll();
+    public void testCheckId()throws Exception{
+        userdao.deleteAllUser();
         UserDto userDto = new UserDto("id","pwd","nickname");
         int rowCnt = userdao.insertUser(userDto);
         assertTrue(rowCnt==1);
@@ -51,11 +52,11 @@ public class UserDaoTest extends TestCase {
         assertTrue(check);
         boolean check2 = userdao.checkUserById("dd");
         assertTrue(!check2);
-        userdao.deleteAll();
+        userdao.deleteAllUser();
     }
     @Test
-    public void testDelete(){
-        userdao.deleteAll();
+    public void testDelete()throws Exception{
+        userdao.deleteAllUser();
         UserDto userDto = new UserDto("id","pwd","nickname");
         int rowCnt = userdao.insertUser(userDto);
         assertTrue(rowCnt==1);
@@ -63,8 +64,8 @@ public class UserDaoTest extends TestCase {
         assertTrue(rowCnt == 1);
     }
     @Test
-    public void testUpdate(){
-        userdao.deleteAll();
+    public void testUpdate()throws Exception{
+        userdao.deleteAllUser();
         UserDto userDto = new UserDto("id","pwd","nickname");
         int rowCnt = userdao.insertUser(userDto);
         assertTrue(rowCnt==1);
@@ -74,6 +75,15 @@ public class UserDaoTest extends TestCase {
         UserDto userDto3 = userdao.selectUserById(userDto.getId());
         assertTrue(userDto3.getId().equals(userDto.getId()));
         assertTrue(userDto3.getPwd().equals(userDto2.getPwd()));
-
+    }
+    @Test
+    @Transactional
+    public void testSelectUserByNickname()throws Exception{
+        userdao.deleteAllUser();
+        UserDto userDto = new UserDto("id","pwd","nickname");
+        int rowCnt =userdao.insertUser(userDto);
+        assertTrue(rowCnt == 1);
+        UserDto userDto2 =userdao.selectUserByNickname("nickname");
+        assertTrue(userDto.equals(userDto2));
     }
 }

@@ -30,18 +30,28 @@ public class CommentService{
     // board의 댓글 개수를 하나 줄이고 삭제해야 한다.그렇기에 transactional을 검
     @Transactional(rollbackFor = Exception.class)
     public int remove(Integer cno, Integer bno, String commenter) throws Exception {
-        int rowCnt = boardDao.updateCommentCnt(bno, -1);
+        int rowCnt = boardDao.updateCommentCntByBnoAndNum(bno, -1);
         System.out.println("updateCommentCnt - rowCnt = " + rowCnt);
 //        throw new Exception("test");
         rowCnt = commentDao.delete(cno, commenter);
         System.out.println("rowCnt = " + rowCnt);
         return rowCnt;
     }
+//    @Transactional(rollbackFor = Exception.class)
+//    public int remove(Integer cno, Integer bno, String commenter) throws Exception {
+//        int rowCnt = boardDao.updateCommentCnt(bno, -1);
+//        rowCnt = commentDao.delete(cno, commenter);
+//        if (rowCnt != 1) {
+//            throw new Exception("delete failed");
+//        }
+//        return rowCnt;
+//    }
+
 
     @Transactional(rollbackFor = Exception.class)
     public int write(CommentDto commentDto) throws Exception {
-        boardDao.updateCommentCnt(commentDto.getBno(), 1);
-//                throw new Exception("test");
+        boardDao.updateCommentCntByBnoAndNum(commentDto.getBno(), 1);
+                //throw new Exception("test");
         return commentDao.insert(commentDto);
     }
 

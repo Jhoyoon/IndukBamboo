@@ -20,8 +20,8 @@ public class CommentController {
     // @RequestBody = json 문자열을 자바 객체로 바꿔준다.
     // @ResponseBody = 자바 객체를 json 문자열로 바꿔준다.
     public ResponseEntity<String> write(@RequestBody CommentDto dto, Integer bno, HttpSession session) {
-//        String commenter = (String)session.getAttribute("id");
-        String commenter = "wjddbs9350";
+        String commenter = (String)session.getAttribute("id");
+
         dto.setCommenter(commenter);
         dto.setBno(bno);
         System.out.println(dto.getPcno());
@@ -38,8 +38,8 @@ public class CommentController {
     // delete
     @DeleteMapping(value="/comments/{cno}") // cno는 param으로 넘어오는게 아니라 uri의 일부러 넘어온다.그렇기에 @PageVariable 써야함
     public HttpEntity<String> delete(@PathVariable Integer cno, Integer bno,HttpSession session){
-        //String commenter = (String)session.getAttribute("id");
-        String commenter = "commenter";
+        String commenter = (String)session.getAttribute("id");
+
         try{
             int rowCnt = commentService.remove(cno,bno,commenter);
             if(rowCnt!=1) throw new Exception("delete failed");
@@ -49,6 +49,7 @@ public class CommentController {
         }
         return new ResponseEntity<String>("delete ok",HttpStatus.OK);
     }
+
     // update
     @PatchMapping(value="/comments/{cno}")
     public ResponseEntity<String> update(@PathVariable Integer cno,@RequestBody CommentDto commentDto){
