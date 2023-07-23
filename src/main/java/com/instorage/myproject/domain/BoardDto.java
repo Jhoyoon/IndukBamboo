@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 @Repository
 public class BoardDto {
+    private String type;
     private int bno;
     private String writer;
     private String title;
@@ -14,22 +15,31 @@ public class BoardDto {
     private int view_cnt;
     private int comment_cnt;
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BoardDto boardDto = (BoardDto) o;
-        return bno == boardDto.bno && Objects.equals(writer, boardDto.writer) && Objects.equals(title, boardDto.title) && Objects.equals(content, boardDto.content);
+        return bno == boardDto.bno && view_cnt == boardDto.view_cnt && comment_cnt == boardDto.comment_cnt && Objects.equals(type, boardDto.type) && Objects.equals(writer, boardDto.writer) && Objects.equals(title, boardDto.title) && Objects.equals(content, boardDto.content) && Objects.equals(reg_date, boardDto.reg_date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bno, writer, title, content);
+        return Objects.hash(type, bno, writer, title, content, reg_date, view_cnt, comment_cnt);
     }
 
-    public BoardDto(){}
+    public BoardDto() {}
 
-    public BoardDto(String writer, String title, String content) {
+    public BoardDto(String type, String writer, String title, String content) {
+        this.type = type;
         this.writer = writer;
         this.title = title;
         this.content = content;

@@ -44,7 +44,7 @@ public class BoardDaoTest extends TestCase {
     @Test
     public void testInsert()throws Exception{
         boardDao.deleteAllBoard();
-        BoardDto boardDto = new BoardDto("writer","title","content");
+        BoardDto boardDto = new BoardDto("yenji","writer","title","content");
         int rowCnt=boardDao.insertBoard(boardDto);
         assertTrue(rowCnt==1);
         rowCnt=boardDao.deleteAllBoard();
@@ -53,7 +53,7 @@ public class BoardDaoTest extends TestCase {
     @Test
     public void testSelect()throws Exception{
         boardDao.deleteAllBoard();
-        boardDao.insertBoard(new BoardDto("writer","title","content"));
+        boardDao.insertBoard(new BoardDto("yenji","writer","title","content"));
         BoardDto boardDto=boardDao.selectBoardByBno(1);
         assertTrue(boardDto != null);
         assertTrue(boardDto.getTitle().equals("title"));
@@ -65,8 +65,8 @@ public class BoardDaoTest extends TestCase {
     @Test
     public void testUpdate()throws Exception{
         boardDao.deleteAllBoard();
-        boardDao.insertBoard(new BoardDto("writer","title","content"));
-        BoardDto boardDto = new BoardDto("writer","title2","content2");
+        boardDao.insertBoard(new BoardDto("yenji","writer","title","content"));
+        BoardDto boardDto = new BoardDto("yenji","writer","title2","content2");
         boardDto.setBno(1);
         int rowCnt = boardDao.updateBoard(boardDto);
         System.out.println(rowCnt);
@@ -78,8 +78,8 @@ public class BoardDaoTest extends TestCase {
     @Test
     public void testSelectAll()throws Exception{
         boardDao.deleteAllBoard();
-        boardDao.insertBoard(new BoardDto("writer","title","content"));
-        boardDao.insertBoard(new BoardDto("writer","title2","content2"));
+        boardDao.insertBoard(new BoardDto("yenji","writer","title","content"));
+        boardDao.insertBoard(new BoardDto("yenji","writer","title2","content2"));
         List<BoardDto> list =boardDao.selectAllBoard();
         BoardDto boardDto1 = list.get(0);
         BoardDto boardDto2 = list.get(1);
@@ -95,7 +95,7 @@ public class BoardDaoTest extends TestCase {
     public void testSelectPage()throws Exception{
         boardDao.deleteAllBoard();
         for(int i=0;i<=9;i++){
-            boardDao.insertBoard(new BoardDto("writer","title"+i,"content"));
+            boardDao.insertBoard(new BoardDto("yenji","writer","title"+i,"content"));
         }
         Map map = new HashMap();
         map.put("offset",0);
@@ -109,7 +109,7 @@ public class BoardDaoTest extends TestCase {
     @Test
     public void testIncreaseCnt()throws Exception{
         boardDao.deleteAllBoard();
-        boardDao.insertBoard(new BoardDto("writer","title","content"));
+        boardDao.insertBoard(new BoardDto("yenji","writer","title","content"));
         BoardDto boardDto = boardDao.selectBoardByBno(1);
         boardDto.setComment_cnt(0);
         int rowCnt = boardDao.increaseViewCntByBno(1);
@@ -120,10 +120,10 @@ public class BoardDaoTest extends TestCase {
     public void testSelectSearchPage()throws Exception{
         boardDao.deleteAllBoard();
         SearchCondition search = new SearchCondition("t","title",1,10);
-        boardDao.insertBoard(new BoardDto("writer","title","content"));
+        boardDao.insertBoard(new BoardDto("yenji","writer","title","content"));
         List<BoardDto> list= boardDao.selectSearchPage(search);
         assertTrue(list.size() == 1);
-        boardDao.insertBoard(new BoardDto("writer","title","content"));
+        boardDao.insertBoard(new BoardDto("yenji","writer","title","content"));
         list = boardDao.selectSearchPage(search);
         assertTrue(list.size() == 2);
     }
@@ -131,16 +131,16 @@ public class BoardDaoTest extends TestCase {
     public void testCountSearch()throws Exception{
         boardDao.deleteAllBoard();
         SearchCondition search = new SearchCondition("t","title",1,10);
-        boardDao.insertBoard(new BoardDto("writer","title","content"));
+        boardDao.insertBoard(new BoardDto("yenji","writer","title","content"));
         int count = boardDao.countSearchPage(search);
         assertTrue(count == 1);
-        boardDao.insertBoard(new BoardDto("writer","title2","content"));
+        boardDao.insertBoard(new BoardDto("yenji","writer","title2","content"));
         count = boardDao.countSearchPage(search);
         assertTrue(count == 2);
-        boardDao.insertBoard(new BoardDto("writer","title28dd","content"));
+        boardDao.insertBoard(new BoardDto("yenji","writer","title28dd","content"));
         count = boardDao.countSearchPage(search);
         assertTrue(count == 3);
-        boardDao.insertBoard(new BoardDto("writer","titl","content"));
+        boardDao.insertBoard(new BoardDto("yenji","writer","titl","content"));
         count = boardDao.countSearchPage(search);
         assertTrue(count == 3);
         boardDao.deleteAllBoard();
@@ -148,7 +148,7 @@ public class BoardDaoTest extends TestCase {
     @Test
     public void testUpdateCommentCnt() throws Exception{
         boardDao.deleteAllBoard();
-        boardDao.insertBoard(new BoardDto("writer","title","content"));
+        boardDao.insertBoard(new BoardDto("yenji","writer","title","content"));
         int count = commentDao.countCommentByBno(1);
         assertTrue(count == 0);
         int bno = boardDao.selectAllBoard().get(0).getBno();

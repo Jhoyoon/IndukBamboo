@@ -18,7 +18,7 @@ public class BoardServiceTest {
         boardService.removeAllBoard();
         int rowCnt = boardService.countAllBoard();
         assertTrue(rowCnt == 0);
-        BoardDto boardDto = new BoardDto("writer","title","content");
+        BoardDto boardDto = new BoardDto("yenji","writer","title","content");
         rowCnt = boardService.writeBoard(boardDto);
         assertTrue(rowCnt == 1);
         boardDto = boardService.readBoardByBno(1);
@@ -28,11 +28,11 @@ public class BoardServiceTest {
     @Test
     public void testUpdate()throws Exception{
         boardService.removeAllBoard();
-        BoardDto boardDto1 = new BoardDto("writer","title","content");
+        BoardDto boardDto1 = new BoardDto("yenji","writer","title","content");
         boardDto1.setBno(1);
         int rowCnt = boardService.writeBoard(boardDto1);
         assertTrue(rowCnt == 1);
-        BoardDto boardDto2 = new BoardDto("writer","title2","content2");
+        BoardDto boardDto2 = new BoardDto("yenji","writer","title2","content2");
         boardDto2.setBno(1);
         rowCnt = boardService.updateBoard(boardDto2);
         assertTrue(rowCnt == 1);
@@ -43,7 +43,7 @@ public class BoardServiceTest {
     @Test
     public void testDate()throws Exception{
         for(int i=0;i<=200;i++){
-        BoardDto boardDto = new BoardDto("wjddbs9350","title"+i,"content");
+        BoardDto boardDto = new BoardDto("yenji","wjddbs9350","title"+i,"content");
         boardService.writeBoard(boardDto);
         }
     }

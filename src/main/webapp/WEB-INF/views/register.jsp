@@ -7,8 +7,6 @@
     <title>Title</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 </head>
-<jsp:include page="template/header.jsp" />
-
 <h1>이곳은 register입니다.</h1>
 
 <form:form modelAttribute="userDto" >

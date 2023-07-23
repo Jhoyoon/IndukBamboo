@@ -30,8 +30,8 @@
    </delete>
    <!-- 게시물 db 저장 -->
    <insert id="insertBoard" parameterType="BoardDto">
-      insert into board (writer, title, content)
-      values (#{writer},#{title},#{content});
+      insert into board (type,writer, title, content)
+      values (#{type},#{writer},#{title},#{content});
    </insert>
    <!-- 게시물 업데이트.bno로 탐색 -->
    <update id="updateBoard" parameterType="BoardDto">
@@ -41,37 +41,37 @@
       update board set view_cnt = view_cnt+1 where bno=#{bno};
    </update>
    <select id="selectSearchPage" parameterType="SearchCondition" resultType="BoardDto">
-        <choose>
+       <choose>
            <when test='option == "T"'>
-            select * from board where title like concat('%',#{keyword},'%') order by reg_date desc,bno desc limit #{offset},#{pageSize};
-           </when>
-            <when test='option == "A"'>
-               select * from board where title like concat('%',#{keyword},'%') or content like concat('%',#{keyword},'%') order by reg_date desc,bno desc limit #{offset},#{pageSize};
-            </when>
-            <when test='option == "W"'>
-               select * from board where writer like concat('%',#{keyword},'%') order by reg_date desc,bno desc limit #{offset},#{pageSize};
-            </when>
-            <otherwise>
-               select * from board order by reg_date desc,bno desc limit #{offset},#{pageSize};;
-            </otherwise>
-        </choose>
-   </select>
-   <select id="countSearchPage" resultType="int" parameterType="SearchCondition">
-        <choose>
-           <when test='option == "T"'>
-              select count(*) from board where title like concat('%',#{keyword},'%');
+               select * from board where type = #{type} and title like concat('%',#{keyword},'%') order by reg_date desc,bno desc limit #{offset},#{pageSize};
            </when>
            <when test='option == "A"'>
-              select count(*) from board where title like concat('%',#{keyword},'%') or content like concat('%',#{keyword},'%');
+               select * from board where type = #{type} and (title like concat('%',#{keyword},'%') or content like concat('%',#{keyword},'%')) order by reg_date desc,bno desc limit #{offset},#{pageSize};
            </when>
            <when test='option == "W"'>
-              select count(*) from board where writer like concat('%',#{keyword},'%');
+               select * from board where type = #{type} and writer like concat('%',#{keyword},'%') order by reg_date desc,bno desc limit #{offset},#{pageSize};
            </when>
+           <otherwise>
+               select * from board where type = #{type} order by reg_date desc,bno desc limit #{offset},#{pageSize};
+           </otherwise>
+       </choose>
+   </select>
+    <select id="countSearchPage" resultType="int" parameterType="SearchCondition">
+        <choose>
+            <when test='option == "T"'>
+                select count(*) from board where type = #{type} and title like concat('%',#{keyword},'%');
+            </when>
+            <when test='option == "A"'>
+                select count(*) from board where type = #{type} and (title like concat('%',#{keyword},'%') or content like concat('%',#{keyword},'%'));
+            </when>
+            <when test='option == "W"'>
+                select count(*) from board where type = #{type} and writer like concat('%',#{keyword},'%');
+            </when>
             <otherwise>
-               select count(*) from board;
+                select count(*) from board where type = #{type};
             </otherwise>
         </choose>
-   </select>
+    </select>
     <update id="updateCommentCntByBnoAndNum" parameterType="map">
         update board set comment_cnt = comment_cnt + #{num} where bno=#{bno};
     </update>

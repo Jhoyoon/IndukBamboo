@@ -3,11 +3,20 @@ package com.instorage.myproject.domain;
 import java.util.Objects;
 
 public class SearchCondition {
+    private String type;
     private String option = "";
     private String keyword = "";
     private Integer page;
     private Integer pageSize;
     private Integer offset;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     @Override
     public boolean equals(Object o) {

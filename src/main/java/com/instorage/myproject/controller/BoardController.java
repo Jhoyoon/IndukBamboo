@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,17 +30,20 @@ public class BoardController {
     public String boardList(SearchCondition sc, HttpServletRequest request, Model m){
         if(sc.getPage() == null) sc.setPage(1);
         if(sc.getPageSize() == null) sc.setPageSize(10);
+        if(sc.getType() == null || "".equals(sc.getType())){
+            m.addAttribute("error","게시판에 접근할수 없습니다.");
+            return "redirect:/";
+        }
         // req에서 sessionid로 서버에서 세션을 찾는다.
         HttpSession session = request.getSession();
-        //그 세션에서 id를 찾잖아.
-//        System.out.println("session id="+session.getAttribute("id"));
+
         if(session.getAttribute("id")==null){
-            m.addAttribute("uri","/board/list");
             return "redirect:/login/login";
         }
         try{
             int totalSize=boardService.countSearchPage(sc);
             PageHandler ph = new PageHandler(totalSize,sc);
+            System.out.println(ph.getSc().getPageSize());
             List<BoardDto> list =boardService.selectSearchPage(sc);
             m.addAttribute("list",list);
             m.addAttribute("ph",ph);
@@ -110,24 +114,33 @@ public class BoardController {
     // ********************************************************************
     // 게시물 작성하기
     @GetMapping(value="/write")
-    public String boardWriteGet(Integer pageSize,Model m){
+    public String boardWriteGet(String type,Integer page,Integer pageSize,Model m){
         if(pageSize == null) pageSize = 10;
-        m.addAttribute("pageSize",pageSize);
+        if(type == null){
+            m.addAttribute("error","페이지에 접근할수 없습니다.");
+            return "redirect:/";
+        }
         return "boardWrite";
     }
     @PostMapping(value="/write")
-    public String boardWritePost(String title,String content,Integer pageSize,HttpSession session,Model m){
+    public String boardWritePost(String type,String title,String content,Integer page,Integer pageSize,HttpSession session,Model m){
         String writer = (String)session.getAttribute("id");
-        BoardDto boardDto = new BoardDto(writer,title,content);
+        BoardDto boardDto = new BoardDto(type,writer,title,content);
+        System.out.println(type);
+        if(type == null || "".equals(type)){
+            m.addAttribute("error","게시물 등록에 실패했습니다.");
+            return "redirect:/";
+        }
         try{
             boardService.writeBoard(boardDto);
+            m.addAttribute("type",type);
             m.addAttribute("pageSize",pageSize);
             return "redirect:/board/list";
         }catch(Exception e){
             e.printStackTrace();
             m.addAttribute("error","게시물 등록에 실패했습니다.다시 시도해주세요.");
             m.addAttribute("boardDto",boardDto);
-            return "boardWrite";
+            return "forward:/board/write?type="+type+"&page="+page+"&pageSize="+pageSize;
         }
     }
     // *************************************************************************

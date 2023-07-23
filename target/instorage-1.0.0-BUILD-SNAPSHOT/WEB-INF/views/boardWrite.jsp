@@ -9,15 +9,15 @@
 <body>
 <jsp:include page="template/header.jsp" />
 <h1>이곳은 ${mode == "edit" ? "edit" : "write"}입니다.</h1>
-<form:form>
+<form action="<c:url value="/board/write"/>" method="post">
+    <input type="text" name="type" value="${param.type}">
     <input type="number" placeholder="bno" name="bno" value="${boardDto.bno}">
     <input type="text" placeholder="title" name="title" value="${boardDto.title}" >
     <input type="text" placeholder="content" name="content" value="${boardDto.content}">
-    <input type="number" placeholder="pageSize" name="pageSize" value="${pageSize}">
+    <input type="number" placeholder="pageSize" name="pageSize" value="${param.pageSize}">
+    <input type="page" placeholder="page" name="page" value="${param.page}">
     <button>작성</button>
-</form:form>
-
-
+</form>
 <jsp:include page="template/footer.jsp" />
 </body>
 </html>

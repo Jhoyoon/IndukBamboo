@@ -25,7 +25,7 @@ public class CommentServiceTest {
     public void remove() throws Exception {
         boardDao.deleteAllBoard();
         //다 지우고 하나 넣고 selectall로 불러온뒤 하나만 뽑아내면 bno를 알아낼수 있다.
-        BoardDto boardDto = new BoardDto("hello", "hello", "asdf");
+        BoardDto boardDto = new BoardDto("yenji","hello", "hello", "asdf");
         assertTrue(boardDao.insertBoard(boardDto) == 1);
         Integer bno = boardDao.selectAllBoard().get(0).getBno();
         System.out.println("bno = " + bno);
@@ -50,7 +50,7 @@ public class CommentServiceTest {
     public void write() throws  Exception {
         boardDao.deleteAllBoard();
 
-        BoardDto boardDto = new BoardDto("hello", "hello", "asdf");
+        BoardDto boardDto = new BoardDto("yenji","hello", "hello", "asdf");
         assertTrue(boardDao.insertBoard(boardDto) == 1);
         Integer bno = boardDao.selectAllBoard().get(0).getBno();
         System.out.println("bno = " + bno);
@@ -68,7 +68,7 @@ public class CommentServiceTest {
     @Test
     public void transaction() throws Exception{
         boardDao.deleteAllBoard();
-        BoardDto boardDto = new BoardDto("qwer", "hello", "asdf");
+        BoardDto boardDto = new BoardDto("yenji","qwer", "hello", "asdf");
         int rowCnt=boardDao.insertBoard(boardDto);
         assertTrue(rowCnt == 1);
         Integer bno = boardDao.selectAllBoard().get(0).getBno();

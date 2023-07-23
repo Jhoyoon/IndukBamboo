@@ -35,7 +35,7 @@ public class LoginController {
         return "redirect:/";
     }
     @PostMapping(value="/login")
-    public String loginPost(String id,String pwd, boolean rememberId, String uri, Model m, HttpServletResponse res, HttpServletRequest req){
+    public String loginPost(String id,String pwd, boolean rememberId, Model m, HttpServletResponse res, HttpServletRequest req){
         boolean check = checkId(id);
         if(!check){
             m.addAttribute("error","id값이 유효하지 않습니다.다시 입력해주세요.");
@@ -74,8 +74,7 @@ public class LoginController {
             // 세션 수명을 6시간으로 설정
             session.setMaxInactiveInterval(60*60*6);
 
-            if(uri == null) uri="/";
-            return "redirect:"+uri;
+            return "redirect:/";
         } catch (Exception e) {
             e.printStackTrace();
             m.addAttribute("error","에러가 발생했습니다.다시 시도해주세요");

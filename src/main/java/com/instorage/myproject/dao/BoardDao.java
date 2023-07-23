@@ -74,6 +74,8 @@ public class BoardDao {
         return session.update(namespace+"increaseViewCntByBno",bno);
     }
     public List<BoardDto> selectSearchPage(SearchCondition search)throws Exception{
+        System.out.println(search.getType());
+        System.out.println(search.getOption());
         return session.selectList(namespace+"selectSearchPage",search);
     }
     public int countSearchPage(SearchCondition search)throws Exception{
