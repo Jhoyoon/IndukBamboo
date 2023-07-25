@@ -5,10 +5,17 @@
 <html>
 <head>
   <title>Home</title>
+  <link rel="stylesheet" href="<c:url value="/resources/css/main.css"/>">
   <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+  <script
+          src="https://kit.fontawesome.com/634362e31b.js"
+          crossorigin="anonymous"
+  ></script>
 </head>
 <body>
-<%--<jsp:include page="template/header.jsp" />--%>
+<jsp:include page="template/header.jsp" />
+<div id="body_div">
+<jsp:include page="template/nav.jsp"/>
 <c:if test="${not empty msg}">
   <span>${msg}</span>
 </c:if>
@@ -18,12 +25,12 @@
 <textarea readonly>${board.content}</textarea>
 <span>${board.reg_date}</span>
 <span>${board.view_cnt}</span>
-<span><a href="<c:url value="/board/list?page=${page}&pageSize=${pageSize}"/>">목록</a></span>
+<span><a href="<c:url value="/board/list?type=${param.type}&page=${page}&pageSize=${pageSize}"/>">목록</a></span>
 <c:if test="${board.writer == sessionScope.id}">
-  <span><a href="<c:url value="/board/remove?bno=${board.bno}&page=${page}&pageSize=${pageSize}"/>">삭제</a></span>
+  <span><a href="<c:url value="/board/remove?type=${param.type}&bno=${board.bno}&page=${page}&pageSize=${pageSize}"/>">삭제</a></span>
 </c:if>
 <c:if test="${board.writer == sessionScope.id}">
-  <span><a href="<c:url value="/board/edit?bno=${board.bno}&page=${page}&pageSize=${pageSize}"/>">수정</a></span>
+  <span><a href="<c:url value="/board/edit?type=${param.type}&bno=${board.bno}&page=${page}&pageSize=${pageSize}"/>">수정</a></span>
 </c:if>
 <br>
 <button id="sendBtn" type="button">SEND</button>
@@ -32,6 +39,7 @@
 <div id="replyBox" style="display: none">
   <input id="replyInput" name="replyInput">
   <button id="replySendBtn">저장</button>
+</div>
 </div>
 <%--<jsp:include page="template/footer.jsp" />--%>
 <script>

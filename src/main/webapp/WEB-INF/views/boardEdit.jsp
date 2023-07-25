@@ -5,6 +5,12 @@
 <html>
 <head>
   <title>Home</title>
+  <link rel="stylesheet" href="<c:url value="/resources/css/main.css"/>">
+  <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+  <script
+          src="https://kit.fontawesome.com/634362e31b.js"
+          crossorigin="anonymous"
+  ></script>
 </head>
 <body>
 <jsp:include page="template/header.jsp" />

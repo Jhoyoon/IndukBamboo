@@ -1,3 +1,52 @@
-header{
-    margin-bottom: 30px;
+#header{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px 20px 10px;
+    margin-bottom: 20px;
+    border-style: solid;
+    border-bottom-color: var(--main-color);
+    border-bottom-width: 1px;
+}
+#header_left{
+    font-size: 25px;
+    margin-top: -14px;
+}
+#header_right{
+    display: flex;
+}
+#header_right > form{
+    vertical-align:middle;
+    margin-top: 10px;
+    margin-bottom:15px;
+}
+#header_right > form > input{
+    height:20px;
+}
+#header_right  label{
+    font-size: 8px;
+}
+#rememberId{
+    vertical-align: middle;
+}
+.button{
+    border-style: solid;
+    border-radius: 7px;
+    background-color: var(--main-color);
+    color:white;
+    padding:7px 18px 7px 18px;
+    font-size: 12px;
+}
+#header_right_a{
+    align-self: center;
+    padding-bottom: 5px;
+}
+
+#header_right_login > span{
+    font-size: 24px;
+    margin-right: 20px;
+    font-weight: 500;
+}
+#header_right_login > a:first-of-type{
+    margin-right: 10px;
 }

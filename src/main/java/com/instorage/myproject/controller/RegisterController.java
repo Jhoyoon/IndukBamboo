@@ -18,26 +18,56 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class RegisterController {
     @Autowired
     UserService userService;
-    @InitBinder
-    public void toDate(WebDataBinder binder){
-//        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//        binder.registerCustomEditor(LocalDate.class,new CustomDateEditor(df,false));
-
-        binder.setValidator(new UserValidator());
-    }
     @GetMapping(value="/register")
     public String registerGet(){
         return "register";
     }
     @PostMapping(value="/register")
-    public String registerPost(@Valid UserDto userDto, BindingResult result, Model m){
-        // validator에서 데이터 유효성 검증
-        if(result.hasErrors()){
-            System.out.println(result);
-            FieldError error =result.getFieldError();
-            System.out.println(error.getField());
-            return "register";
+    public String registerPost(UserDto userDto, Model m){
+        String msg=registerCheck(userDto);
+        if(!msg.equals("success")){
+            if(msg.equals("idNull")){
+                m.addAttribute("error","아이디 값을 입력해주세요.");
+                return "redirect:/register";
+            }
+            if(msg.equals("idSpace")){
+                m.addAttribute("error","아이디 값은 공백을 포함할수 없습니다.");
+                return "redirect:/register";
+            }
+            if(msg.equals("idLength")){
+                m.addAttribute("error","아이디 값은 5 이상 19 이하여야 합니다.");
+                return "redirect:/register";
+            }
+            if(msg.equals("pwdNull")){
+                m.addAttribute("error","비밀번호 값을 입력해주세요");
+                return "redirect:/register";
+            }
+            if(msg.equals("pwdSpace")){
+                m.addAttribute("error","비밀번호 값은 공백을 포함할수 없습니다.");
+                return "redirect:/register";
+            }
+            if(msg.equals("pwdLength")){
+                m.addAttribute("error","비밀번호 값은 8 이상 50 이하입니다.");
+                return "redirect:/register";
+            }
+            if(msg.equals("pwdSpace")){
+                m.addAttribute("error","비밀번호 값은 공백을 포함할수 없습니다.");
+                return "redirect:/register";
+            }
+            if(msg.equals("nicknameNull")){
+                m.addAttribute("error","닉네임 값을 입력해주세요.");
+                return "redirect:/register";
+            }
+            if(msg.equals("nicknameLength")){
+                m.addAttribute("error","닉네임 값은 2 이상 20 이하입니다.");
+                return "redirect:/register";
+            }
+            if(msg.equals("nicknameSpace")){
+                m.addAttribute("error","닉네임 값은 공백을 포함할수 없습니다.");
+                return "redirect:/register";
+            }
         }
+
         try{
             String answer = userService.registerUser(userDto);
             if(answer.equals("success")){
@@ -61,5 +91,43 @@ public class RegisterController {
             m.addAttribute("error","에러가 발생했습니다.다시 시도해주세요");
             return "redirect:/register";
         }
+    }
+
+    private String registerCheck(UserDto userDto) {
+        String id = userDto.getId();
+        String pwd = userDto.getPwd();
+        String nickname = userDto.getNickname();
+
+        if(id == null || "".equals(id)){
+            return "idNull";
+        }
+        if(id.length() <= 4 || id.length() >= 20){
+            return "idLength";
+        }
+        if(id.contains(" ")){
+            return "idSpace";
+        }
+        if(pwd == null || "".equals(pwd)){
+            return "pwdNull";
+        }
+        if(pwd.length() <= 7 || pwd.length() >= 51){
+            return "pwdLength";
+        }
+        if(pwd.contains(" ")){
+            return "pwdSpace";
+        }
+        // nickname 유효성 검사
+        if(nickname == null || "".equals(nickname)){
+            return "nicknameNull";
+        }
+        if(nickname.contains(" ")){
+            return "nicknameSpace";
+        }
+        if(nickname.length() <= 1 || nickname.length() >= 21){
+            return "nicknameLength";
+        }
+
+
+        return "success";
     }
 }

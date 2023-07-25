@@ -25,10 +25,6 @@ public class LoginController {
     @Autowired
     UserService userService;
 
-    @GetMapping(value="/login")
-    public String loginGet(){
-        return "login";
-    }
     @GetMapping(value="/logout")
     public String logoutGet(HttpSession session){
         session.invalidate();
@@ -39,22 +35,22 @@ public class LoginController {
         boolean check = checkId(id);
         if(!check){
             m.addAttribute("error","id값이 유효하지 않습니다.다시 입력해주세요.");
-            return "redirect:/login/login";
+            return "redirect:/";
         }
         boolean check2 = checkPwd(pwd);
         if(!check2){
             m.addAttribute("error","pwd 값이 유효하지 않습니다.다시 입력해주세요.");
-            return "redirect:/login/login";
+            return "redirect:/";
         }
         try {
             String loginCheck = userService.loginCheck(id,pwd);
             if(loginCheck.equals("NonexistentID")){
                 m.addAttribute("error","존재하지 않는 아이디 입니다.다시 확인해주세요.");
-                return "redirect:/login/login";
+                return "redirect:/";
             }
             if(loginCheck.equals("MismatchedPassword")){
                 m.addAttribute("error","비밀번호가 id와 일치하지 않습니다.다시 확인해주세요.");
-                return "redirect:/login/login";
+                return "redirect:/";
             }
             // 아이디 기억하기 기능을 사용할시 쿠키를 한달동안 저장시킨다.
             // 체크하지 않았을 시 존재하는 쿠키를 제거한다.
@@ -73,12 +69,13 @@ public class LoginController {
             session.setAttribute("id",id);
             // 세션 수명을 6시간으로 설정
             session.setMaxInactiveInterval(60*60*6);
-
-            return "redirect:/";
+            String nickName=userService.readUserById(id).getNickname();
+            m.addAttribute("nickName",nickName);
+            return "home";
         } catch (Exception e) {
             e.printStackTrace();
             m.addAttribute("error","에러가 발생했습니다.다시 시도해주세요");
-            return "redirect:/login/login";
+            return "redirect:/";
         }
     }
     private boolean checkId(String id){

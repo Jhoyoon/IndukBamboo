@@ -16,12 +16,6 @@ public class UserValidator implements Validator {
         String pwd = userDto.getPwd();
         String nickname = userDto.getNickname();
 
-
-//        String email = userDto.getEmail();
-//        String birth = userDto.getbirth();
-
-        // null 검사 -> 길이 검사 -> 공백 검사 ->
-
         // id 유효성 검사
         if(id == null || "".equals(id)){
             errors.rejectValue("id","required");

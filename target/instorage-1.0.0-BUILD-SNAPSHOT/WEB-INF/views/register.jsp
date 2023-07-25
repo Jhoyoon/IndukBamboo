@@ -5,18 +5,15 @@
 <html>
 <head>
     <title>Title</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+    <link rel="stylesheet" href="<c:url value="/resources/css/main.css"/>">
+    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+    <script
+            src="https://kit.fontawesome.com/634362e31b.js"
+            crossorigin="anonymous"
+    ></script>
 </head>
-<h1>이곳은 register입니다.</h1>
-
-<form:form modelAttribute="userDto" >
-<%--<form action="<c:url value="/register"/>" method="post" >--%>
-    <form:errors path="id" id="Error"></form:errors>
-    <form:errors path="pwd" id="Error"></form:errors>
-    <form:errors path="nickname" id="Error"></form:errors>
-    <c:if test="${not empty param.error}">
-        <h1>${param.error}</h1>
-    </c:if>
+<jsp:include page="template/header.jsp" />
+<form method="post">
     <label for="id">id</label>
     <input type="text" id="id" name="id" placeholder="id를 입력해주세요">
 
@@ -27,22 +24,32 @@
     <input type="text" id="nickname" name="nickname" placeholder="nickname을 입력해주세요">
 
     <button>제출</button>
-</form:form>
+</form>
+<div id="error">
+    <p>${param.error}</p>
+    <p>닫기</p>
+</div>
 <jsp:include page="template/footer.jsp" />
-    <script
+<script>
+    $(document).ready(function(){
+        includeError();
+        removeError();
+    });
+    let includeError = function (){
+        if("${param.error}" !== undefined && "${param.error}" !== null && "${param.error}" !== ""){
+            $("#error").css("display","flex");
+        }
+    }
+    let removeError = function (){
+        $("#error p:last-child").click(function(){
+            $("#error").css("display", "none");
+        });
+    }
+</script>
+<script
 
         src="https://kit.fontawesome.com/634362e31b.js"
         crossorigin="anonymous"
-    ></script>
-<script>
-    window.onload = function() {
-        const errorElement = document.getElementById('Error'); // 에러 메시지 요소 찾기
-        if(errorElement) { // 에러 메시지가 출력되었는지 확인
-            var iconElement = document.createElement('i'); // <i> 태그 생성
-            iconElement.className = 'fa-regular fa-circle-xmark'; // 원하는 아이콘 클래스 지정
-            errorElement.insertBefore(iconElement, errorElement.firstChild); // <i> 태그를 에러 메시지 요소의 앞에 추가
-        }
-    };
-</script>
+></script>
 </body>
 </html>

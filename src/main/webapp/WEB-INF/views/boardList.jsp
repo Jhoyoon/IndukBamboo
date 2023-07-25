@@ -5,6 +5,12 @@
 <html>
 <head>
   <title>${param.type}</title>
+  <link rel="stylesheet" href="<c:url value="/resources/css/main.css"/>">
+  <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+  <script
+          src="https://kit.fontawesome.com/634362e31b.js"
+          crossorigin="anonymous"
+  ></script>
 </head>
 <body>
 <jsp:include page="template/header.jsp" />
@@ -40,7 +46,7 @@
     <c:forEach var="board" items="${list}">
       <tr>
         <td>${board.bno}</td>
-        <td><a href="<c:url value="/board/read?bno=${board.bno}&page=${ph.sc.page}&pageSize=${ph.sc.pageSize}"/>">${board.title}</a></td>
+        <td><a href="<c:url value="/board/read?type=${param.type}&bno=${board.bno}&page=${ph.sc.page}&pageSize=${ph.sc.pageSize}"/>">${board.title}</a></td>
         <td>${board.writer}</td>
         <td>${board.reg_date}</td>
         <td>${board.view_cnt}</td>
