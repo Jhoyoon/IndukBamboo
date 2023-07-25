@@ -31,6 +31,10 @@ public class UserService {
         else return "fail";
 
     }
+    public boolean checkUserById(String id) throws Exception{
+        boolean checkId =userDao.checkUserById(id);
+        return checkId;
+    }
     public String loginCheck(String id,String pwd) throws Exception{
         boolean idCheck = userDao.checkUserById(id);
         if(!idCheck) return "NonexistentID";

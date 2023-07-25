@@ -29,13 +29,17 @@
 	</article>
 <jsp:include page="template/footer.jsp" />
 </div>
+<div id="error">
+	<p>${error}</p>
+	<p>닫기</p>
+</div>
 <script>
 	$(document).ready(function(){
 		includeError();
 		removeError();
 	});
 	let includeError = function (){
-		if("${param.error}" !== undefined && "${param.error}" !== null && "${param.error}" !== ""){
+		if("${error}" !== undefined && "${error}" !== null && "${error}" !== ""){
 			$("#error").css("display","flex");
 		}
 	}
