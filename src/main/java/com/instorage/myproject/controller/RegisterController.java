@@ -185,15 +185,75 @@ public class RegisterController {
                     .body(response);
         }
     }
+    @ResponseBody
+    @PostMapping(value="/checkNickname")
+    public ResponseEntity<Map<String,String>> checkNickname(@RequestBody Map<String, String> user){
+        String nickname = user.get("nickname");
+        String nicknameCheck=nicknameCheck(nickname);
+        if(nicknameCheck.equals("nickNull")){
+            Map<String, String> response = new HashMap<>();
+            response.put("error", "별명을 입력해 주세요.");
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType("application/json;charset=UTF-8"))
+                    .body(response);
+        }
+        if(nicknameCheck.equals("nickLength")){
+            Map<String, String> response = new HashMap<>();
+            response.put("error", "별명 값은 2 이상 20 이하여야 합니다.");
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType("application/json;charset=UTF-8"))
+                    .body(response);
+        }
+        if(nicknameCheck.equals("nickSpace")){
+            Map<String, String> response = new HashMap<>();
+            response.put("error", "별명 값은 공백을 포함할수 없습니다.");
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType("application/json;charset=UTF-8"))
+                    .body(response);
+        }
+        try{
+            boolean check = userService.checkUserByNickname(nickname);
+            Map<String, String> response = new HashMap<>();
+            if(!check){
+                response.put("error", "OK");
+            }else{
+                response.put("error", "이미 존재하는 별명 입니다.");
+            }
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType("application/json;charset=UTF-8"))
+                    .body(response);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            Map<String, String> response = new HashMap<>();
+            response.put("error", "서버 에러 발생.다시 시도해 주세요.");
+            return ResponseEntity.badRequest()
+                    .contentType(MediaType.parseMediaType("application/json;charset=UTF-8"))
+                    .body(response);
+        }
+    }
     private String idCheck(String id){
         if(id == null || "".equals(id)){
             return "idNull";
         }
+        if(id.contains(" ")){
+            return "idSpace";
+        }
         if(id.length() <= 4 || id.length() >= 20){
             return "idLength";
         }
-        if(id.contains(" ")){
-            return "idSpace";
+        return "success";
+    }
+    private String nicknameCheck(String nickname){
+        if(nickname == null || "".equals(nickname)){
+            return "nickNull";
+        }
+        if(nickname.contains(" ")){
+            return "nickSpace";
+        }
+        if(nickname.length() <= 1 || nickname.length() >= 21){
+            return "nickLength";
         }
         return "success";
     }

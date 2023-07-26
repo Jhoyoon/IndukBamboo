@@ -36,6 +36,10 @@
     color:white;
     padding:7px 18px 7px 18px;
     font-size: 12px;
+
+}
+.button:hover{
+    scale:105%;
 }
 #header_right_a{
     align-self: center;
@@ -49,4 +53,7 @@
 }
 #header_right_login > a:first-of-type{
     margin-right: 10px;
+}
+#header_reg{
+    display: block;
 }

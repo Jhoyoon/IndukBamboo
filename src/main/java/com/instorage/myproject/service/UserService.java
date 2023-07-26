@@ -35,6 +35,10 @@ public class UserService {
         boolean checkId =userDao.checkUserById(id);
         return checkId;
     }
+    public boolean checkUserByNickname(String nickname) throws Exception{
+        boolean checkNickname = userDao.checkUserByNickname(nickname);
+        return checkNickname;
+    }
     public String loginCheck(String id,String pwd) throws Exception{
         boolean idCheck = userDao.checkUserById(id);
         if(!idCheck) return "NonexistentID";

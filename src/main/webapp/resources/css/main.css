@@ -1,6 +1,7 @@
 @import url("components/reset.css");
 @import url("components/header.css");
 @import url("components/nav.css");
+@import url("components/register.css");
 :root {
     --main-color: rgb(117,44,58);
 }

@@ -30,11 +30,11 @@ public class BoardController {
     // ***************************************************************************
     // 모든 게시물 보여주기
     @GetMapping(value="/list")
-    public String boardList(SearchCondition sc, HttpServletRequest request, Model m){
+    public String boardList(SearchCondition sc, HttpServletRequest request,RedirectAttributes rda,Model m){
         if(sc.getPage() == null) sc.setPage(1);
         if(sc.getPageSize() == null) sc.setPageSize(10);
         if(sc.getType() == null || "".equals(sc.getType())){
-            m.addAttribute("error","게시판에 접근할수 없습니다.");
+            rda.addFlashAttribute("error","게시판에 접근할수 없습니다.");
             return "redirect:/";
         }
         // req에서 sessionid로 서버에서 세션을 찾는다.
@@ -42,7 +42,7 @@ public class BoardController {
         String id = (String)session.getAttribute("id");
 
         if(id==null || "".equals(id)){
-            m.addAttribute("error","로그인을 해야 게시판에 접속할수 있습니다.");
+            rda.addFlashAttribute("error","로그인 해야 대나무숲에 접근할수 있습니다!");
             return "redirect:/";
         }
         String nav = navCheck(sc.getType());
@@ -58,7 +58,7 @@ public class BoardController {
             return "boardList";
         }catch(Exception e){
             e.printStackTrace();
-            m.addAttribute("error","페이지 로드시 에러가 발생했습니다.다시 시도해주세요.");
+            rda.addFlashAttribute("error","페이지 로드시 에러가 발생했습니다.다시 시도해주세요.");
             return "redirect:/";
         }
     }
@@ -67,10 +67,10 @@ public class BoardController {
     // ************************************************************************
     // 게시물 제거
     @GetMapping(value="/remove")
-    public String boardRemove(String type,Integer bno, Integer page, Integer pageSize, Model m, HttpSession session,RedirectAttributes rda){
+    public String boardRemove(String type,Integer bno, Integer page, Integer pageSize,HttpSession session,RedirectAttributes rda){
         String id =(String)session.getAttribute("id");
         if(type == null || "".equals(type)){
-            m.addAttribute("error","게시판에 접근할수 없습니다.");
+            rda.addFlashAttribute("error","게시판에 접근할수 없습니다.");
             return "redirect:/";
         }
         String uri;
@@ -101,17 +101,19 @@ public class BoardController {
    // *****************************************************************************
     // 특정 게시물 읽어오기
     @GetMapping(value="/read")
-    public String boardRead(String type,Integer bno,Integer page,Integer pageSize,HttpSession session,Model m){
+    public String boardRead(String type,Integer bno,Integer page,Integer pageSize,RedirectAttributes rda,Model m,HttpSession session){
+        if(type == null || "".equals(type)){
+            rda.addFlashAttribute("error","페이지에 접근할수 없습니다.");
+            return "redirect:/";
+        }
         String nav = navCheck(type);
         String id = (String)session.getAttribute("id");
         try{
             boolean answer = boardService.checkBoardByBno(bno);
             if(!answer){
-                m.addAttribute("page",page);
-                m.addAttribute("pageSize",pageSize);
-                m.addAttribute("error","게시물이 존재하지 않습니다.");
-                m.addAttribute("nav",nav);
-                return "redirect:/board/list";
+                String uri = "redirect:/board/list?page="+page+"&pageSize="+pageSize+"&nav="+nav;
+                rda.addFlashAttribute("error","게시물이 존재하지 않습니다.");
+                return uri;
             }
             BoardDto boardDto = boardService.readBoardByBno(bno);
             boardService.increaseViewCntByBno(bno);
@@ -124,56 +126,53 @@ public class BoardController {
             return "boardRead";
         }catch(Exception e){
             e.printStackTrace();
-            m.addAttribute("page",page);
-            m.addAttribute("pageSize",pageSize);
-            m.addAttribute("error","게시물 방문시 에러가 발생했습니다.다시 시도해주세요.");
-            m.addAttribute("nav",nav);
-            return "redirect:/board/list";
+            String uri="redirect:/board/list?page="+page+"&pageSize="+pageSize+"&nav="+nav;
+            rda.addFlashAttribute("error","게시물 방문시 에러가 발생했습니다.다시 시도해주세요.");
+            return uri;
         }
     }
     // ********************************************************************
     // 게시물 작성하기
     @GetMapping(value="/write")
-    public String boardWriteGet(String type,Integer page,Integer pageSize,Model m){
+    public String boardWriteGet(String type,Integer page,Integer pageSize,RedirectAttributes rda){
         if(pageSize == null) pageSize = 10;
         if(type == null){
-            m.addAttribute("error","페이지에 접근할수 없습니다.");
+            rda.addFlashAttribute("error","페이지에 접근할수 없습니다.");
             return "redirect:/";
         }
         return "boardWrite";
     }
     @PostMapping(value="/write")
-    public String boardWritePost(String type,String title,String content,Integer page,Integer pageSize,HttpSession session,Model m){
+    public String boardWritePost(String type,String title,String content,Integer page,Integer pageSize,HttpSession session,RedirectAttributes rda){
         String writer = (String)session.getAttribute("id");
         BoardDto boardDto = new BoardDto(type,writer,title,content);
         if(type == null || "".equals(type)){
-            m.addAttribute("error","게시물 등록에 실패했습니다.");
+            rda.addFlashAttribute("error","게시물 등록에 실패했습니다.");
             return "redirect:/";
         }
         try{
             boardService.writeBoard(boardDto);
-            m.addAttribute("type",type);
-            m.addAttribute("pageSize",pageSize);
-            return "redirect:/board/list";
+            String uri="redirect:/board/list?type="+type+"&pageSize="+pageSize;
+            return uri;
         }catch(Exception e){
             e.printStackTrace();
-            m.addAttribute("error","게시물 등록에 실패했습니다.다시 시도해주세요.");
-            m.addAttribute("boardDto",boardDto);
-            return "forward:/board/write?type="+type+"&page="+page+"&pageSize="+pageSize;
+            rda.addFlashAttribute("error","게시물 등록에 실패했습니다.다시 시도해주세요.");
+            rda.addAttribute("boardDto",boardDto);
+            String uri = "forward:/board/write?type="+type+"&page="+page+"&pageSize="+pageSize;
+            return uri;
         }
     }
     // *************************************************************************
     // 게시물 수정하기
     @GetMapping(value="/edit")
-    public String boardEditGet(String type,Integer bno,String page,String pageSize,Model m){
+    public String boardEditGet(String type,Integer bno,String page,String pageSize,RedirectAttributes rda,Model m){
         String nav=navCheck(type);
         try{
             boolean answer = boardService.checkBoardByBno(bno);
             if(!answer){
-                m.addAttribute("page",page);
-                m.addAttribute("pageSize",pageSize);
-                m.addAttribute("error","게시물이 존재하지 않습니다.");
-                return "redirect:/board/list";
+                String uri = "redirect:/board/list?page="+page+"&pageSize="+pageSize;
+                rda.addFlashAttribute("error","게시물이 존재하지 않습니다.");
+                return uri;
             }
             BoardDto boardDto = boardService.readBoardByBno(bno);
             m.addAttribute("mode","edit");
@@ -184,32 +183,34 @@ public class BoardController {
             return "boardWrite";
         }catch(Exception e){
             e.printStackTrace();
-            m.addAttribute("bno",bno);
-            m.addAttribute("page",page);
-            m.addAttribute("pageSize",pageSize);
-            m.addAttribute("error","페이지 방문에 실패했습니다.다시 시도해주세요.");
-            return "redirect:/board/read";
+            String uri = "redirect:/board/read?bno="+bno+"&page="+page+"&pageSize="+pageSize;
+            rda.addFlashAttribute("error","페이지 방문에 실패했습니다.다시 시도해주세요.");
+            return uri;
         }
     }
     @PostMapping(value="/edit")
-    public String boardEditPost(BoardDto boardDto,Integer pageSize,Integer page,String type,HttpSession session,Model m){
+    public String boardEditPost(BoardDto boardDto,Integer pageSize,Integer page,HttpSession session,RedirectAttributes rda,Model m){
         String writer = (String)session.getAttribute("id");
         boardDto.setWriter(writer);
+        String type = boardDto.getType();
+        if(type == null || "".equals(type)){
+            rda.addFlashAttribute("error","게시물 등록에 실패했습니다.");
+            return "redirect:/";
+        }
         try{
             boolean answer = boardService.checkBoardByBno(boardDto.getBno());
             if(!answer){
-                m.addAttribute("pageSize",pageSize);
-                m.addAttribute("error","게시물이 존재하지 않습니다.");
-                return "redirect:/board/list";
+                String uri = "redirect:/board/list?pageSize="+pageSize;
+                rda.addFlashAttribute("error","게시물이 존재하지 않습니다.");
+                return uri;
             }
             boardService.updateBoard(boardDto);
-            m.addAttribute("bno",boardDto.getBno());
-            m.addAttribute("page",page);
-            m.addAttribute("pageSize",pageSize);
-            m.addAttribute("type",type);
-            return "redirect:/board/read";
+            Integer bno = boardDto.getBno();
+            String uri = "redirect:/board/read?bno="+bno+"&page="+page+"&pageSize="+pageSize+"&type="+type;
+            return uri;
         }catch (Exception e){
             e.printStackTrace();
+            m.addAttribute("error","게시물 수정에 실패했습니다.");
             m.addAttribute("mode","edit");
             m.addAttribute("boardDto",boardDto);
             m.addAttribute("page",1);

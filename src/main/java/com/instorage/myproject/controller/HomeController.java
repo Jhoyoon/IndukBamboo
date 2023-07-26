@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 
@@ -22,7 +23,7 @@ public class HomeController {
 	@Autowired
 	UserService userService;
 	@GetMapping(value="/")
-	public String main(HttpSession session,Model m) throws Exception{
+	public String main(HttpSession session, RedirectAttributes rda,Model m) throws Exception{
 		String id = (String)session.getAttribute("id");
 		if("".equals(id) || id == null){
 			return "home";
@@ -33,7 +34,7 @@ public class HomeController {
 			return "home";
 		}catch (Exception e){
 			e.printStackTrace();
-			m.addAttribute("home","nickName을 확인할수 없습니다.");
+			rda.addAttribute("error","nickName을 확인할수 없습니다.");
 			return "home";
 		}
 	}
