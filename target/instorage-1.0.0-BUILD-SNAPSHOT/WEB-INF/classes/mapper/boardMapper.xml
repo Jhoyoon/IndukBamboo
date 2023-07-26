@@ -40,22 +40,43 @@
    <update id="increaseViewCntByBno" parameterType="int">
       update board set view_cnt = view_cnt+1 where bno=#{bno};
    </update>
-   <select id="selectSearchPage" parameterType="SearchCondition" resultType="BoardDto">
-       <choose>
-           <when test='option == "T"'>
-               select * from board where type = #{type} and title like concat('%',#{keyword},'%') order by reg_date desc,bno desc limit #{offset},#{pageSize};
-           </when>
-           <when test='option == "A"'>
-               select * from board where type = #{type} and (title like concat('%',#{keyword},'%') or content like concat('%',#{keyword},'%')) order by reg_date desc,bno desc limit #{offset},#{pageSize};
-           </when>
-           <when test='option == "W"'>
-               select * from board where type = #{type} and writer like concat('%',#{keyword},'%') order by reg_date desc,bno desc limit #{offset},#{pageSize};
-           </when>
-           <otherwise>
-               select * from board where type = #{type} order by reg_date desc,bno desc limit #{offset},#{pageSize};
-           </otherwise>
-       </choose>
-   </select>
+    <select id="selectSearchPage" parameterType="SearchCondition" resultType="BoardDto">
+        <choose>
+            <when test='option == "T"'>
+                SELECT board.*, user_info.nickname
+                FROM board
+                INNER JOIN user_info ON board.writer = user_info.id
+                WHERE board.type = #{type} AND board.title LIKE CONCAT('%',#{keyword},'%')
+                ORDER BY board.reg_date DESC, board.bno DESC
+                LIMIT #{offset}, #{pageSize};
+            </when>
+            <when test='option == "A"'>
+                SELECT board.*, user_info.nickname
+                FROM board
+                INNER JOIN user_info ON board.writer = user_info.id
+                WHERE board.type = #{type} AND (board.title LIKE CONCAT('%',#{keyword},'%') OR board.content LIKE CONCAT('%',#{keyword},'%'))
+                ORDER BY board.reg_date DESC, board.bno DESC
+                LIMIT #{offset}, #{pageSize};
+            </when>
+            <when test='option == "W"'>
+                SELECT board.*, user_info.nickname
+                FROM board
+                INNER JOIN user_info ON board.writer = user_info.id
+                WHERE board.type = #{type} AND user_info.nickname LIKE CONCAT('%',#{keyword},'%')
+                ORDER BY board.reg_date DESC, board.bno DESC
+                LIMIT #{offset}, #{pageSize};
+            </when>
+            <otherwise>
+                SELECT board.*, user_info.nickname
+                FROM board
+                INNER JOIN user_info ON board.writer = user_info.id
+                WHERE board.type = #{type}
+                ORDER BY board.reg_date DESC, board.bno DESC
+                LIMIT #{offset}, #{pageSize};
+            </otherwise>
+        </choose>
+    </select>
+
     <select id="countSearchPage" resultType="int" parameterType="SearchCondition">
         <choose>
             <when test='option == "T"'>

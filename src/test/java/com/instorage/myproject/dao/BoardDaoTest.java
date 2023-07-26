@@ -21,6 +21,14 @@ public class BoardDaoTest extends TestCase {
     BoardDao boardDao;
     @Autowired
     CommentDao commentDao;
+
+    @Test
+    public void testDate() throws Exception{
+        for(int i=1;i<=100;i++){
+            BoardDto boardDto = new BoardDto("silver","wjddbs9350",i+"title","content");
+            boardDao.insertBoard(boardDto);
+        }
+    }
     @Test
     public void testCount() throws Exception{
         boardDao.deleteAllBoard();

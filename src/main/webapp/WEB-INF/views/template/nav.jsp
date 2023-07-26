@@ -16,7 +16,7 @@
         $('#nav').append('<a href="/instorage/board/list?type=watching"><i class="fa-solid fa-brush"></i>  시각디자인과</a><br/>');
         $('#nav').append('<a href="/instorage/board/list?type=multi"><i class="fa-solid fa-brush"></i>  멀티미디어디자인학과</a><br/>');
         $('#nav').append('<a href="/instorage/board/list?type=webtoon"><i class="fa-solid fa-pen-nib"></i>  웹툰만화창작학과</a><br/>');
-        $('#nav').append('<a href="/instorage/board/list?type=vr"><i class="fa-solid fa-vr-cardboard"></i>  VR콘텐츠디자인학과</a><br/>');
+        $('#nav').append('<a href="/instorage/board/list?type=vr"><i class="fa-solid fa-gamepad"></i>  게임&VR콘텐츠디자인학과</a><br/>');
     }else if(mode === "auditorium"){
         $('#nav').append('<a href="/instorage/board/list?type=auditorium"><i class="fa-solid fa-church"></i>  교회</a><br/>');
     }else if(mode === "virtue"){

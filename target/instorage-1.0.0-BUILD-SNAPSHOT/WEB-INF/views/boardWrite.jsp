@@ -18,6 +18,8 @@
 <jsp:include page="template/nav.jsp"/>
 <article>
 <h1>이곳은 ${mode == "edit" ? "edit" : "write"}입니다.</h1>
+    <h1>${mode}</h1>
+    <h1>${formUrl}</h1>
 <form action="${formUrl}" method="post">
     <input type="text" name="type" value="${param.type}">
     <input type="number" placeholder="bno" name="bno" value="${boardDto.bno}">

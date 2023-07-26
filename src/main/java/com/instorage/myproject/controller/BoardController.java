@@ -32,7 +32,7 @@ public class BoardController {
     @GetMapping(value="/list")
     public String boardList(SearchCondition sc, HttpServletRequest request,RedirectAttributes rda,Model m){
         if(sc.getPage() == null) sc.setPage(1);
-        if(sc.getPageSize() == null) sc.setPageSize(10);
+        if(sc.getPageSize() == null) sc.setPageSize(30);
         if(sc.getType() == null || "".equals(sc.getType())){
             rda.addFlashAttribute("error","게시판에 접근할수 없습니다.");
             return "redirect:/";
@@ -46,6 +46,7 @@ public class BoardController {
             return "redirect:/";
         }
         String nav = navCheck(sc.getType());
+        String title = titleCheck(sc.getType());
         try{
             int totalSize=boardService.countSearchPage(sc);
             PageHandler ph = new PageHandler(totalSize,sc);
@@ -55,6 +56,7 @@ public class BoardController {
             m.addAttribute("ph",ph);
             m.addAttribute("nav",nav);
             m.addAttribute("nickName",nickName);
+            m.addAttribute("title",title);
             return "boardList";
         }catch(Exception e){
             e.printStackTrace();
@@ -69,6 +71,10 @@ public class BoardController {
     @GetMapping(value="/remove")
     public String boardRemove(String type,Integer bno, Integer page, Integer pageSize,HttpSession session,RedirectAttributes rda){
         String id =(String)session.getAttribute("id");
+        if(id == null || "".equals(id)){
+            rda.addFlashAttribute("error","로그인 해야 대나무숲에 접근할수 있습니다!");
+            return "redirect:/";
+        }
         if(type == null || "".equals(type)){
             rda.addFlashAttribute("error","게시판에 접근할수 없습니다.");
             return "redirect:/";
@@ -88,7 +94,7 @@ public class BoardController {
                 rda.addFlashAttribute("msg","삭제성공");
             }else{
                 uri = "redirect:/board/read?type="+type+"&bno=" + bno + "&page=" + page + "&pageSize=" + pageSize;
-                rda.addFlashAttribute("msg","게시물을 삭제할수 없습니다.");
+                rda.addFlashAttribute("msg","게시물은 작성자만 삭제할수 있습니다.");
             }
         }catch(Exception e) {
             e.printStackTrace();
@@ -102,12 +108,15 @@ public class BoardController {
     // 특정 게시물 읽어오기
     @GetMapping(value="/read")
     public String boardRead(String type,Integer bno,Integer page,Integer pageSize,RedirectAttributes rda,Model m,HttpSession session){
+        String id = (String)session.getAttribute("id");
+        if(id == null || "".equals(id)){
+            rda.addFlashAttribute("error","로그인 해야 대나무숲에 접근할수 있습니다!");
+        }
         if(type == null || "".equals(type)){
             rda.addFlashAttribute("error","페이지에 접근할수 없습니다.");
             return "redirect:/";
         }
         String nav = navCheck(type);
-        String id = (String)session.getAttribute("id");
         try{
             boolean answer = boardService.checkBoardByBno(bno);
             if(!answer){
@@ -134,22 +143,30 @@ public class BoardController {
     // ********************************************************************
     // 게시물 작성하기
     @GetMapping(value="/write")
-    public String boardWriteGet(String type,Integer page,Integer pageSize,RedirectAttributes rda){
+    public String boardWriteGet(String type,Integer page,Integer pageSize,RedirectAttributes rda,HttpSession session){
+        String id = (String)session.getAttribute("id");
+        System.out.println(id);
+        if(id == null || "".equals(id)){
+            rda.addFlashAttribute("error","로그인 해야 대나무숲에 접근할수 있습니다!");
+            return "redirect:/";
+        }
         if(pageSize == null) pageSize = 10;
-        if(type == null){
+        if(type == null || "".equals(type)){
             rda.addFlashAttribute("error","페이지에 접근할수 없습니다.");
             return "redirect:/";
         }
         return "boardWrite";
     }
+    //왜 boardDto로 한번에 받는게 안 되지...?edit에서는 됐는데
     @PostMapping(value="/write")
-    public String boardWritePost(String type,String title,String content,Integer page,Integer pageSize,HttpSession session,RedirectAttributes rda){
+    public String boardWritePost(String type,String title,String content,Integer page,Integer pageSize,HttpSession session,RedirectAttributes rda,Model m){
         String writer = (String)session.getAttribute("id");
-        BoardDto boardDto = new BoardDto(type,writer,title,content);
         if(type == null || "".equals(type)){
             rda.addFlashAttribute("error","게시물 등록에 실패했습니다.");
             return "redirect:/";
         }
+        BoardDto boardDto = new BoardDto(type,writer,title,content);
+        boardDto.setWriter(writer);
         try{
             boardService.writeBoard(boardDto);
             String uri="redirect:/board/list?type="+type+"&pageSize="+pageSize;
@@ -157,7 +174,7 @@ public class BoardController {
         }catch(Exception e){
             e.printStackTrace();
             rda.addFlashAttribute("error","게시물 등록에 실패했습니다.다시 시도해주세요.");
-            rda.addAttribute("boardDto",boardDto);
+            m.addAttribute("boardDto",boardDto);
             String uri = "forward:/board/write?type="+type+"&page="+page+"&pageSize="+pageSize;
             return uri;
         }
@@ -165,7 +182,15 @@ public class BoardController {
     // *************************************************************************
     // 게시물 수정하기
     @GetMapping(value="/edit")
-    public String boardEditGet(String type,Integer bno,String page,String pageSize,RedirectAttributes rda,Model m){
+    public String boardEditGet(String type,Integer bno,String page,String pageSize,HttpSession session,RedirectAttributes rda,Model m){
+        String id = (String)session.getAttribute("id");
+        if(id == null || "".equals(id)){
+            rda.addFlashAttribute("error","로그인 해야 대나무숲에 접근할수 있습니다!");
+        }
+        if(type == null || "".equals(type)){
+            rda.addFlashAttribute("error","페이지에 접근할수 없습니다.");
+            return "redirect:/";
+        }
         String nav=navCheck(type);
         try{
             boolean answer = boardService.checkBoardByBno(bno);
@@ -244,5 +269,64 @@ public class BoardController {
              return "yenji";
          }
          return "error";
+    }
+    private String titleCheck(String type) {
+        if (type.equals("silver")) return "은봉관";
+        if (type.equals("english")) return "비즈니스영어과";
+        if (type.equals("secretary")) return "비서학과";
+        if (type.equals("tour")) return "관광서비스경영학과";
+        if (type.equals("china")) return "비즈니스중국어과";
+        if (type.equals("japan")) return "비즈니스일본어과";
+        if (type.equals("money")) return "세무회계학과";
+        if (type.equals("watching")) return "시각디자인과";
+        if (type.equals("multi")) return "멀티미디어디자인학과";
+        if (type.equals("webtoon")) return "웹툰만화창작학과";
+        if (type.equals("vr")) return "VR콘텐츠디자인학과";
+
+        if (type.equals("auditorium")) return "교회";
+
+        if (type.equals("virtue")) return "덕관";
+        if (type.equals("architecture")) return "건축학과";
+        if (type.equals("wood")) return "토목공학과";
+        if (type.equals("safety")) return "건설안전공학과";
+        if (type.equals("inner")) return "실내건축과";
+
+        if (type.equals("person")) return "인관";
+        if (type.equals("industry")) return "산업경영공학과";
+        if (type.equals("software")) return "컴퓨터소프트웨어학과";
+        if (type.equals("jewelry")) return "주얼리디자인학과";
+        if (type.equals("ceramic")) return "리빙세라믹디자인학과";
+        if (type.equals("human")) return "휴먼사회복지학과";
+
+        if (type.equals("kinggod")) return "제1공학관";
+        if (type.equals("kinggodgod")) return "융합기계공학과";
+        if (type.equals("car")) return "기계자동차학과";
+
+        if (type.equals("library")) return "도서관";
+
+        if (type.equals("engineering")) return "제2공학관";
+        if (type.equals("computer")) return "컴퓨터전자공학과";
+        if (type.equals("mecha")) return "메카트로닉스공학과";
+        if (type.equals("broadcast")) return "방송영상미디어학과";
+        if (type.equals("information")) return "정보통신공학과";
+        if (type.equals("air")) return "글로벌항공서비스학과";
+
+        if (type.equals("welfare")) return "학생행복스퀘어";
+
+        if (type.equals("formative")) return "조형관";
+        if (type.equals("digital")) return "디지털산업디자인학과";
+        if (type.equals("influencer")) return "방송연예과";
+        if (type.equals("beauty")) return "방송뷰티과";
+        if (type.equals("city")) return "도시디자인학과";
+
+        if (type.equals("playground")) return "운동장";
+
+        if (type.equals("yenji")) return "연지스퀘어";
+        if (type.equals("gym")) return "헬스장";
+        if (type.equals("stationery")) return "문구점";
+        if (type.equals("printer")) return "프린터";
+        if(type.equals("foodcourt")) return "학생식당";
+
+        return "error";
     }
 }

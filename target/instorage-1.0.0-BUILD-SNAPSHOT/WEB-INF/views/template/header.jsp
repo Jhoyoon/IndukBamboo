@@ -19,7 +19,7 @@
                     <button class="button"><i class="fa-solid fa-right-to-bracket"></i> 로그인</button>
                 </form>
                     <div id="header_right_a">
-                        <a class="button" href="<c:url value="/register"/>"><i class="fa-solid fa-right-to-bracket"></i>  회원가입</a>
+                        <a class="button" id="header_reg" href="<c:url value="/register"/>"><i class="fa-solid fa-right-to-bracket"></i>  회원가입</a>
                     </div>
 
 
