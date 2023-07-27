@@ -28,9 +28,13 @@
         <c:when test="${sessionScope.id != null}">
             <div id="header_right_login">
                 <span>${nickName}</span>
-                <a class="button" href="<c:url value="/"/>">마이페이지</a>
-                <a class="button" href="<c:url value="/login/logout"/>">로그아웃</a>
-            </div>
+                <div id="myPage_div">
+                <a class="button" href="<c:url value="/"/>"><i class="fa-solid fa-house-user"></i> 마이페이지</a>
+                </div>
+                <div id="logout_div">
+                <a class="button" href="<c:url value="/login/logout"/>"><i class="fa-solid fa-right-from-bracket"></i> 로그아웃</a>
+                </div>
+                </div>
         </c:when>
     </c:choose>
     </div>

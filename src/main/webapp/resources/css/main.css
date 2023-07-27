@@ -5,6 +5,8 @@
 @import url("components/boardList.css");
 :root {
     --main-color: rgb(117,44,58);
+    --border-color:rgb(14,134,21);
+    --boder-color-a:rgba(14,134,21,0.1);
 }
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,

@@ -23,8 +23,8 @@ public class BoardDaoTest extends TestCase {
     CommentDao commentDao;
 
     @Test
-    public void testDate() throws Exception{
-        for(int i=1;i<=100;i++){
+    public void testData() throws Exception{
+        for(int i=1;i<=1000;i++){
             BoardDto boardDto = new BoardDto("silver","wjddbs9350",i+"title","content");
             boardDao.insertBoard(boardDto);
         }

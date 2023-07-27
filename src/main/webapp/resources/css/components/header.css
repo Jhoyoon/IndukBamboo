@@ -2,7 +2,7 @@
     display:flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 10px 20px 10px;
+    padding: 30px 10px 20px 10px;
     margin-bottom: 20px;
     border-style: solid;
     border-bottom-color: var(--main-color);
@@ -38,22 +38,39 @@
     font-size: 12px;
 
 }
-.button:hover{
+.button:hover {
+    transform: scale(1.05);
+}
+#button_logout:hover{
+    scale:105%;
+}
+#button_mypage:hover{
     scale:105%;
 }
 #header_right_a{
     align-self: center;
     padding-bottom: 5px;
 }
-
+#header_right_login{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 #header_right_login > span{
     font-size: 24px;
     margin-right: 20px;
     font-weight: 500;
 }
-#header_right_login > a:first-of-type{
-    margin-right: 10px;
-}
+
 #header_reg{
     display: block;
+}
+#myPage_div{
+    margin-right: 5px;
+}
+#myPage_div:hover{
+    scale:105%;
+}
+#logout_div:hover{
+    scale:105%;
 }

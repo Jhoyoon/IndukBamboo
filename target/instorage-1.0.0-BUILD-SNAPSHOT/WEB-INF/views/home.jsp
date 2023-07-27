@@ -16,7 +16,7 @@
 <jsp:include page="template/header.jsp" />
 	<article>
 		<a href="<c:url value="/board/list?type=silver"/>">은봉관</a>
-		<a href="<c:url value="/board/list?type=auditorium"/>">강당</a>
+		<a href="<c:url value="/board/list?type=auditorium"/>">교회</a>
 		<a href="<c:url value="/board/list?type=virtue"/>">덕관</a>
 		<a href="<c:url value="/board/list?type=person"/>">인관</a>
 		<a href="<c:url value="/board/list?type=kinggod"/>">제1공학관</a>
