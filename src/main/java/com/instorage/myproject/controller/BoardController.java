@@ -52,6 +52,8 @@ public class BoardController {
             PageHandler ph = new PageHandler(totalSize,sc);
             List<BoardDto> list =boardService.selectSearchPage(sc);
             String nickName=userService.readUserById(id).getNickname();
+            System.out.println("size="+list.size());
+            if(list.size() == 0) m.addAttribute("none","*게시물이 없습니다*");
             m.addAttribute("list",list);
             m.addAttribute("ph",ph);
             m.addAttribute("nav",nav);
@@ -91,10 +93,10 @@ public class BoardController {
             int answer = boardService.removeBoardByBnoAndWriter(bno,id);
             if(answer==1){
                 uri = "redirect:/board/list?type="+type+"&page=" + page + "&pageSize=" + pageSize ;
-                rda.addFlashAttribute("msg","삭제성공");
+                rda.addFlashAttribute("error","삭제성공");
             }else{
                 uri = "redirect:/board/read?type="+type+"&bno=" + bno + "&page=" + page + "&pageSize=" + pageSize;
-                rda.addFlashAttribute("msg","게시물은 작성자만 삭제할수 있습니다.");
+                rda.addFlashAttribute("error","게시물은 작성자만 삭제할수 있습니다.");
             }
         }catch(Exception e) {
             e.printStackTrace();
@@ -117,6 +119,7 @@ public class BoardController {
             return "redirect:/";
         }
         String nav = navCheck(type);
+        String title = titleCheck(type);
         try{
             boolean answer = boardService.checkBoardByBno(bno);
             if(!answer){
@@ -126,12 +129,13 @@ public class BoardController {
             }
             BoardDto boardDto = boardService.readBoardByBno(bno);
             boardService.increaseViewCntByBno(bno);
-            String nickName=userService.readUserById(id).getNickname();
+            String nickname=userService.readUserById(id).getNickname();
             m.addAttribute("page",page);
             m.addAttribute("pageSize",pageSize);
             m.addAttribute("board",boardDto);
             m.addAttribute("nav",nav);
-            m.addAttribute("nickName",nickName);
+            m.addAttribute("nickname",nickname);
+            m.addAttribute("title",title);
             return "boardRead";
         }catch(Exception e){
             e.printStackTrace();
@@ -143,9 +147,8 @@ public class BoardController {
     // ********************************************************************
     // 게시물 작성하기
     @GetMapping(value="/write")
-    public String boardWriteGet(String type,Integer page,Integer pageSize,RedirectAttributes rda,HttpSession session){
+    public String boardWriteGet(String type,Integer page,Integer pageSize,RedirectAttributes rda,Model m,HttpSession session){
         String id = (String)session.getAttribute("id");
-        System.out.println(id);
         if(id == null || "".equals(id)){
             rda.addFlashAttribute("error","로그인 해야 대나무숲에 접근할수 있습니다!");
             return "redirect:/";
@@ -155,6 +158,10 @@ public class BoardController {
             rda.addFlashAttribute("error","페이지에 접근할수 없습니다.");
             return "redirect:/";
         }
+        String nav =navCheck(type);
+        String title = titleCheck(type);
+        m.addAttribute("nav",nav);
+        m.addAttribute("title",title);
         return "boardWrite";
     }
     //왜 boardDto로 한번에 받는게 안 되지...?edit에서는 됐는데
@@ -167,6 +174,16 @@ public class BoardController {
         }
         BoardDto boardDto = new BoardDto(type,writer,title,content);
         boardDto.setWriter(writer);
+        if(title == null || "".equals(title)){
+            rda.addFlashAttribute("error","제목을 입력해주세요!");
+            String uri = "redirect:/board/write?type="+type+"&page="+page+"&pageSize="+pageSize;
+            return uri;
+        }
+        if(content == null || "".equals(content)) {
+            rda.addFlashAttribute("error", "내용을 입력해주세요!");
+            String uri = "redirect:/board/write?type=" + type + "&page=" + page + "&pageSize=" + pageSize;
+            return uri;
+        }
         try{
             boardService.writeBoard(boardDto);
             String uri="redirect:/board/list?type="+type+"&pageSize="+pageSize;
@@ -174,8 +191,7 @@ public class BoardController {
         }catch(Exception e){
             e.printStackTrace();
             rda.addFlashAttribute("error","게시물 등록에 실패했습니다.다시 시도해주세요.");
-            m.addAttribute("boardDto",boardDto);
-            String uri = "forward:/board/write?type="+type+"&page="+page+"&pageSize="+pageSize;
+            String uri = "redirect:/board/write?type="+type+"&page="+page+"&pageSize="+pageSize;
             return uri;
         }
     }
@@ -281,7 +297,7 @@ public class BoardController {
         if (type.equals("watching")) return "시각디자인과";
         if (type.equals("multi")) return "멀티미디어디자인학과";
         if (type.equals("webtoon")) return "웹툰만화창작학과";
-        if (type.equals("vr")) return "VR콘텐츠디자인학과";
+        if (type.equals("vr")) return "게임&VR콘텐츠디자인학과";
 
         if (type.equals("auditorium")) return "교회";
 

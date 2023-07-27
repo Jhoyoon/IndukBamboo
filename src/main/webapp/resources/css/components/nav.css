@@ -3,6 +3,7 @@
     margin-right:20px;
     border-right: 2px solid var(--main-color);
     margin-top:-20px;
+    width:270px;
 }
 #nav > div >a{
     display: inline-block;

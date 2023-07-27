@@ -80,16 +80,28 @@
     <select id="countSearchPage" resultType="int" parameterType="SearchCondition">
         <choose>
             <when test='option == "T"'>
-                select count(*) from board where type = #{type} and title like concat('%',#{keyword},'%');
+                select count(*)
+                from board
+                inner join user_info on board.writer = user_info.id
+                where board.type = #{type} and board.title like concat('%',#{keyword},'%');
             </when>
             <when test='option == "A"'>
-                select count(*) from board where type = #{type} and (title like concat('%',#{keyword},'%') or content like concat('%',#{keyword},'%'));
+                select count(*)
+                from board
+                inner join user_info on board.writer = user_info.id
+                where board.type = #{type} and (board.title like concat('%',#{keyword},'%') or board.content like concat('%',#{keyword},'%'));
             </when>
             <when test='option == "W"'>
-                select count(*) from board where type = #{type} and writer like concat('%',#{keyword},'%');
+                select count(*)
+                from board
+                inner join user_info on board.writer = user_info.id
+                where board.type = #{type} and user_info.nickname like concat('%',#{keyword},'%');
             </when>
             <otherwise>
-                select count(*) from board where type = #{type};
+                select count(*)
+                from board
+                inner join user_info on board.writer = user_info.id
+                where board.type = #{type};
             </otherwise>
         </choose>
     </select>

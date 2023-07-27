@@ -15,21 +15,75 @@
 </head>
 <body>
 <jsp:include page="template/header.jsp" />
+<div class="body_div">
 <jsp:include page="template/nav.jsp"/>
-<article>
-<h1>이곳은 ${mode == "edit" ? "edit" : "write"}입니다.</h1>
-    <h1>${mode}</h1>
-    <h1>${formUrl}</h1>
-<form action="${formUrl}" method="post">
-    <input type="text" name="type" value="${param.type}">
-    <input type="number" placeholder="bno" name="bno" value="${boardDto.bno}">
-    <input type="text" placeholder="title" name="title" value="${boardDto.title}" >
-    <input type="text" placeholder="content" name="content" value="${boardDto.content}">
-    <input type="number" placeholder="pageSize" name="pageSize" value="${param.pageSize}">
-    <input type="page" placeholder="page" name="page" value="${param.page}">
-    <button>작성</button>
-</form>
+<article id="write_article">
+    <div class="title" id="write_out_title">${title} 대나무숲</div>
+    <div id="write_article_div">
+    <form id="write_form" action="${formUrl}" method="post">
+        <h1>제목</h1>
+        <input  id="input_title" type="text" placeholder="제목은 최대 100자입니다." name="title" value="${boardDto.title}" >
+        <h1>내용</h1>
+        <textarea id="input_content" name="content">${boardDto.content}</textarea>
+        <input readonly class="write_input_none" type="number" placeholder="pageSize" name="pageSize" value="${param.pageSize}">
+        <input readonly class="write_input_none" type="page" placeholder="page" name="page" value="${param.page}">
+        <input readonly class="write_input_none" type="text" name="type" value="${param.type}">
+        <input readonly class="write_input_none" type="number" placeholder="bno" name="bno" value="${boardDto.bno}">
+        <div id="button_div">
+            <button>작성</button>
+        </div>
+    </form>
+    </div>
 </article>
+</div>
 <jsp:include page="template/footer.jsp" />
+<div id="error">
+    <p>${error}</p>
+    <p>닫기</p>
+</div>
+<script>
+    $(document).ready(function(){
+        includeError();
+        removeError();
+    });
+    let includeError = function (){
+        if("${error}" !== undefined && "${error}" !== null && "${error}" !== ""){
+            $("#error").css("display","flex");
+        }
+    }
+    let removeError = function (){
+        $("#error p:last-child").click(function(){
+            $("#error").css("display", "none");
+        });
+    }
+    $("#button_div button").click(function(e){
+        e.preventDefault();
+        if (titleCheck() && contentCheck()) {
+            $("#write_form").submit();
+        }
+    })
+    function titleCheck(){
+        let title = $("#input_title").val();
+        if(title.length == 0){
+            $("#error").css("display","flex");
+            $("#error p:first-child").html("제목을 입력해 주세요!");
+            return false;
+        }else if(title.length >= 100){
+            $("#error").css("display","flex");
+            $("#error p:first-child").html("제목은 최대 100글자 입력 가능합니다.");
+            return false;
+        }
+        return true;
+    }
+    function contentCheck(){
+        let content = $("#input_content").val();
+        if(content.length == 0){
+            $("#error").css("display","flex");
+            $("#error p:first-child").html("내용을 입력해 주세요!");
+            return false;
+        }
+        return true;
+    }
+</script>
 </body>
 </html>

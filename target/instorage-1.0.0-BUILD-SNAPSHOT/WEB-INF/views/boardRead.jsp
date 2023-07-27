@@ -14,32 +14,54 @@
 </head>
 <body>
 <jsp:include page="template/header.jsp" />
-<div id="body_div">
+<div class="body_div" >
 <jsp:include page="template/nav.jsp"/>
-<c:if test="${not empty msg}">
-  <span>${msg}</span>
-</c:if>
+<article>
+  <div class="title">
+    ${title} 대나무숲
+  </div>
+  <div id="read_board">
+    <div id="board_title_update_remove">
+      <div id="board_title">
+        ${board.title}
+      </div>
+      <div id="update_remove">
+        <div id="update_a">
+          <a href="<c:url value="/board/edit?type=${param.type}&bno=${board.bno}&page=${page}&pageSize=${pageSize}"/>">수정</a>
+        </div>
+        <div id="remove_a">
+          <a href="<c:url value="/board/remove?type=${param.type}&bno=${board.bno}&page=${page}&pageSize=${pageSize}"/>">삭제</a>
+        </div>
+      </div>
+    </div>
+    <div id="board_nickname_time_view_commentcnt">
+      <div id="nickname_time">
+        <div id="nickname">${nickname}</div>
+        <div id="reg_date">${board.reg_date}</div>
+      </div>
+      <div id="view_commentcnt">
+        <div id="view_cnt">조회수 ${board.view_cnt}</div>
+        <div id="comment_cnt">댓글  ${board.comment_cnt}</div>
+      </div>
+    </div>
+    <div id="board_content">
+      <h1>${board.content}</h1>
+    </div>
 
-<span>${board.title}</span>
-<span>${board.writer}</span>
-<textarea readonly>${board.content}</textarea>
-<span>${board.reg_date}</span>
-<span>${board.view_cnt}</span>
-<span><a href="<c:url value="/board/list?type=${param.type}&page=${page}&pageSize=${pageSize}"/>">목록</a></span>
-<c:if test="${board.writer == sessionScope.id}">
-  <span><a href="<c:url value="/board/remove?type=${param.type}&bno=${board.bno}&page=${page}&pageSize=${pageSize}"/>">삭제</a></span>
-</c:if>
-<c:if test="${board.writer == sessionScope.id}">
-  <span><a href="<c:url value="/board/edit?type=${param.type}&bno=${board.bno}&page=${page}&pageSize=${pageSize}"/>">수정</a></span>
-</c:if>
-<br>
-<button id="sendBtn" type="button">SEND</button>
-<input name="comment" id="comment">
-<h3 id="commentTest"></h3>
-<div id="replyBox" style="display: none">
-  <input id="replyInput" name="replyInput">
-  <button id="replySendBtn">저장</button>
-</div>
+    <div id="comment_send">
+      <textarea name="comment" id="comment"></textarea>
+      <button id="sendBtn" type="button">SEND</button>
+    </div>
+    <h3 id="commentTest"></h3>
+    <div id="replyBox" style="display: none">
+    <input id="replyInput" name="replyInput">
+    <button id="replySendBtn">저장</button>
+    </div>
+  </div>
+</article>
+<div id="error">
+  <p>${error}</p>
+  <p>닫기</p>
 </div>
 <%--<jsp:include page="template/footer.jsp" />--%>
 <script>

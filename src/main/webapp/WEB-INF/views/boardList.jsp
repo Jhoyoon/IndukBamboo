@@ -14,10 +14,10 @@
 </head>
 <body>
 <jsp:include page="template/header.jsp" />
-<div id="body_div">
+<div class="body_div">
 <jsp:include page="template/nav.jsp"/>
 <article>
-  <div id="title">${title} 대나무숲</div>
+  <div class="title">${title} 대나무숲</div>
   <div id="write_div">
     <div id="write_div_a">
   <a id="list_write" href="<c:url value="/board/write?type=${param.type}&page=${ph.sc.page}&pageSize=${ph.sc.pageSize}"/>">게시글 작성</a>
@@ -73,14 +73,25 @@
       <option value="W">작성자</option>
     </select>
     <input class="pageSize_none" type="text" name="type" value="${param.type}">
-    <input type="text" name="keyword" placeholder="검색 내용을 입력해주세요." value="${ph.sc.keyword}">
+      <input class="pageSize_none" name="pageSize" value="${ph.sc.pageSize}">
+    <input id="search_keyword" type="text" name="keyword" ${ph.sc.keyword == "" ? "": "autofocus"} placeholder="검색 내용을 입력해주세요." value="${ph.sc.keyword}">
     <button id="search_button"><i class="fa-solid fa-magnifying-glass"></i></button>
   </form:form>
   </div>
 </article>
 </div>
+<div id="error">
+  <p>${error}</p>
+  <p>닫기</p>
+</div>
 <script>
   $(document).ready(function() {
+    if ($('#search_keyword').attr('autofocus')){
+      let inputValue = $("#search_keyword").val();
+      $("#search_keyword").focus().val("").val(inputValue);
+    }
+    includeError();
+    removeError();
     let pageSize = "${param.pageSize}";
     $("select[name='pageSize'] option[value='" + pageSize + "']").attr('selected', 'selected');
     let option = "${ph.sc.option}";
@@ -101,7 +112,22 @@
     $("select[name='pageSize']").change(function() {
       $(this).closest('form').submit();
     });
+
+    let none = "${none}";
+    if(!(none.length === 0)){
+      $("#up").after("<tr><td></td><td id='list_none'>"+none+"</td></tr>");
+    }
   });
+  let includeError = function (){
+    if("${error}" !== undefined && "${error}" !== null && "${error}" !== ""){
+      $("#error").css("display","flex");
+    }
+  }
+  let removeError = function (){
+    $("#error p:last-child").click(function(){
+      $("#error").css("display", "none");
+    });
+  }
 </script>
 <jsp:include page="template/footer.jsp" />
 </body>
