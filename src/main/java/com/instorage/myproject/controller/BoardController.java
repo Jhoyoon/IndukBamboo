@@ -85,11 +85,17 @@ public class BoardController {
         try{
             boolean check = boardService.checkBoardByBno(bno);
             if(!check){
-                uri = "redirect:/board/list?"+"page=" + page + "&pageSize=" + pageSize;
-                rda.addFlashAttribute("msg","게시물이 존재하지 않습니다.");
+                uri = "redirect:/board/list?type="+type+"&page=" + page + "&pageSize=" + pageSize;
+                rda.addFlashAttribute("error","게시물이 존재하지 않습니다.");
                 return uri;
             }
-
+            BoardDto boardDto = boardService.readBoardByBno(bno);
+            String writer = boardDto.getWriter();
+            if(!(writer.equals(id))){
+                uri = "redirect:/board/list?type="+type+"&page=" + page + "&pageSize=" + pageSize;
+                rda.addFlashAttribute("error","게시물은 작성자만 삭제할수 있습니다.");
+                return uri;
+            }
             int answer = boardService.removeBoardByBnoAndWriter(bno,id);
             if(answer==1){
                 uri = "redirect:/board/list?type="+type+"&page=" + page + "&pageSize=" + pageSize ;
@@ -101,7 +107,7 @@ public class BoardController {
         }catch(Exception e) {
             e.printStackTrace();
             uri = "redirect:/board/read?type="+type+"&bno=" + bno + "&page=" + page + "&pageSize=" + pageSize;
-            rda.addFlashAttribute("msg","게시물을 삭제할수 없습니다.");
+            rda.addFlashAttribute("error","게시물을 삭제할수 없습니다.");
             return uri;
         }
         return uri;
@@ -113,6 +119,7 @@ public class BoardController {
         String id = (String)session.getAttribute("id");
         if(id == null || "".equals(id)){
             rda.addFlashAttribute("error","로그인 해야 대나무숲에 접근할수 있습니다!");
+            return "redirect:/";
         }
         if(type == null || "".equals(type)){
             rda.addFlashAttribute("error","페이지에 접근할수 없습니다.");
@@ -128,8 +135,12 @@ public class BoardController {
                 return uri;
             }
             BoardDto boardDto = boardService.readBoardByBno(bno);
+            String originalContent = boardDto.getContent();
+            String convertedContent = originalContent.replace("\n","<br>");
+            boardDto.setContent(convertedContent);
+            System.out.println("read= "+boardDto.getContent());
             boardService.increaseViewCntByBno(bno);
-            String nickname=userService.readUserById(id).getNickname();
+            String nickname = userService.readUserById(boardDto.getWriter()).getNickname();
             m.addAttribute("page",page);
             m.addAttribute("pageSize",pageSize);
             m.addAttribute("board",boardDto);
@@ -172,6 +183,7 @@ public class BoardController {
             rda.addFlashAttribute("error","게시물 등록에 실패했습니다.");
             return "redirect:/";
         }
+
         BoardDto boardDto = new BoardDto(type,writer,title,content);
         boardDto.setWriter(writer);
         if(title == null || "".equals(title)){
@@ -207,19 +219,29 @@ public class BoardController {
             rda.addFlashAttribute("error","페이지에 접근할수 없습니다.");
             return "redirect:/";
         }
-        String nav=navCheck(type);
+        String nav = navCheck(type);
+        String title=  titleCheck(type);
         try{
             boolean answer = boardService.checkBoardByBno(bno);
             if(!answer){
-                String uri = "redirect:/board/list?page="+page+"&pageSize="+pageSize;
+                String uri = "redirect:/board/list?type="+type+"&page="+page+"&pageSize="+pageSize;
                 rda.addFlashAttribute("error","게시물이 존재하지 않습니다.");
                 return uri;
             }
             BoardDto boardDto = boardService.readBoardByBno(bno);
+
+            String writer = boardDto.getWriter();
+            if(!(id.equals(writer))){
+                String uri = "redirect:/board/list?type="+type+"&page="+page+"&pageSize="+pageSize;
+                rda.addFlashAttribute("error","게시물은 작성자만 수정할수 있습니다.");
+                return uri;
+            }
+
             m.addAttribute("mode","edit");
             m.addAttribute("boardDto",boardDto);
             m.addAttribute("pageSize",pageSize);
             m.addAttribute("nav",nav);
+            m.addAttribute("title",title);
             //throw new Exception("test");
             return "boardWrite";
         }catch(Exception e){
@@ -241,8 +263,14 @@ public class BoardController {
         try{
             boolean answer = boardService.checkBoardByBno(boardDto.getBno());
             if(!answer){
-                String uri = "redirect:/board/list?pageSize="+pageSize;
+                String uri = "redirect:/board/list?type="+type+"&page="+page+"&pageSize="+pageSize;
                 rda.addFlashAttribute("error","게시물이 존재하지 않습니다.");
+                return uri;
+            }
+            BoardDto boardDtoServer = boardService.readBoardByBno(boardDto.getBno());
+            if(!(boardDtoServer.getWriter().equals(boardDto.getWriter()))){
+                rda.addFlashAttribute("error","게시물은 작성자만 수정할수 있습니다.");
+                String uri = "redirect:/board/list?type="+type+"&page="+page+"&pageSize="+pageSize;
                 return uri;
             }
             boardService.updateBoard(boardDto);

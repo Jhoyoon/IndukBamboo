@@ -28,10 +28,10 @@
     font-size: 12px;
     border-radius: 7px;
 }
-#update_a:hover{
+#update_a_div:hover{
     scale: 105%;
 }
-#remove_a:hover{
+#remove_a_div:hover{
     scale:105%;
 }
 #board_nickname_time_view_commentcnt{
@@ -65,20 +65,26 @@
 #board_content{
     margin-top: 50px;
     margin-bottom: 50px;
+    padding-bottom: 50px;
+    border-bottom:2px solid var(--border-color);
 }
 #comment{
-    width:1000px;
-    height:50px;
+    width:1140px;
+    height:80px;
     border: 2px solid var(--border-color-a2);
     outline-color: var(--border-color-a8);
 }
 #comment_send{
     display: flex;
     align-items: center;
+    position: fixed;
+    left:292px;
+    bottom:0;
+
 }
 #sendBtn{
-    width:70px;
-    height:50px;
+    width:80px;
+    height:80px;
     background-color: var(--border-color);
     color: white;
     border-radius: 5px;

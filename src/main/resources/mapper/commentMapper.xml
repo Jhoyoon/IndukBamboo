@@ -32,7 +32,7 @@
     </select>
     <!-- 댓글 번호를 통해서 댓글을 하나 가져온다 -->
     <select id="selectCommentByCno" parameterType="int" resultType="CommentDto">
-        SELECT cno, bno, pcno, comment, commenter, reg_date, up_date
+        SELECT cno, bno, pcno, comment, commenter, reg_date
         FROM comment
         WHERE cno = #{cno}
     </select>

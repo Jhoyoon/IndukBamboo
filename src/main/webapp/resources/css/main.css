@@ -5,6 +5,7 @@
 @import url("components/boardList.css");
 @import url("components/boardWrite.css");
 @import url("components/boardRead.css");
+@import url("components/footer.css");
 :root {
     --main-color: rgb(117,44,58);
     --border-color:rgb(14,134,21);
@@ -51,7 +52,7 @@ body {
 }
 #error p:first-child{
     margin-bottom: 20px;
-    font-size: 20px;
+    font-size: 15px;
     font-weight: bold;
 }
 #error > p:nth-child(2):hover{
