@@ -11,6 +11,24 @@ public class CommentDto {
     private String  comment;
     private String  commenter;
     private Date    reg_date;
+    private Integer reply_cnt;
+    private Integer deleted;
+
+    public Integer getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Integer deleted) {
+        this.deleted = deleted;
+    }
+
+    public Integer getReply_cnt() {
+        return reply_cnt;
+    }
+
+    public void setReply_cnt(Integer reply_cnt) {
+        this.reply_cnt = reply_cnt;
+    }
 
     public CommentDto() {}
     public CommentDto(Integer bno,String comment,String commenter){

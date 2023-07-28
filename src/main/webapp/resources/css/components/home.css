@@ -1,0 +1,64 @@
+#map_articel{
+}
+#silver{
+    position: absolute;
+    top:50px;
+    display: block;
+    width:50px;
+    height:50px;
+    background-color: darkgoldenrod;
+}
+#yenji{
+    display: block;
+    width:50px;
+    height:50px;
+    background-color: palegreen;
+}
+#ground{
+    display: block;
+    width:50px;
+    height:50px;
+    background-color: green;
+}
+#virtue{
+    display: block;
+    width:50px;
+    height:50px;
+    background-color: gray;
+}
+#formative{
+    display: block;
+    width:50px;
+    height:50px;
+    background-color: brown;
+}
+#church{
+    display: block;
+    width:50px;
+    height:50px;
+    background-color: blue;
+}
+#person{
+    display: block;
+    width:50px;
+    height:50px;
+    background-color: red;
+}
+#library{
+    display: block;
+    width:50px;
+    height:50px;
+    background-color: aqua;
+}
+#first_engineering{
+    display: block;
+    width:50px;
+    height:50px;
+    background-color: bisque;
+}
+#second_engineering{
+    display: block;
+    width:50px;
+    height:50px;
+    background-color: blueviolet;
+}

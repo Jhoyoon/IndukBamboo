@@ -6,6 +6,7 @@
 @import url("components/boardWrite.css");
 @import url("components/boardRead.css");
 @import url("components/footer.css");
+@import url("components/home.css");
 :root {
     --main-color: rgb(117,44,58);
     --border-color:rgb(14,134,21);

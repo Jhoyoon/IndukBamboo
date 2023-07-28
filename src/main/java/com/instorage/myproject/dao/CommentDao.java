@@ -52,4 +52,13 @@ public class CommentDao {
     public int updateComment(CommentDto dto) throws Exception {
         return session.update(namespace+"updateComment", dto);
     } // int update(String statement, Object parameter)
+    public int deletedByCno(Integer cno) throws Exception{
+        return session.update(namespace+"deletedByCno",cno);
+    }
+    public int plusReplyCntByPcno(Integer pcno,Integer num) throws Exception{
+        Map map = new HashMap();
+        map.put("pcno",pcno);
+        map.put("num",num);
+        return session.update(namespace+"plusReplyCntByPcno",map);
+    }
 }

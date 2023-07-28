@@ -1,5 +1,6 @@
 package com.instorage.myproject.controller;
 
+import com.instorage.myproject.domain.BoardDto;
 import com.instorage.myproject.domain.CommentDto;
 import com.instorage.myproject.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,9 @@ public class CommentController {
     // @ResponseBody = 자바 객체를 json 문자열로 바꿔준다.
     public ResponseEntity<Map<String,String>> write(@RequestBody CommentDto dto, Integer bno, HttpSession session) {
         String commenter = (String)session.getAttribute("id");
-
         dto.setCommenter(commenter);
         dto.setBno(bno);
+
         String originalComment =  dto.getComment();
         String convertedComment = originalComment.replace("\n","<br>");
         dto.setComment(convertedComment);
@@ -41,6 +42,7 @@ public class CommentController {
                     .contentType(MediaType.parseMediaType("application/json;charset=UTF-8"))
                     .body(response);
         } catch (Exception e) {
+            System.out.println("***********************catch블럭 작동*************");
             e.printStackTrace();
             Map<String, String> response = new HashMap<>();
             response.put("res","댓글 작성 실패.다시 시도해 주세요.");
@@ -51,17 +53,32 @@ public class CommentController {
     }
     // delete
     @DeleteMapping(value="/comments/{cno}") // cno는 param으로 넘어오는게 아니라 uri의 일부러 넘어온다.그렇기에 @PageVariable 써야함
-    public HttpEntity<String> delete(@PathVariable Integer cno, Integer bno,HttpSession session){
+    public ResponseEntity<Map<String,String>> delete(@PathVariable Integer cno, Integer bno,HttpSession session){
         String commenter = (String)session.getAttribute("id");
-
+        Map response = new HashMap();
         try{
+            CommentDto commentDto = commentService.readCommentByCno(cno);
+            System.out.println(commentDto.getReply_cnt());
+            if(commentDto.getReply_cnt() != 0){
+                commentService.deletedByCno(cno);
+                response.put("res","댓글 삭제에 성공했습니다.");
+                return ResponseEntity.ok()
+                        .contentType(MediaType.parseMediaType("application/json;charset=UTF-8"))
+                        .body(response);
+            }
             int rowCnt = commentService.removeCommentByCnoAndBnoAndCommenter(cno,bno,commenter);
             if(rowCnt!=1) throw new Exception("delete failed");
+            response.put("res","댓글 삭제에 성공했습니다.");
         }catch (Exception e){
             e.printStackTrace();
-            return new ResponseEntity<String>("delete failed",HttpStatus.BAD_REQUEST);
+            response.put("res","댓글 삭제에 실패했습니다.다시 시도해 주세요.");
+            return ResponseEntity.badRequest()
+                    .contentType(MediaType.parseMediaType("application/json;charset=UTF-8"))
+                    .body(response);
         }
-        return new ResponseEntity<String>("delete ok",HttpStatus.OK);
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("application/json;charset=UTF-8"))
+                .body(response);
     }
 
     // update
@@ -109,3 +126,4 @@ public class CommentController {
                 .body(list);
     }
 }
+

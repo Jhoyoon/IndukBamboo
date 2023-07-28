@@ -69,7 +69,7 @@
     border-bottom:2px solid var(--border-color);
 }
 #comment{
-    width:1140px;
+    width:1120px;
     height:80px;
     border: 2px solid var(--border-color-a2);
     outline-color: var(--border-color-a8);
@@ -77,9 +77,6 @@
 #comment_send{
     display: flex;
     align-items: center;
-    position: fixed;
-    left:292px;
-    bottom:0;
 
 }
 #sendBtn{
@@ -89,4 +86,99 @@
     color: white;
     border-radius: 5px;
 
+}
+#comment_h1{
+    font-weight: bold;
+    font-size: 13px;
+}
+#comment_h1 span{
+    color:red;
+}
+#commentContainer{
+    border-top:2px solid var(--border-color);
+    margin-top: 20px;
+}
+.comment_li{
+    padding:10px;
+    border-bottom: 1px solid var(--border-color-a3);
+}
+.comment_liR{
+    padding:10px 10px 10px 30px;
+    background-color: var(--boder-color-a1);
+    border-bottom: 1px solid var(--border-color-a3);
+}
+.comment_li_commenter{
+    display: flex;
+    justify-content: space-between;
+    padding:10px 0px 20px 0px;
+
+}
+.comment_li_commenter_commenter{
+    font-size: 15px;
+    font-weight: bold;
+}
+.comment_li_comment{
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+.updateBtn{
+    margin-right: 10px;
+}
+.comment_li_reply{
+    display:flex;
+    justify-content: space-between;
+}
+#update_div{
+    display: flex;
+    align-items: center;
+}
+.updateInput{
+    width:1000px;
+    height:80px;
+    border:1px solid var(--border-color-a3);
+    outline-color: var(--border-color);
+}
+.saveBtn{
+    background-color: var(--border-color);
+    padding:10px 5px;
+    color:white;
+    margin:0px 10px 0px 20px;
+    height:80px;
+    width:100px;
+    border-radius: 5px;
+}
+.comment_cancel{
+    background-color: var(--border-color);
+    padding:10px 5px;
+    color:white;
+    height: 80px;
+    width:100px;
+    border-radius: 5px;
+}
+#reply_div{
+    display: flex;
+    align-items: center;
+}
+#replyInput{
+    width:1000px;
+    height:80px;
+    border:1px solid var(--border-color-a3);
+    outline-color: var(--border-color);
+}
+#replySendBtn{
+    background-color: var(--border-color);
+    padding:10px 5px;
+    color:white;
+    margin:0px 10px 0px 20px;
+    height:50px;
+    width:70px;
+    border-radius: 5px;
+}
+#reply_cancel_btn{
+    background-color: var(--border-color);
+    padding:10px 5px;
+    color:white;
+    height: 50px;
+    width:70px;
+    border-radius: 5px;
 }

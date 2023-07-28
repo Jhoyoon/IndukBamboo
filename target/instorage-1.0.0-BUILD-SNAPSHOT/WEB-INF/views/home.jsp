@@ -14,19 +14,18 @@
 <body>
 <div id="grid_container">
 <jsp:include page="template/header.jsp" />
-	<article>
-		<a href="<c:url value="/board/list?type=silver"/>">은봉관</a>
-		<a href="<c:url value="/board/list?type=auditorium"/>">교회</a>
-		<a href="<c:url value="/board/list?type=virtue"/>">덕관</a>
-		<a href="<c:url value="/board/list?type=person"/>">인관</a>
-		<a href="<c:url value="/board/list?type=kinggod"/>">제1공학관</a>
-		<a href="<c:url value="/board/list?type=library"/>">중앙도서관</a>
-		<a href="<c:url value="/board/list?type=engineering"/>">제2공학관</a>
-		<a href="<c:url value="/board/list?type=welfare"/>">학생행복스퀘어</a>
-		<a href="<c:url value="/board/list?type=formative"/>">조형관</a>
-		<a href="<c:url value="/board/list?type=playground"/>">인조잔디구장</a>
-		<a href="<c:url value="/board/list?type=yenji"/>">연지스퀘어</a>
-	</article>
+<article id="map_articel">
+	<a href="<c:url value="/board/list?type=silver"/>" id="silver">은봉관</a>
+	<a href="<c:url value="/board/list?type=yenji"/>" id="yenji">연지스퀘어</a>
+	<a href="<c:url value="/board/list?type=playground"/>" id="ground">운동장</a>
+	<a href="<c:url value="/board/list?type=virtue"/>" id="virtue">덕관</a>
+	<a href="<c:url value="/board/list?type=formative"/>" id="formative">조형관</a>
+	<a href="<c:url value="/board/list?type=auditorium"/>" id="church">교회</a>
+	<a href="<c:url value="/board/list?type=person"/>" id="person">인관</a>
+	<a href="<c:url value="/board/list?type=library"/>" id="library">도서관</a>
+	<a href="<c:url value="/board/list?type=kinggod"/>" id="first_engineering">제1공학관</a>
+	<a href="<c:url value="/board/list?type=engineering"/>" id="second_engineering">제2공학관</a>
+</article>
 <jsp:include page="template/footer.jsp" />
 </div>
 <div id="error">

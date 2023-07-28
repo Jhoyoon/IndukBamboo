@@ -51,6 +51,10 @@ public class CommentService{
     @Transactional(rollbackFor = Exception.class)
     public int writeComment(CommentDto commentDto) throws Exception {
         boardDao.updateCommentCntByBnoAndNum(commentDto.getBno(), 1);
+        // 조상의 댓글 개수를 하나 올려준다 대댓글 작성시
+        if(commentDto.getPcno() != null){
+            commentDao.plusReplyCntByPcno(commentDto.getPcno(),1);
+        }
                 //throw new Exception("test");
         return commentDao.insertComment(commentDto);
     }
@@ -69,5 +73,14 @@ public class CommentService{
 
     public int updateComment(CommentDto commentDto) throws Exception {
         return commentDao.updateComment(commentDto);
+    }
+    //
+    public int deletedByCno(Integer cno) throws Exception{
+        CommentDto commentDto = commentDao.selectCommentByCno(cno);
+        boardDao.updateCommentCntByBnoAndNum(commentDto.getBno(), -1);
+        if(commentDto != null){
+            commentDao.plusReplyCntByPcno(commentDto.getPcno(),-1);
+        }
+        return commentDao.deletedByCno(cno);
     }
 }

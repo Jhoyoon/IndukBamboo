@@ -25,14 +25,14 @@
     </insert>
     <!-- 게시물 번호를 이용해서 특정 게시물의 댓글을 전부 가져온다.과거 댓글부터 정렬 -->
     <select id="selectAllCommentByBnoToList" parameterType="int" resultType="CommentDto">
-        SELECT cno, bno, ifnull(pcno,cno) as pcno, comment, commenter, reg_date
+        SELECT cno, bno, ifnull(pcno,cno) as pcno, comment, commenter, reg_date,reply_cnt,deleted
         FROM comment
         WHERE bno = #{bno}
         ORDER BY pcno asc,cno asc;
     </select>
     <!-- 댓글 번호를 통해서 댓글을 하나 가져온다 -->
     <select id="selectCommentByCno" parameterType="int" resultType="CommentDto">
-        SELECT cno, bno, pcno, comment, commenter, reg_date
+        SELECT cno, bno, pcno, comment, commenter, reg_date,reply_cnt,deleted
         FROM comment
         WHERE cno = #{cno}
     </select>
@@ -42,5 +42,11 @@
         SET comment = #{comment}
           , reg_date = now()
         WHERE cno = #{cno} and commenter = #{commenter}
+    </update>
+    <update id="deletedByCno">
+        update comment set deleted = 0 where cno=#{cno};
+    </update>
+    <update id="plusReplyCntByPcno" parameterType="map">
+        update comment set reply_cnt = reply_cnt + #{num} where cno = #{pcno};
     </update>
 </mapper>
