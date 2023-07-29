@@ -2,7 +2,7 @@ package com.instorage.myproject.controller;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.instorage.myproject.domain.UserDto;
-import com.instorage.myproject.validator.UserValidator;
+
 import com.instorage.myproject.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 #map_back{
     position: absolute;
     top:15%;
-    right:10%;
+    right:5%;
     width:1200px;
     height: 640px;
     background-color:rgb(214,227,242);
@@ -11,7 +11,7 @@
     width:60px;
     height:480px;
     bottom:-5%;
-    right:63%;
+    right:58%;
     background-color: white;
 }
 #road2{
@@ -19,7 +19,7 @@
     width:350px;
     height:30px;
     bottom:59%;
-    left:33%;
+    right:38.9%;
     background-color: white;
 }
 #road3{
@@ -27,23 +27,23 @@
     width:580px;
     height:280px;
     bottom:-5%;
-    left:52%;
+    right:0%;
     background-color: white;
 }
 #map_article{
     width:auto;
     height:100vh;
-
 }
 #map_button{
     position: absolute;
+    top:250px;
     margin-left: 20px;
     background-color: var(--main-color);
     color: white;
-    width:120px;
+    width:100px;
     padding:20px 10px;
     text-align: center;
-    font-size: 18px;
+    font-size: 15px;
     font-weight: bold;
     border-radius: 8px;
 
@@ -54,9 +54,10 @@
 }
 #none_map{
     display: none;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
+    margin-top: 30px;
 }
 #none_map a{
     display: block;
@@ -76,7 +77,7 @@
 #silver{
     position: absolute;
     bottom:66%;
-    right:61%;
+    right:56%;
     display: block;
     width:260px;
     height:80px;
@@ -97,7 +98,7 @@
     height:90px;
     background-color: rgb(245,248,251);
     bottom: 1%;
-    right:73%;
+    right:68%;
     text-align: center;
     line-height: 90px;
     font-size: 20px;
@@ -114,7 +115,7 @@
     background-color: rgb(209,228,191);
     position:absolute;
     bottom:16%;
-    right:73%;
+    right:68%;
     text-align: center;
     line-height: 140px;
     font-size: 20px;
@@ -131,7 +132,7 @@
     background-color: rgb(245,248,251);
     position: absolute;
     bottom:44%;
-    right:73%;
+    right:68%;
     text-align: center;
     line-height: 80px;
     font-size: 20px;
@@ -148,7 +149,7 @@
     background-color:rgb(245,248,251);
     position: absolute;
     bottom:1%;
-    right:50%;
+    right:45%;
     text-align: center;
     line-height: 150px;
     font-size: 20px;
@@ -166,7 +167,7 @@
     background-color: rgba(165,42,42,0.8);
     position: absolute;
     bottom:57%;
-    right:76.9%;
+    right:71.9%;
     text-align: center;
     line-height: 50px;
     font-size: 17px;
@@ -182,7 +183,7 @@
     height:70px;
     background-color: rgb(245,248,251);
     position: absolute;
-    right:45%;
+    right:40%;
     bottom:48%;
     text-align: center;
     line-height: 70px;
@@ -199,7 +200,7 @@
     height:200px;
     background-color: rgb(245,248,251);
     position: absolute;
-    right:30%;
+    right:25%;
     bottom: 40%;
     text-align: center;
     line-height: 200px;
@@ -216,7 +217,7 @@
     height:80px;
     background-color: rgb(245,248,251);
     position: absolute;
-    right:42%;
+    right:37%;
     bottom:73%;
     text-align: center;
     line-height: 80px;
@@ -233,7 +234,7 @@
     height:100px;
     background-color: rgb(245,248,251);
     position: absolute;
-    right:12%;
+    right:7%;
     bottom:40%;
     text-align: center;
     line-height: 100px;
@@ -243,4 +244,844 @@
 }
 #second_engineering:hover{
     scale:110%;
+}
+
+@media screen and (max-width: 1435px) {
+    #map_back {
+        width: 1060px;  // 또는 적절한 크기
+         // 또는 적절한 크기
+    }
+    #road{
+        width:52px;
+
+    }
+    #road2{
+        width:303px;
+
+    }
+    #road3{
+        width:502px;
+    }
+    #map_button{
+        width:86px;
+        font-size:13px;
+    }
+    #silver{
+        width:225px;
+    }
+    #yenji{
+        width:173px;
+    }
+    #ground{
+        width:173px;
+    }
+    #virtue{
+        width:173px;
+    }
+    #formative{
+        width:86px;
+    }
+    #church{
+        width:69px;
+    }
+    #person{
+        width:173px;
+    }
+    #library{
+        width:130px;
+    }
+    #first_engineering{
+        width:173px;
+    }
+    #second_engineering{
+        width:173px;
+    }
+/*// 다른 요소들에 대해서도 크기를 조정하는 코드를 작성할 수 있습니다.*/
+}
+@media screen and (max-width: 1335px) {
+    #map_back {
+        width: 985px;  // 또는 적절한 크기
+    // 또는 적절한 크기
+    }
+    #road{
+        width:48px;
+
+    }
+    #road2{
+        width:282px;
+
+    }
+    #road3{
+        width:470px;
+    }
+    #map_button{
+        width:80px;
+        font-size:12px;
+    }
+    #silver{
+        width:209px;
+    }
+    #yenji{
+        width:161px;
+    }
+    #ground{
+        width:161px;
+    }
+    #virtue{
+        width:161px;
+    }
+    #formative{
+        width:80px;
+    }
+    #church{
+        width:64px;
+    }
+    #person{
+        width:161px;
+    }
+    #library{
+        width:121px;
+    }
+    #first_engineering{
+        width:161px;
+    }
+    #second_engineering{
+        width:161px;
+    }
+    /*// 다른 요소들에 대해서도 크기를 조정하는 코드를 작성할 수 있습니다.*/
+}
+@media screen and (max-width: 1235px) {
+    #map_back {
+        width: 911px;  // 또는 적절한 크기
+    // 또는 적절한 크기
+    }
+    #road{
+        width:44px;
+
+    }
+    #road2{
+        width:261px;
+
+    }
+    #road3{
+        width:434px;
+    }
+    #map_button{
+        width:74px;
+        font-size:11px;
+    }
+    #silver{
+        width:193px;
+    }
+    #yenji{
+        width:149px;
+    }
+    #ground{
+        width:149px;
+    }
+    #virtue{
+        width:149px;
+    }
+    #person{
+        width:149px;
+    }
+    #first_engineering{
+        width:149px;
+    }
+    #second_engineering{
+        width:149px;
+    }
+    #formative{
+        width:74px;
+    }
+    #church{
+        width:59px;
+    }
+    #library{
+        width:112px;
+    }
+    /*// 다른 요소들에 대해서도 크기를 조정하는 코드를 작성할 수 있습니다.*/
+}
+@media screen and (max-width: 1135px) {
+    #map_back {
+        width: 837px;  // 또는 적절한 크기
+    // 또는 적절한 크기
+    }
+    #road{
+        width:40px;
+
+    }
+    #road2{
+        width:240px;
+
+    }
+    #road3{
+        width:399px;
+    }
+    #silver{
+        width:177px;
+    }
+    #yenji{
+        width:137px;
+    }
+    #ground{
+        width:137px;
+    }
+    #virtue{
+        width:137px;
+    }
+    #person{
+        width:137px;
+    }
+    #first_engineering{
+        width:137px;
+    }
+    #second_engineering{
+        width:137px;
+    }
+    #formative{
+        width:68px;
+    }
+    #map_button{
+        width:68px;
+        font-size:10px;
+    }
+    #church{
+        width:54px;
+    }
+    #library{
+        width:103px;
+    }
+    /*// 다른 요소들에 대해서도 크기를 조정하는 코드를 작성할 수 있습니다.*/
+}
+@media screen and (max-width: 1035px) {
+    #map_back {
+        width: 763px;  // 또는 적절한 크기
+    // 또는 적절한 크기
+    }
+    #road{
+        width:36px;
+
+    }
+    #road2{
+        width:219px;
+
+    }
+    #road3{
+        width:364px;
+    }
+    #silver{
+        width:161px;
+    }
+    #yenji{
+        width:125px;
+    }
+    #ground{
+        width:125px;
+    }
+    #virtue{
+        width:125px;
+    }
+    #person{
+        width:125px;
+    }
+    #first_engineering{
+        width:125px;
+    }
+    #second_engineering{
+        width:125px;
+    }
+    #formative{
+        width:62px;
+    }
+    #map_button{
+        width:62px;
+        font-size:6px;
+        padding:15px 5px;
+    }
+    #church{
+        width:46px;
+    }
+    #library{
+        width:94px;
+    }
+    /*// 다른 요소들에 대해서도 크기를 조정하는 코드를 작성할 수 있습니다.*/
+}
+@media screen and (max-width: 935px) {
+    #map_back {
+        width: 690px;  // 또는 적절한 크기
+    // 또는 적절한 크기
+    }
+    #road{
+        width:33px;
+    }
+    #road2{
+        width:198px;
+
+    }
+    #road3{
+        width:329px;
+    }
+    #silver{
+        width:146px;
+    }
+    #yenji{
+        width:113px;
+    }
+    #ground{
+        width:113px;
+    }
+    #virtue{
+        width:113px;
+    }
+    #person{
+        width:113px;
+    }
+    #first_engineering{
+        width:113px;
+    }
+    #second_engineering{
+        width:113px;
+    }
+    #formative{
+        width:56px;
+    }
+    #map_button{
+        width:56px;
+        font-size:5px;
+        padding:15px 5px;
+    }
+    #church{
+        width:42px;
+    }
+    #library{
+        width:88px;
+    }
+    /*// 다른 요소들에 대해서도 크기를 조정하는 코드를 작성할 수 있습니다.*/
+}
+@media screen and (max-width: 835px) {
+    #map_back {
+        width: 617px;  // 또는 적절한 크기
+    // 또는 적절한 크기
+    }
+    #road{
+        width:29px;
+    }
+    #road2{
+        width:177px;
+
+    }
+    #road3{
+        width:294px;
+    }
+    #silver{
+        width:120px;
+    }
+    #yenji{
+        width:101px;
+    }
+    #ground{
+        width:101px;
+    }
+    #virtue{
+        width:101px;
+    }
+    #person{
+        width:101px;
+    }
+    #first_engineering{
+        width:101px;
+    }
+    #second_engineering{
+        width:101px;
+    }
+    #formative{
+        width:50px;
+    }
+    #map_button{
+        width:50px;
+        font-size:3px;
+        padding:12px 4px;
+    }
+    #church{
+        width:38px;
+    }
+    #library{
+        width:79px;
+    }
+    /*// 다른 요소들에 대해서도 크기를 조정하는 코드를 작성할 수 있습니다.*/
+}
+@media screen and (max-width: 735px) {
+    #map_back {
+        width: 543px;  // 또는 적절한 크기
+    // 또는 적절한 크기
+    }
+    #road{
+        width:26px;
+    }
+    #road2{
+        width:156px;
+
+    }
+    #road3{
+        width:259px;
+    }
+    #silver{
+        width:106px;
+        font-size: 15px;
+    }
+    #yenji{
+        width:89px;
+        font-size: 15px;
+    }
+    #ground{
+        width:89px;
+        font-size: 15px;
+    }
+    #virtue{
+        width:89px;
+        font-size: 15px;
+    }
+    #person{
+        width:89px;
+        font-size: 15px;
+    }
+    #first_engineering{
+        width:89px;
+        font-size: 15px;
+    }
+    #second_engineering{
+        width:89px;
+        font-size: 15px;
+    }
+    #formative{
+        width:46px;
+        font-size: 15px;
+    }
+    #map_button{
+        width:46px;
+        font-size:2px;
+        padding:10px 2px;
+    }
+    #church{
+        width:33px;
+        font-size: 12px;
+    }
+    #library{
+        width:70px;
+        font-size: 15px;
+    }
+    /*// 다른 요소들에 대해서도 크기를 조정하는 코드를 작성할 수 있습니다.*/
+}
+@media screen and (max-width: 635px) {
+    #map_back {
+        width: 467px;  // 또는 적절한 크기
+    // 또는 적절한 크기
+    }
+    #road{
+        width:22px;
+    }
+    #road2{
+        width:135px;
+
+    }
+    #road3{
+        width:223px;
+    }
+    #silver{
+        width:91px;
+        font-size: 12px;
+    }
+    #yenji{
+        width:77px;
+        font-size: 12px;
+    }
+    #ground{
+        width:77px;
+        font-size: 12px;
+    }
+    #virtue{
+        width:77px;
+        font-size: 12px;
+    }
+    #person{
+        width:77px;
+        font-size: 12px;
+    }
+    #first_engineering{
+        width:77px;
+        font-size: 12px;
+    }
+    #second_engineering{
+        width:77px;
+        font-size: 12px;
+    }
+    #formative{
+        width:40px;
+        font-size: 12px;
+    }
+    #map_button{
+        width:40px;
+        font-size:2px;
+        padding:9px 1px;
+    }
+    #church{
+        width:26px;
+        font-size: 9px;
+    }
+    #library{
+        width:60px;
+        font-size: 12px;
+    }
+    /*// 다른 요소들에 대해서도 크기를 조정하는 코드를 작성할 수 있습니다.*/
+}
+@media screen and (max-width: 535px) {
+    #map_back {
+        width: 393px;  // 또는 적절한 크기
+    // 또는 적절한 크기
+    }
+    #road{
+        width:18px;
+    }
+    #road2{
+        width:114px;
+
+    }
+    #road3{
+        width:185px;
+    }
+    #silver{
+        width:76px;
+        font-size: 9px;
+    }
+    #yenji{
+        width:65px;
+        font-size: 9px;
+    }
+    #ground{
+        width:65px;
+        font-size: 9px;
+    }
+    #virtue{
+        width:65px;
+        font-size: 9px;
+    }
+    #person{
+        width:65px;
+        font-size: 9px;
+    }
+    #first_engineering{
+        width:65px;
+        font-size: 9px;
+    }
+    #second_engineering{
+        width:65px;
+        font-size: 9px;
+    }
+    #formative{
+        width:34px;
+        font-size: 9px;
+    }
+    #map_button{
+        width:34px;
+        font-size:1px;
+        padding:7px 1px;
+    }
+    #church{
+        width:22px;
+        font-size: 6px;
+    }
+    #library{
+        width:50px;
+        font-size: 9px;
+    }
+    /*// 다른 요소들에 대해서도 크기를 조정하는 코드를 작성할 수 있습니다.*/
+}
+@media screen and (max-height: 600px) {
+    #road{
+        height:413px;
+    }
+    #road2{
+        height:26px;
+    }
+    #road3{
+        height:241px;
+    }
+    #silver{
+        height:69px;
+    }
+    #yenji{
+        height:77px;
+    }
+    #ground{
+        height:120px;
+    }
+    #virtue{
+        height:60px;
+    }
+    #formative{
+        height:129px;
+    }
+    #church{
+        height:43px;
+    }
+    #person{
+        height:60px;
+    }
+    #library{
+        height:172px;
+    }
+    #first_engineering{
+        height:69px;
+    }
+    #second_engineering{
+        height:86px;
+    }
+}
+@media screen and (max-height: 500px) {
+    #road{
+        height:343px;
+    }
+    #road2{
+        height:22px;
+    }
+    #road3{
+        height:200px;
+    }
+    #silver{
+        height:57px;
+    }
+    #yenji{
+        height:64px;
+    }
+    #ground{
+        height:100px;
+    }
+    #virtue{
+        height:50px;
+    }
+    #formative{
+        height:108px;
+    }
+    #church{
+        height:36px;
+    }
+    #person{
+        height:50px;
+    }
+    #library{
+        height:142px;
+    }
+    #first_engineering{
+        height:57px;
+    }
+    #second_engineering{
+        height:71px;
+    }
+}
+@media screen and (max-height: 400px) {
+    #road{
+        height:274px;
+    }
+    #road2{
+        height:18px;
+    }
+    #road3{
+        height:160px;
+    }
+    #silver{
+        height:47px;
+        line-height: 47px;
+    }
+    #yenji{
+        height:51px;
+        line-height: 51px;
+    }
+    #ground{
+        height:80px;
+        line-height: 80px;
+    }
+    #virtue{
+        height:40px;
+        line-height: 40px;
+    }
+    #formative{
+        height:86px;
+        line-height: 86px;
+    }
+    #church{
+        height:29px;
+        line-height: 29px;
+    }
+    #person{
+        height:40px;
+        line-height: 40px;
+    }
+    #library{
+        height:114px;
+        line-height: 114px;
+    }
+    #first_engineering{
+        height:46px;
+        line-height: 46px;
+    }
+    #second_engineering{
+        height:57px;
+        line-height: 57px;
+    }
+}
+@media screen and (max-height: 300px) {
+    #road{
+        height:205px;
+    }
+    #road2{
+        height:14px;
+    }
+    #road3{
+        height:120px;
+    }
+    #silver{
+        height:35px;
+        line-height: 35px;
+    }
+    #yenji{
+        height:38px;
+        line-height: 38px;
+    }
+    #ground{
+        height:60px;
+        line-height: 60px;
+    }
+    #virtue{
+        height:30px;
+        line-height: 30px;
+    }
+    #formative{
+        height:64px;
+        line-height: 64px;
+    }
+    #church{
+        height:22px;
+        line-height: 22px;
+    }
+    #person{
+        height:30px;
+        line-height: 30px;
+    }
+    #library{
+        height:86px;
+        line-height: 86px;
+    }
+    #first_engineering{
+        height:35px;
+        line-height: 35px;
+    }
+    #second_engineering{
+        height:43px;
+        line-height: 43px;
+    }
+}
+@media screen and (max-height: 200px) {
+    #road{
+        height:137px;
+    }
+    #road2{
+        height:9px;
+    }
+    #road3{
+        height:80px;
+    }
+    #silver{
+        height:23px;
+        line-height: 23px;
+    }
+    #yenji{
+        height:25px;
+        line-height: 25px;
+    }
+    #ground{
+        height:40px;
+        line-height: 40px;
+    }
+    #virtue{
+        height:20px;
+        line-height: 20px;
+    }
+    #formative{
+        height:43px;
+        line-height: 43px;
+    }
+    #church{
+        height:15px;
+        line-height: 15px;
+    }
+    #person{
+        height:20px;
+        line-height: 20px;
+    }
+    #library{
+        height:58px;
+        line-height: 58px;
+    }
+    #first_engineering{
+        height:24px;
+        line-height: 24px;
+    }
+    #second_engineering{
+        height:29px;
+        line-height: 29px;
+
+    }
+}
+@media screen and (max-height: 100px) {
+    #road{
+        height:68px;
+    }
+    #road2{
+        height:4px;
+    }
+    #road3{
+        height:40px;
+    }
+    #silver{
+        height:11px;
+        line-height: 11px;
+    }
+    #yenji{
+        height:12px;
+        line-height: 12px;
+    }
+    #ground{
+        height:20px;
+        line-height: 20px;
+    }
+    #virtue{
+        height:10px;
+        line-height: 10px;
+    }
+    #formative{
+        height:21px;
+        line-height: 21px;
+    }
+    #church{
+        height:7px;
+        line-height: 7px;
+    }
+    #person{
+        height:10px;
+        line-height: 10px;
+    }
+    #library{
+        height:24px;
+        line-height: 24px;
+    }
+    #first_engineering{
+        height:12px;
+        line-height: 12px;
+    }
+    #second_engineering{
+        height:14px;
+        line-height: 14px;
+
+    }
 }

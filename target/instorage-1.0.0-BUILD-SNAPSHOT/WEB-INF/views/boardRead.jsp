@@ -289,6 +289,7 @@
 
   let doHtml = function (comments){
     let tmp = "<ul>";
+    let id = "${sessionScope.id}";
     comments.forEach(function (comments){
       let date = dateFormatter(comments.reg_date);
       tmp = tmp + "<li data-cno='"+comments.cno+"'"
@@ -302,11 +303,13 @@
       if(comments.deleted == 1){
         tmp = tmp +"<div class='comment_li_commenter'>"
         tmp = tmp +"<div class='comment_li_commenter_commenter'>"
-        tmp = tmp + ""+comments.commenter
+        tmp = tmp + ""+comments.nickname
         tmp = tmp + "</div>"
         tmp = tmp + "<div class = 'comment_li_commenter_update'>"
-        tmp = tmp + "<button class='updateBtn'>수정</button>"
-        tmp = tmp + "<button class='deleteBtn'>삭제</button>"
+        if(id === comments.commenter){
+          tmp = tmp + "<button class='updateBtn'>수정</button>"
+          tmp = tmp + "<button class='deleteBtn'>삭제</button>"
+        }
         tmp = tmp + "</div>"
         tmp = tmp + "</div>"
         tmp = tmp + "<div class='comment_li_comment'>"

@@ -245,8 +245,9 @@ public class BoardController {
                 rda.addFlashAttribute("error","게시물이 존재하지 않습니다.");
                 return uri;
             }
-            BoardDto boardDto = boardService.readBoardByBno(bno);
 
+            // 게시글 작성자가 아닐시 수정 거부
+            BoardDto boardDto = boardService.readBoardByBno(bno);
             String writer = boardDto.getWriter();
             if(!(id.equals(writer))){
                 String uri = "redirect:/board/list?type="+type+"&page="+page+"&pageSize="+pageSize;
@@ -285,7 +286,9 @@ public class BoardController {
                 rda.addFlashAttribute("error","게시물이 존재하지 않습니다.");
                 return uri;
             }
+            // 게시글 작성자와 수정자가 일치하지 않을시 거부한다.
             BoardDto boardDtoServer = boardService.readBoardByBno(boardDto.getBno());
+
             if(!(boardDtoServer.getWriter().equals(boardDto.getWriter()))){
                 rda.addFlashAttribute("error","게시물은 작성자만 수정할수 있습니다.");
                 String uri = "redirect:/board/list?type="+type+"&page="+page+"&pageSize="+pageSize;
@@ -306,16 +309,16 @@ public class BoardController {
         }
     }
     private String navCheck(String type) {
-         if(type.equals("silver" ) || type.equals("english") || type.equals("secretary") || type.equals("tour") || type.equals("china") || type.equals("japan") || type.equals("money") ||
+         if(type.equals("silver" ) || type.equals("english") || type.equals("secretary") || type.equals("tour") || type.equals("china") || type.equals("japan") ||
              type.equals("watching") || type.equals("multi") || type.equals("webtoon") || type.equals("vr")){
                 return "silver";
          }else if(type.equals("auditorium")){
                 return "auditorium";
-         }else if(type.equals("virtue") || type.equals("architecture") || type.equals("wood") || type.equals("safety") || type.equals("inner")){
+         }else if(type.equals("disaster") || type.equals("virtue") || type.equals("architecture") || type.equals("safety") || type.equals("inner") || type.equals("city")){
                 return "virtue";
          }else if(type.equals("person") || type.equals("industry") || type.equals("software") || type.equals("jewelry") || type.equals("ceramic") || type.equals("human")){
                 return "person";
-         }else if(type.equals("kinggod") || type.equals("kinggodgod") || type.equals("car")){
+         }else if(type.equals("kinggod") || type.equals("kinggodgod") || type.equals("car") || type.equals("money")){
                 return "kinggod";
          }else if(type.equals("library")){
              return "library";
@@ -323,7 +326,7 @@ public class BoardController {
              return "engineering";
          }else if(type.equals("welfare")){
              return "welfare";
-         }else if(type.equals("formative") || type.equals("digital") || type.equals("influencer") || type.equals("city") || type.equals("beauty")){
+         }else if(type.equals("formative") || type.equals("digital") || type.equals("influencer") || type.equals("beauty")){
              return "formative";
          }else if(type.equals("playground")){
              return "playground";
@@ -335,22 +338,22 @@ public class BoardController {
     private String titleCheck(String type) {
         if (type.equals("silver")) return "은봉관";
         if (type.equals("english")) return "비즈니스영어과";
-        if (type.equals("secretary")) return "비서학과";
+        if (type.equals("secretary")) return "스마트경영비서학과";
         if (type.equals("tour")) return "관광서비스경영학과";
-        if (type.equals("china")) return "비즈니스중국어과";
+        if (type.equals("china")) return "비즈니스중국어학과";
         if (type.equals("japan")) return "비즈니스일본어과";
         if (type.equals("money")) return "세무회계학과";
         if (type.equals("watching")) return "시각디자인과";
         if (type.equals("multi")) return "멀티미디어디자인학과";
-        if (type.equals("webtoon")) return "웹툰만화창작학과";
+        if (type.equals("webtoon")) return "웹툰만화학과";
         if (type.equals("vr")) return "게임&VR콘텐츠디자인학과";
 
         if (type.equals("auditorium")) return "교회";
 
         if (type.equals("virtue")) return "덕관";
         if (type.equals("architecture")) return "건축학과";
-        if (type.equals("wood")) return "토목공학과";
-        if (type.equals("safety")) return "건설안전공학과";
+        if (type.equals("city")) return "도시기반시설공학과";
+        if(type.equals("disaster")) return "스마트건설방재학과";
         if (type.equals("inner")) return "실내건축과";
 
         if (type.equals("person")) return "인관";
@@ -358,11 +361,11 @@ public class BoardController {
         if (type.equals("software")) return "컴퓨터소프트웨어학과";
         if (type.equals("jewelry")) return "주얼리디자인학과";
         if (type.equals("ceramic")) return "리빙세라믹디자인학과";
-        if (type.equals("human")) return "휴먼사회복지학과";
+        if (type.equals("human")) return "사회복지학과";
 
         if (type.equals("kinggod")) return "제1공학관";
-        if (type.equals("kinggodgod")) return "융합기계공학과";
-        if (type.equals("car")) return "기계자동차학과";
+        if (type.equals("kinggodgod")) return "기계공학과";
+        if (type.equals("car")) return "기계자동차공학과";
 
         if (type.equals("library")) return "도서관";
 
@@ -378,8 +381,7 @@ public class BoardController {
         if (type.equals("formative")) return "조형관";
         if (type.equals("digital")) return "디지털산업디자인학과";
         if (type.equals("influencer")) return "방송연예과";
-        if (type.equals("beauty")) return "방송뷰티과";
-        if (type.equals("city")) return "도시디자인학과";
+        if (type.equals("beauty")) return "방송헤어미용예술학과";
 
         if (type.equals("playground")) return "운동장";
 

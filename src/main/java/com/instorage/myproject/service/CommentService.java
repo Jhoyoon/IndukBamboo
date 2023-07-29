@@ -31,10 +31,10 @@ public class CommentService{
     @Transactional(rollbackFor = Exception.class)
     public int removeCommentByCnoAndBnoAndCommenter(Integer cno, Integer bno, String commenter) throws Exception {
         int rowCnt = boardDao.updateCommentCntByBnoAndNum(bno, -1);
-        System.out.println("updateCommentCnt - rowCnt = " + rowCnt);
+
 //        throw new Exception("test");
         rowCnt = commentDao.deleteCommentByCnoAndCommenter(cno, commenter);
-        System.out.println("rowCnt = " + rowCnt);
+
         return rowCnt;
     }
 //    @Transactional(rollbackFor = Exception.class)
