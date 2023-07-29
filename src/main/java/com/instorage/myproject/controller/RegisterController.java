@@ -1,5 +1,6 @@
 package com.instorage.myproject.controller;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.instorage.myproject.domain.UserDto;
 import com.instorage.myproject.validator.UserValidator;
 import com.instorage.myproject.service.UserService;
@@ -74,6 +75,10 @@ public class RegisterController {
         }
 
         try{
+            BCrypt.Hasher hasher = BCrypt.withDefaults();
+            String hashedPassword = hasher.hashToString(10, userDto.getPwd().toCharArray());
+            System.out.println(hashedPassword.length());
+            userDto.setPwd(hashedPassword);
             String answer = userService.registerUser(userDto);
             if(answer.equals("success")){
                 rda.addFlashAttribute("error","회원가입 감사합니다!상단에서 로그인 해주세요!");

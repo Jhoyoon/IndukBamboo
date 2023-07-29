@@ -86,6 +86,7 @@
 </div>
 <script>
   $(document).ready(function() {
+
     if ($('#search_keyword').attr('autofocus')){
       let inputValue = $("#search_keyword").val();
       $("#search_keyword").focus().val("").val(inputValue);

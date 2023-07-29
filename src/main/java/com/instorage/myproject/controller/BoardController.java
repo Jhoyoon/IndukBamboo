@@ -40,7 +40,9 @@ public class BoardController {
         // req에서 sessionid로 서버에서 세션을 찾는다.
         HttpSession session = request.getSession();
         String id = (String)session.getAttribute("id");
-
+        if((id==null||"".equals(id)) && (sc.getType().equals("yenji") || sc.getType().equals("gym") || sc.getType().equals("printer") || sc.getType().equals("foodcourt") || sc.getType().equals("stationery"))){
+            id = "visiter";
+        }
         if(id==null || "".equals(id)){
             rda.addFlashAttribute("error","로그인 해야 대나무숲에 접근할수 있습니다!");
             return "redirect:/";
@@ -51,13 +53,12 @@ public class BoardController {
             int totalSize=boardService.countSearchPage(sc);
             PageHandler ph = new PageHandler(totalSize,sc);
             List<BoardDto> list =boardService.selectSearchPage(sc);
-            String nickName=userService.readUserById(id).getNickname();
-            System.out.println("size="+list.size());
+            String nickname=userService.readUserById(id).getNickname();
             if(list.size() == 0) m.addAttribute("none","*게시물이 없습니다*");
             m.addAttribute("list",list);
             m.addAttribute("ph",ph);
             m.addAttribute("nav",nav);
-            m.addAttribute("nickName",nickName);
+            m.addAttribute("nickname",nickname);
             m.addAttribute("title",title);
             return "boardList";
         }catch(Exception e){
@@ -117,6 +118,9 @@ public class BoardController {
     @GetMapping(value="/read")
     public String boardRead(String type,Integer bno,Integer page,Integer pageSize,RedirectAttributes rda,Model m,HttpSession session){
         String id = (String)session.getAttribute("id");
+        if((id==null || "".equals(id)) && (type.equals("yenji") || type.equals("gym") || type.equals("printer") || type.equals("foodcourt") || type.equals("stationery")) ){
+            id = "visiter";
+        }
         if(id == null || "".equals(id)){
             rda.addFlashAttribute("error","로그인 해야 대나무숲에 접근할수 있습니다!");
             return "redirect:/";
@@ -138,9 +142,9 @@ public class BoardController {
             String originalContent = boardDto.getContent();
             String convertedContent = originalContent.replace("\n","<br>");
             boardDto.setContent(convertedContent);
-            System.out.println("read= "+boardDto.getContent());
+
             boardService.increaseViewCntByBno(bno);
-            String nickname = userService.readUserById(boardDto.getWriter()).getNickname();
+            String nickname = userService.readUserById(id).getNickname();
             m.addAttribute("page",page);
             m.addAttribute("pageSize",pageSize);
             m.addAttribute("board",boardDto);
@@ -160,6 +164,11 @@ public class BoardController {
     @GetMapping(value="/write")
     public String boardWriteGet(String type,Integer page,Integer pageSize,RedirectAttributes rda,Model m,HttpSession session){
         String id = (String)session.getAttribute("id");
+        if((id == null || "".equals(id)) && (type.equals("yenji") || type.equals("gym") || type.equals("printer") || type.equals("foodcourt") || type.equals("stationery"))){
+            rda.addFlashAttribute("error","글은 로그인을 해야 작성할수 있습니다.회원가입 고고");
+            String uri="redirect:/board/list?type="+type+"&page="+page+"&pageSize="+pageSize;
+            return uri;
+        }
         if(id == null || "".equals(id)){
             rda.addFlashAttribute("error","로그인 해야 대나무숲에 접근할수 있습니다!");
             return "redirect:/";
@@ -171,8 +180,16 @@ public class BoardController {
         }
         String nav =navCheck(type);
         String title = titleCheck(type);
-        m.addAttribute("nav",nav);
-        m.addAttribute("title",title);
+        try{
+            String nickname = userService.readUserById(id).getNickname();
+            m.addAttribute("nickname",nickname);
+            m.addAttribute("nav",nav);
+            m.addAttribute("title",title);
+        }catch (Exception e){
+            rda.addFlashAttribute("error","페이지 접근에 실패했습니다.");
+            String uri = "redirect:/type="+type+"&page="+page+"&pageSize="+pageSize;
+            return uri;
+        }
         return "boardWrite";
     }
     //왜 boardDto로 한번에 받는게 안 되지...?edit에서는 됐는데
@@ -236,12 +253,13 @@ public class BoardController {
                 rda.addFlashAttribute("error","게시물은 작성자만 수정할수 있습니다.");
                 return uri;
             }
-
+            String nickname = userService.readUserById(id).getNickname();
             m.addAttribute("mode","edit");
             m.addAttribute("boardDto",boardDto);
             m.addAttribute("pageSize",pageSize);
             m.addAttribute("nav",nav);
             m.addAttribute("title",title);
+            m.addAttribute("nickname",nickname);
             //throw new Exception("test");
             return "boardWrite";
         }catch(Exception e){

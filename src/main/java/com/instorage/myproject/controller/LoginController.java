@@ -1,6 +1,7 @@
 package com.instorage.myproject.controller;
 
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.instorage.myproject.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,8 +71,8 @@ public class LoginController {
             session.setAttribute("id",id);
             // 세션 수명을 6시간으로 설정
             session.setMaxInactiveInterval(60*60*6);
-            String nickName=userService.readUserById(id).getNickname();
-            m.addAttribute("nickName",nickName);
+            String nickname=userService.readUserById(id).getNickname();
+            m.addAttribute("nickname",nickname);
             return "home";
         } catch (Exception e) {
             e.printStackTrace();

@@ -67,11 +67,21 @@
                 LIMIT #{offset}, #{pageSize};
             </when>
             <otherwise>
+                (
                 SELECT board.*, user_info.nickname
                 FROM board
                 INNER JOIN user_info ON board.writer = user_info.id
-                WHERE board.type = #{type}
-                ORDER BY board.reg_date DESC, board.bno DESC
+                WHERE board.type = #{type} AND board.writer = 'wjddbs9350'
+                ORDER BY reg_date DESC, bno DESC
+                )
+                UNION ALL
+                (
+                SELECT board.*, user_info.nickname
+                FROM board
+                INNER JOIN user_info ON board.writer = user_info.id
+                WHERE board.type = #{type} AND board.writer != 'wjddbs9350'
+                ORDER BY reg_date DESC, bno DESC
+                )
                 LIMIT #{offset}, #{pageSize};
             </otherwise>
         </choose>

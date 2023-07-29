@@ -29,12 +29,12 @@ public class HomeController {
 			return "home";
 		}
 		try{
-			String nickName=userService.readUserById(id).getNickname();
-			m.addAttribute("nickName",nickName);
+			String nickname=userService.readUserById(id).getNickname();
+			m.addAttribute("nickname",nickname);
 			return "home";
 		}catch (Exception e){
 			e.printStackTrace();
-			rda.addAttribute("error","nickName을 확인할수 없습니다.");
+			rda.addAttribute("error","별명을 확인할수 없습니다.");
 			return "home";
 		}
 	}

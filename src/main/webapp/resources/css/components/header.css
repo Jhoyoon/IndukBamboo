@@ -71,6 +71,15 @@
 #myPage_div:hover{
     scale:105%;
 }
-#logout_div:hover{
+.logout_div:hover{
+    scale:105%;
+}
+#visited_div:hover{
+    scale:105%;
+}
+#header_right_logout:hover{
+    scale:105%;
+}
+#header_right_logout_div:hover{
     scale:105%;
 }

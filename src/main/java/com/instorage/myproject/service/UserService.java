@@ -1,5 +1,6 @@
 package com.instorage.myproject.service;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.instorage.myproject.dao.UserDao;
 import com.instorage.myproject.domain.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,9 @@ public class UserService {
         boolean idCheck = userDao.checkUserById(id);
         if(!idCheck) return "NonexistentID";
         String dbPwd = userDao.selectUserById(id).getPwd();
-        if(!pwd.equals(dbPwd)) return "MismatchedPassword";
+        BCrypt.Verifyer verifyer = BCrypt.verifyer();
+        BCrypt.Result result = verifyer.verify(pwd.toCharArray(),dbPwd);
+        if(!(result.verified)) return "MismatchedPassword";
 
         return "success";
     }

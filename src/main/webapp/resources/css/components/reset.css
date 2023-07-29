@@ -141,7 +141,7 @@ input:focus {
 }
 
 body {
-    height: 200vh;
+    /*height:120vh;*/
 }
 /*버튼 속성 초기화*/
 button {

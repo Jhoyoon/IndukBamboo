@@ -25,15 +25,19 @@
     </insert>
     <!-- 게시물 번호를 이용해서 특정 게시물의 댓글을 전부 가져온다.과거 댓글부터 정렬 -->
     <select id="selectAllCommentByBnoToList" parameterType="int" resultType="CommentDto">
-        SELECT cno, bno, ifnull(pcno,cno) as pcno, comment, commenter, reg_date,reply_cnt,deleted
+        SELECT comment.cno, comment.bno, IFNULL(comment.pcno, comment.cno) as pcno, comment.comment, comment.commenter, comment.reg_date, comment.reply_cnt, comment.deleted, user_info.nickname
         FROM comment
-        WHERE bno = #{bno}
-        ORDER BY pcno asc,cno asc;
+        INNER JOIN user_info
+        ON comment.commenter = user_info.id
+        WHERE comment.bno = #{bno}
+        ORDER BY pcno asc,comment.cno asc;
     </select>
     <!-- 댓글 번호를 통해서 댓글을 하나 가져온다 -->
     <select id="selectCommentByCno" parameterType="int" resultType="CommentDto">
-        SELECT cno, bno, pcno, comment, commenter, reg_date,reply_cnt,deleted
+        SELECT comment.cno, comment.bno, comment.pcno, comment.comment, comment.commenter, comment.reg_date,comment.reply_cnt,comment.deleted,user_info.nickname
         FROM comment
+        inner join user_info
+        on comment.commenter = user_info.id
         WHERE cno = #{cno}
     </select>
     <!-- 댓글 번호와 댓글 작성자를 확인한뒤 내용물과 등록일자를 업데이트 한다. -->

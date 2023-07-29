@@ -10,9 +10,18 @@ public class CommentDto {
     private Integer pcno;
     private String  comment;
     private String  commenter;
+    private String nickname;
     private Date    reg_date;
     private Integer reply_cnt;
     private Integer deleted;
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
     public Integer getDeleted() {
         return deleted;

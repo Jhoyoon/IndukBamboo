@@ -1,64 +1,246 @@
-#map_articel{
+#map_back{
+    position: absolute;
+    top:15%;
+    right:10%;
+    width:1200px;
+    height: 640px;
+    background-color:rgb(214,227,242);
+}
+#road{
+    position: absolute;
+    width:60px;
+    height:480px;
+    bottom:-5%;
+    right:63%;
+    background-color: white;
+}
+#road2{
+    position: absolute;
+    width:350px;
+    height:30px;
+    bottom:59%;
+    left:33%;
+    background-color: white;
+}
+#road3{
+    position: absolute;
+    width:580px;
+    height:280px;
+    bottom:-5%;
+    left:52%;
+    background-color: white;
+}
+#map_article{
+    width:auto;
+    height:100vh;
+
+}
+#map_button{
+    position: absolute;
+    margin-left: 20px;
+    background-color: var(--main-color);
+    color: white;
+    width:120px;
+    padding:20px 10px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+
+}
+#map_button:hover{
+    cursor: pointer;
+    scale:105%;
+}
+#none_map{
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#none_map a{
+    display: block;
+    background-color: var(--main-color);
+    padding:20px 10px;
+    margin:20px 10px;
+    color:white;
+    width:500px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 8px;
+
 }
 #silver{
     position: absolute;
-    top:50px;
+    bottom:66%;
+    right:61%;
     display: block;
-    width:50px;
-    height:50px;
-    background-color: darkgoldenrod;
+    width:260px;
+    height:80px;
+    background-color: rgb(245,248,251);
+    text-align: center;
+    line-height: 80px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 8px;
+}
+#silver:hover{
+    scale:110%;
 }
 #yenji{
     display: block;
-    width:50px;
-    height:50px;
-    background-color: palegreen;
+    position: absolute;
+    width:200px;
+    height:90px;
+    background-color: rgb(245,248,251);
+    bottom: 1%;
+    right:73%;
+    text-align: center;
+    line-height: 90px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 8px;
+}
+#yenji:hover{
+    scale: 110%;
 }
 #ground{
     display: block;
-    width:50px;
-    height:50px;
-    background-color: green;
+    width:200px;
+    height:140px;
+    background-color: rgb(209,228,191);
+    position:absolute;
+    bottom:16%;
+    right:73%;
+    text-align: center;
+    line-height: 140px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 8px;
+}
+#ground:hover{
+    scale:110%;
 }
 #virtue{
     display: block;
-    width:50px;
-    height:50px;
-    background-color: gray;
+    width:200px;
+    height:70px;
+    background-color: rgb(245,248,251);
+    position: absolute;
+    bottom:44%;
+    right:73%;
+    text-align: center;
+    line-height: 80px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 8px;
+}
+#virtue:hover{
+    scale:110%;
 }
 #formative{
     display: block;
-    width:50px;
-    height:50px;
-    background-color: brown;
+    width:100px;
+    height:150px;
+    background-color:rgb(245,248,251);
+    position: absolute;
+    bottom:1%;
+    right:50%;
+    text-align: center;
+    line-height: 150px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 8px;
+
+}
+#formative:hover{
+    scale:110%;
 }
 #church{
     display: block;
-    width:50px;
+    width:80px;
     height:50px;
-    background-color: blue;
+    background-color: rgba(165,42,42,0.8);
+    position: absolute;
+    bottom:57%;
+    right:76.9%;
+    text-align: center;
+    line-height: 50px;
+    font-size: 17px;
+    font-weight: bold;
+    border-radius: 8px;
+}
+#church:hover{
+    scale:110%;
 }
 #person{
     display: block;
-    width:50px;
-    height:50px;
-    background-color: red;
+    width:200px;
+    height:70px;
+    background-color: rgb(245,248,251);
+    position: absolute;
+    right:45%;
+    bottom:48%;
+    text-align: center;
+    line-height: 70px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 8px;
+}
+#person:hover{
+    scale:110%;
 }
 #library{
     display: block;
-    width:50px;
-    height:50px;
-    background-color: aqua;
+    width:150px;
+    height:200px;
+    background-color: rgb(245,248,251);
+    position: absolute;
+    right:30%;
+    bottom: 40%;
+    text-align: center;
+    line-height: 200px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 8px;
+}
+#library:hover{
+    scale:110%;
 }
 #first_engineering{
     display: block;
-    width:50px;
-    height:50px;
-    background-color: bisque;
+    width:200px;
+    height:80px;
+    background-color: rgb(245,248,251);
+    position: absolute;
+    right:42%;
+    bottom:73%;
+    text-align: center;
+    line-height: 80px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 8px;
+}
+#first_engineering:hover{
+    scale:110%;
 }
 #second_engineering{
     display: block;
-    width:50px;
-    height:50px;
-    background-color: blueviolet;
+    width:200px;
+    height:100px;
+    background-color: rgb(245,248,251);
+    position: absolute;
+    right:12%;
+    bottom:40%;
+    text-align: center;
+    line-height: 100px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 8px;
+}
+#second_engineering:hover{
+    scale:110%;
 }

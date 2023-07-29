@@ -7,6 +7,14 @@
     </div>
     <div id="header_right">
     <c:choose>
+        <c:when test="${nickname == '방문객'}">
+            <div id="header_right_login">
+                <span>${nickname}</span>
+                <div id="visited_div">
+                    <a class="button" href="<c:url value="/register"/>"><i class="fa-solid fa-right-to-bracket"></i>  회원가입</a>
+                </div>
+            </div>
+        </c:when>
         <c:when test="${sessionScope.id == null}">
                 <form action="<c:url value="/login/login"/>" method="post">
                     <input type="text" id="id" name="id" placeholder="아이디(id)" value="${cookie.id.value}">
@@ -19,19 +27,13 @@
                     <button class="button"><i class="fa-solid fa-right-to-bracket"></i> 로그인</button>
                 </form>
                     <div id="header_right_a">
-                        <a class="button" id="header_reg" href="<c:url value="/register"/>"><i class="fa-solid fa-right-to-bracket"></i>  회원가입</a>
+                        <a class="button" id="header_reg"  href="<c:url value="/register"/>"><i class="fa-solid fa-right-to-bracket"></i>  회원가입</a>
                     </div>
-
-
-
         </c:when>
         <c:when test="${sessionScope.id != null}">
             <div id="header_right_login">
-                <span>${nickName}</span>
-                <div id="myPage_div">
-                <a class="button" href="<c:url value="/"/>"><i class="fa-solid fa-house-user"></i> 마이페이지</a>
-                </div>
-                <div id="logout_div">
+                <span>${nickname}</span>
+                <div id="header_right_logout_div">
                 <a class="button" href="<c:url value="/login/logout"/>"><i class="fa-solid fa-right-from-bracket"></i> 로그아웃</a>
                 </div>
                 </div>
