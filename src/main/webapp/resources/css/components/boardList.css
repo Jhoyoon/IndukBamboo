@@ -29,13 +29,12 @@
     border-bottom: 1px solid var(--border-color);
 }
 #down{
-    border-bottom: 1px solid var(--boder-color-a);
+    border-bottom: 1px solid var(--border-color);
 }
 #down:hover{
     background-color: rgba(1,1,1,0.03);
 }
 .up_column{
-
     height:40px;
     vertical-align:middle;
     font-size: 13px;

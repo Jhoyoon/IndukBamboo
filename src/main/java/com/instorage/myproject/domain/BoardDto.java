@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.Objects;
-@Repository
+
 public class BoardDto {
     private String type;
     private int bno;

@@ -18,17 +18,17 @@
 <div class="body_div">
 <jsp:include page="template/nav.jsp"/>
 <article id="write_article">
-    <div class="title" id="write_out_title">${title} 대나무숲</div>
+    <div class="title" id="write_out_title"><c:out value="${title}"/> 대나무숲</div>
     <div id="write_article_div">
     <form id="write_form" action="${formUrl}" method="post">
         <h1>제목</h1>
-        <input  id="input_title" type="text" placeholder="제목은 최대 100자입니다." name="title" value="${boardDto.title}" >
+        <input  id="input_title" type="text" placeholder="제목은 최대 100자입니다." name="title" value="<c:out value="${boardDto.title}"/>">
         <h1>내용</h1>
-        <textarea id="input_content" name="content">${boardDto.content}</textarea>
-        <input readonly class="write_input_none" type="number" placeholder="pageSize" name="pageSize" value="${param.pageSize}">
-        <input readonly class="write_input_none" type="page" placeholder="page" name="page" value="${param.page}">
-        <input readonly class="write_input_none" type="text" name="type" value="${param.type}">
-        <input readonly class="write_input_none" type="number" placeholder="bno" name="bno" value="${boardDto.bno}">
+        <textarea id="input_content" name="content"><c:out value="${boardDto.content}"/></textarea>
+        <input readonly class="write_input_none" type="number" placeholder="pageSize" name="pageSize" value="<c:out value="${param.pageSize}"/>">
+        <input readonly class="write_input_none" type="page" placeholder="page" name="page" value="<c:out value="${param.page}"/>">
+        <input readonly class="write_input_none" type="text" name="type" value="<c:out value="${param.type}"/>">
+        <input readonly class="write_input_none" type="number" placeholder="bno" name="bno" value="<c:out value="${boardDto.bno}"/>">
         <div id="button_div">
             <button>작성</button>
         </div>
@@ -38,7 +38,7 @@
 </div>
 <jsp:include page="template/footer.jsp" />
 <div id="error">
-    <p>${error}</p>
+    <p><c:out value="${error}"/></p>
     <p>닫기</p>
 </div>
 <script>

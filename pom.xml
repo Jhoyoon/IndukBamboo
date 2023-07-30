@@ -95,6 +95,14 @@
 			<artifactId>bcrypt</artifactId>
 			<version>0.10.2</version>
 		</dependency>
+		<!-- log4j 에너테이션.로깅 설정을 해준다.-->
+		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.20.0</version>
+		</dependency>
+
 
 
 		<!-- Spring -->

@@ -44,17 +44,18 @@
 </article>
 <jsp:include page="template/footer.jsp" />
 
-<div id="error">
-	<p>${error}</p>
+<div id="error" data-error="<c:out value="${error}"/>">
+	<p><c:out value="${error}"/></p>
 	<p>닫기</p>
 </div>
 <script>
+	let error = $("#error").data("error");
 	$(document).ready(function(){
 		includeError();
 		removeError();
 	});
 	let includeError = function (){
-		if("${error}" !== undefined && "${error}" !== null && "${error}" !== ""){
+		if(error !== undefined && error !== null && error !== ""){
 			$("#error").css("display","flex");
 		}
 	}

@@ -19,19 +19,6 @@ public class BoardDao {
     DataSource ds;
     @Autowired
     private SqlSession session;
-    public void auto() {
-        int rowCnt = 0;
-        String sql = "ALTER TABLE board AUTO_INCREMENT = 1";
-
-        try (  // try-with-resources - since jdk7
-               Connection conn = ds.getConnection();
-               PreparedStatement pstmt = conn.prepareStatement(sql);
-        ) {
-            pstmt.execute();
-      } catch (Exception e) {
-          e.printStackTrace();
-        }
-    }
     private static String namespace = "com.instorage.myproject.boardMapper.";
     // 행 개수세기
     public int countAllBoard()throws Exception{

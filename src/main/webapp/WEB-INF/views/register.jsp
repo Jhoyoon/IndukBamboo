@@ -54,8 +54,8 @@
     <button class="button_reg">제출</button>
 </form>
 </article>
-<div id="error">
-    <p>${error}</p>
+<div id="error" data-error="${error}"/>
+    <p><c:out value="${error}"/></p>
     <p>닫기</p>
 </div>
 <jsp:include page="template/footer.jsp" />
@@ -80,15 +80,15 @@
     let checkKeyupNickname = function(){
         let re_nickname = $("#re_nickname").val();
         if(!re_nickname){
-            $("#nickname_check").html('<span style="color: red;">별명을 입력해주세요.실시간</span>');
+            $("#nickname_check").html('<span style="color: red;">별명을 입력해주세요.</span>');
             return;
         }
         if(/\s/.test(re_nickname)){
-            $("#nickname_check").html('<span style="color: red;">별명 값은 공백을 포함할수 없습니다.실시간</span>');
+            $("#nickname_check").html('<span style="color: red;">별명 값은 공백을 포함할수 없습니다.</span>');
             return;
         }
         if(re_nickname.length <= 1 || re_nickname.length >= 21){
-            $("#nickname_check").html('<span style="color: red;">별명 값은 2 이상 20 이하여야 합니다.실시간</span>');
+            $("#nickname_check").html('<span style="color: red;">별명 값은 2 이상 20 이하여야 합니다.</span>');
             return;
         }
         $("#nickname_check").html('<span style="color: blue;">중복 체크를 해주세요!</span>');
@@ -96,15 +96,15 @@
     let checkKeyupPwd = function (){
         let re_pwdValue = $("#re_pwd1").val();
         if(!re_pwdValue){
-            $("#pwd_check").html('<span style="color: red;">비밀번호를 입력해주세요.실시간</span>');
+            $("#pwd_check").html('<span style="color: red;">비밀번호를 입력해주세요.</span>');
             return;
         }
         if(/\s/.test(re_pwdValue)){
-            $("#pwd_check").html('<span style="color: red;">비밀번호 값은 공백을 포함할수 없습니다.실시간</span>');
+            $("#pwd_check").html('<span style="color: red;">비밀번호 값은 공백을 포함할수 없습니다.</span>');
             return;
         }
         if(re_pwdValue.length <= 7 || re_pwdValue.length >= 51){
-            $("#pwd_check").html('<span style="color: red;">비밀번호 값은 8 이상 50 이하여야 합니다.실시간</span>');
+            $("#pwd_check").html('<span style="color: red;">비밀번호 값은 8 이상 50 이하여야 합니다.</span>');
             return;
         }
         $("#pwd_check").html('<span style="color: blue;">비밀번호가 조건을 만족했습니다!</span>');
@@ -112,21 +112,23 @@
     let checkKeyupId = function (){
         let re_idValue = $("#re_id").val();
         if(!re_idValue){
-            $("#id_check").html('<span style="color: red;">아이디를 입력해주세요.실시간</span>');
+            $("#id_check").html('<span style="color: red;">아이디를 입력해주세요.</span>');
             return;
         }
         if(/\s/.test(re_idValue)){
-            $("#id_check").html('<span style="color: red;">아이디 값은 공백을 포함할수 없습니다.실시간</span>');
+            $("#id_check").html('<span style="color: red;">아이디 값은 공백을 포함할수 없습니다.</span>');
             return;
         }
         if(re_idValue.length <= 4 || re_idValue.length >= 20){
-            $("#id_check").html('<span style="color: red;">아이디 값은 5 이상 19 이하여야 합니다.실시간</span>');
+            $("#id_check").html('<span style="color: red;">아이디 값은 5 이상 19 이하여야 합니다.</span>');
             return;
         }
         $("#id_check").html('<span style="color: blue;">중복 체크를 해주세요!</span>');
     }
+    let error = $("#error").data("error");
+
     let includeError = function (){
-        if("${error}" !== undefined && "${error}" !== null && "${error}" !== ""){
+        if(error !== undefined && error !== null && error !== ""){
             $("#error").css("display","flex");
         }
     }
@@ -150,15 +152,15 @@
     function buttonCheckId() {
         let userId = $("#re_id").val(); // 아이디 값을 가져옵니다.
         if (!userId) {
-            $("#id_check").html('<span style="color: red;">아이디를 입력해주세요.제이쿼리</span>');
+            $("#id_check").html('<span style="color: red;">아이디를 입력해주세요.</span>');
             return;
         }
         if (/\s/.test(userId)) {
-            $("#id_check").html('<span style="color: red;">아이디 값은 공백을 포함할수 없습니다.제이쿼리</span>');
+            $("#id_check").html('<span style="color: red;">아이디 값은 공백을 포함할수 없습니다.</span>');
             return;
         }
         if (userId.length <= 4 || userId.length >= 20) {
-            $("#id_check").html('<span style="color: red;">아이디 값은 5 이상 19 이하여야 합니다.제이쿼리</span>');
+            $("#id_check").html('<span style="color: red;">아이디 값은 5 이상 19 이하여야 합니다.</span>');
             return;
         }
 
@@ -177,8 +179,7 @@
                         }
             },
             error: function(err) {
-                let errMsg = err.responseJSON.error;
-                $("#error p:first-child").html(errMsg);
+                $("#error p:first-child").html(err.responseJSON.error;);
                 $("#error").css("display", "flex");
             }
         });
@@ -186,15 +187,15 @@
     function buttonCheckNickname(){
         let nickname = $("#re_nickname").val();
         if (!nickname) {
-            $("#nickname_check").html('<span style="color: red;">별명을 입력해주세요.제이쿼리</span>');
+            $("#nickname_check").html('<span style="color: red;">별명을 입력해주세요</span>');
             return;
         }
         if (/\s/.test(nickname)) {
-            $("#nickname_check").html('<span style="color: red;">별명 값은 공백을 포함할수 없습니다.제이쿼리</span>');
+            $("#nickname_check").html('<span style="color: red;">별명 값은 공백을 포함할수 없습니다.</span>');
             return;
         }
         if (nickname.length <= 1 || nickname.length >= 20) {
-            $("#nickname_check").html('<span style="color: red;">별명 값은 2 이상 21 이하여야 합니다.제이쿼리</span>');
+            $("#nickname_check").html('<span style="color: red;">별명 값은 2 이상 21 이하여야 합니다.</span>');
             return;
         }
         $.ajax({
@@ -211,15 +212,13 @@
                 }
             },
             error: function(err) {
-                let errMsg = err.responseJSON.error;
-                $("#error p:first-child").html(errMsg);
+                $("#error p:first-child").html(err.responseJSON.error;);
                 $("#error").css("display", "flex");
             }
         });
     }
 </script>
 <script
-
         src="https://kit.fontawesome.com/634362e31b.js"
         crossorigin="anonymous"
 ></script>

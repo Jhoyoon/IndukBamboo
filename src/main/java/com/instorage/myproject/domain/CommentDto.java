@@ -3,7 +3,7 @@ package com.instorage.myproject.domain;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
-@Repository
+
 public class CommentDto {
     private Integer cno;
     private Integer bno;

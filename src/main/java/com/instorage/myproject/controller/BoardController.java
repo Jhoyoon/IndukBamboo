@@ -37,6 +37,7 @@ public class BoardController {
             rda.addFlashAttribute("error","게시판에 접근할수 없습니다.");
             return "redirect:/";
         }
+       System.out.println("option="+sc.getOption());
         // req에서 sessionid로 서버에서 세션을 찾는다.
         HttpSession session = request.getSession();
         String id = (String)session.getAttribute("id");
@@ -52,6 +53,7 @@ public class BoardController {
         try{
             int totalSize=boardService.countSearchPage(sc);
             PageHandler ph = new PageHandler(totalSize,sc);
+
             List<BoardDto> list =boardService.selectSearchPage(sc);
             String nickname=userService.readUserById(id).getNickname();
             if(list.size() == 0) m.addAttribute("none","*게시물이 없습니다*");

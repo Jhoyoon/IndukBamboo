@@ -45,7 +45,7 @@
 <jsp:include page="template/footer.jsp" />
 
 <div id="error">
-	<p>${error}</p>
+	<p><c:out value="${error}"/></p>
 	<p>닫기</p>
 </div>
 <script>

@@ -12,18 +12,18 @@
           crossorigin="anonymous"
   ></script>
 </head>
-<body>
+<body data-bno="<c:out value="${board.bno}"/>">
 <jsp:include page="template/header.jsp" />
 <div class="body_div" >
 <jsp:include page="template/nav.jsp"/>
 <article>
   <div class="title">
-    ${title} 대나무숲
+    <c:out value="${title}"/> 대나무숲
   </div>
   <div id="read_board">
     <div id="board_title_update_remove">
       <div id="board_title">
-        ${board.title}
+        <c:out value="${board.title}"/>
       </div>
       <div id="update_remove">
         <c:if test="${board.writer == sessionScope.id}">
@@ -38,18 +38,18 @@
     </div>
     <div id="board_nickname_time_view_commentcnt">
       <div id="nickname_time">
-        <div id="nickname">${nickname}</div>
-        <div id="reg_date">${board.reg_date}</div>
+        <div id="nickname"><c:out value="${nickname}"/></div>
+        <div id="reg_date"><c:out value="${board.reg_date}"/></div>
       </div>
       <div id="view_commentcnt">
-        <div id="view_cnt">조회수 ${board.view_cnt}</div>
-        <div id="comment_cnt">댓글  ${board.comment_cnt}</div>
+        <div id="view_cnt">조회수 <c:out value="${board.view_cnt}"/></div>
+        <div id="comment_cnt">댓글  <c:out value="${board.comment_cnt}"/></div>
       </div>
     </div>
     <div id="board_content">
-      <div>${board.content}</div>
+      <div><c:out value="${board.content}"/></div>
     </div>
-    <h1 id = "comment_h1">전체 댓글 <span>${board.comment_cnt}</span></h1>
+    <h1 id = "comment_h1">전체 댓글 <span><c:out value="${board.comment_cnt}"/></span></h1>
     <div id="commentContainer"></div>
     <div id="replyBox" style="display: none">
       <div id="reply_div">
@@ -65,13 +65,13 @@
   </div>
   <jsp:include page="template/footer.jsp" />
 </article>
-<div id="error">
-  <p>${error}</p>
+<div id="error" data-error="<c:out value="${error}"/>">
+  <p><c:out value="${error}"/></p>
   <p>닫기</p>
 </div>
 <%--<jsp:include page="template/footer.jsp" />--%>
 <script>
-  let bno = ${board.bno};
+  let bno = $('body').data("bno");
   // ********************************************************
   // 페이지 방문시 댓글 생성 호출 함수
   $(document).ready(function (){
@@ -86,8 +86,9 @@
   })
   // ********************************************************************************************************************************
   // error 메세지 다루는 함수
+  let error = $("#error").data("error");
   let includeError = function (){
-    if("${error}" !== undefined && "${error}" !== null && "${error}" !== ""){
+    if(error !== undefined && error !== null && error !== ""){
       $("#error").css("display","flex");
     }
   }
@@ -170,7 +171,6 @@
     let liElement = $(this).closest("li");
 
     let cno = liElement.attr("data-cno");
-    console.log(cno);
 
     let updatedComment = liElement.find('.updateInput').val();
     update(cno, updatedComment);

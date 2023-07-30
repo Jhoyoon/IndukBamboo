@@ -55,7 +55,7 @@
 </form>
 </article>
 <div id="error">
-    <p>${error}</p>
+    <p><c:out value="${error}"/></p>
     <p>닫기</p>
 </div>
 <jsp:include page="template/footer.jsp" />
@@ -219,7 +219,6 @@
     }
 </script>
 <script
-
         src="https://kit.fontawesome.com/634362e31b.js"
         crossorigin="anonymous"
 ></script>

@@ -1,5 +1,8 @@
 package com.instorage.myproject.filter;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.IOException;
 
 import javax.servlet.Filter;
@@ -20,11 +23,11 @@ public class LoggingFilter implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {
         // 초기화 작업
     }
-
+    // logger 객체 생성해줌
+    private static final Logger logger = LogManager.getLogger(LoggingFilter.class);
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-
         long startTime = System.currentTimeMillis();
 
         // 2. 서블릿 또는 다음 필터를 호출
@@ -37,8 +40,7 @@ public class LoggingFilter implements Filter {
         // 요청의 종류를 반환한다.get,post등등
         String method =  req.getMethod();
         // 콘솔에 출력해줌
-        System.out.print("["+referer+"]"+"->"+"["+method+"]"+"["+((HttpServletRequest)request).getRequestURI()+"]");
-        System.out.println(" 소요시간="+(System.currentTimeMillis()-startTime)+"ms");
+        logger.info("[{}]->[{}][{}] 소요시간={}ms", referer, method, req.getRequestURI(), (System.currentTimeMillis()-startTime));
     }
 
     @Override
