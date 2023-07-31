@@ -77,7 +77,6 @@ public class RegisterController {
         try{
             BCrypt.Hasher hasher = BCrypt.withDefaults();
             String hashedPassword = hasher.hashToString(10, userDto.getPwd().toCharArray());
-            System.out.println(hashedPassword.length());
             userDto.setPwd(hashedPassword);
             String answer = userService.registerUser(userDto);
             if(answer.equals("success")){
@@ -111,7 +110,7 @@ public class RegisterController {
         if(id == null || "".equals(id)){
             return "idNull";
         }
-        if(id.length() <= 4 || id.length() >= 20){
+        if(id.length() <= 4 || id.length() >= 21){
             return "idLength";
         }
         if(id.contains(" ")){
@@ -153,7 +152,7 @@ public class RegisterController {
         }
         if(idCheck.equals("idLength")){
             Map<String, String> response = new HashMap<>();
-            response.put("error", "아이디 값은 5 이상 19 이하여야 합니다.");
+            response.put("error", "아이디 값은 5 이상 20 이하여야 합니다.");
             return ResponseEntity.ok()
                     .contentType(MediaType.parseMediaType("application/json;charset=UTF-8"))
                     .body(response);

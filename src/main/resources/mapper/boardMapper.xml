@@ -122,5 +122,4 @@
         SELECT EXISTS (SELECT 1 FROM board WHERE bno=#{bno});
     </select>
 
-
 </mapper>

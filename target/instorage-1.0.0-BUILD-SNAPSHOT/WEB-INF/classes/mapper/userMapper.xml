@@ -12,6 +12,9 @@
     <delete id="deleteUserById">
         delete from user_info where id=#{id}
     </delete>
+    <select id="countAllUser" resultType="int">
+        select count(*) from user_info;
+    </select>
     <select id="selectUserById" resultType="UserDto">
         select * from user_info where id=#{id};
     </select>
@@ -27,6 +30,12 @@
     <update id="updateUser" parameterType="UserDto">
         UPDATE user_info SET pwd = #{pwd}, nickname = #{nickname} WHERE id = #{id};
     </update>
-
+    <update id="updateBoardCntById" parameterType="map">
+        update user_info set board_cnt = board_cnt + #{num} where id = #{id};
+    </update>
+    <select id="totalBoardCount" resultType="int">
+        SELECT SUM(board_cnt) AS total_board_count
+        FROM user_info;
+    </select>
 
 </mapper>

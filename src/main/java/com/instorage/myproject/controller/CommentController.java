@@ -70,7 +70,7 @@ public class CommentController {
                 return ResponseEntity.ok()
                         .contentType(MediaType.parseMediaType("application/json;charset=UTF-8"))
                         .body(response);
-            }
+            }// 근데 시간에 쫓겨서 해서 쩔수였음
             String commenter = commentService.readCommentByCno(cno).getCommenter();
             if(!(commenter.equals(id))){
                 response.put("error","댓글은 작성자만 삭제할수 있습니다.");

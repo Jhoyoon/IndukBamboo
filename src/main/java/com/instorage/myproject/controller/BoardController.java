@@ -37,7 +37,6 @@ public class BoardController {
             rda.addFlashAttribute("error","게시판에 접근할수 없습니다.");
             return "redirect:/";
         }
-       System.out.println("option="+sc.getOption());
         // req에서 sessionid로 서버에서 세션을 찾는다.
         HttpSession session = request.getSession();
         String id = (String)session.getAttribute("id");
@@ -208,6 +207,11 @@ public class BoardController {
         if(title == null || "".equals(title)){
             rda.addFlashAttribute("error","제목을 입력해주세요!");
             String uri = "redirect:/board/write?type="+type+"&page="+page+"&pageSize="+pageSize;
+            return uri;
+        }
+        if(title.length() > 100) {
+            rda.addFlashAttribute("error", "제목은 최대 100글자 입력 가능합니다.");
+            String uri = "redirect:/board/write?type=" + type + "&page=" + page + "&pageSize=" + pageSize;
             return uri;
         }
         if(content == null || "".equals(content)) {

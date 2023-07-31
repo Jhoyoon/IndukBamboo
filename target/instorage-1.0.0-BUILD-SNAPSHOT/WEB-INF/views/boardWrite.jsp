@@ -24,7 +24,7 @@
         <h1>제목</h1>
         <input  id="input_title" type="text" placeholder="제목은 최대 100자입니다." name="title" value="<c:out value="${boardDto.title}"/>">
         <h1>내용</h1>
-        <textarea id="input_content" name="content"><c:out value="${boardDto.content}"/></textarea>
+        <textarea id="input_content" name="content" placeholder="내용"><c:out value="${boardDto.content}"/></textarea>
         <input readonly class="write_input_none" type="number" placeholder="pageSize" name="pageSize" value="<c:out value="${param.pageSize}"/>">
         <input readonly class="write_input_none" type="page" placeholder="page" name="page" value="<c:out value="${param.page}"/>">
         <input readonly class="write_input_none" type="text" name="type" value="<c:out value="${param.type}"/>">
@@ -37,53 +37,10 @@
 </article>
 </div>
 <jsp:include page="template/footer.jsp" />
-<div id="error">
+<div id="error" data-error="<c:out value="${error}"/>">
     <p><c:out value="${error}"/></p>
     <p>닫기</p>
 </div>
-<script>
-    $(document).ready(function(){
-        includeError();
-        removeError();
-    });
-    let includeError = function (){
-        if("${error}" !== undefined && "${error}" !== null && "${error}" !== ""){
-            $("#error").css("display","flex");
-        }
-    }
-    let removeError = function (){
-        $("#error p:last-child").click(function(){
-            $("#error").css("display", "none");
-        });
-    }
-    $("#button_div button").click(function(e){
-        e.preventDefault();
-        if (titleCheck() && contentCheck()) {
-            $("#write_form").submit();
-        }
-    })
-    function titleCheck(){
-        let title = $("#input_title").val();
-        if(title.length == 0){
-            $("#error").css("display","flex");
-            $("#error p:first-child").html("제목을 입력해 주세요!");
-            return false;
-        }else if(title.length >= 100){
-            $("#error").css("display","flex");
-            $("#error p:first-child").html("제목은 최대 100글자 입력 가능합니다.");
-            return false;
-        }
-        return true;
-    }
-    function contentCheck(){
-        let content = $("#input_content").val();
-        if(content.length == 0){
-            $("#error").css("display","flex");
-            $("#error p:first-child").html("내용을 입력해 주세요!");
-            return false;
-        }
-        return true;
-    }
-</script>
+<script src="<c:url value="/resources/js/boardWrite.js"/>"></script>
 </body>
 </html>

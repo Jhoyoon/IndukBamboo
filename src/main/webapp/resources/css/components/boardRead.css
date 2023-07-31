@@ -70,18 +70,18 @@
 }
 #comment{
     width:1120px;
-    height:80px;
+    height:130px;
     border: 2px solid var(--border-color-a2);
     outline-color: var(--border-color-a8);
 }
 #comment_send{
     display: flex;
     align-items: center;
-
+    margin-top:30px;
 }
 #sendBtn{
     width:80px;
-    height:80px;
+    height:130px;
     background-color: var(--border-color);
     color: white;
     border-radius: 5px;

@@ -24,7 +24,7 @@ public class BoardDaoTest extends TestCase {
 
     @Test
     public void testData() throws Exception{
-        for(int i=1;i<=1000;i++){
+        for(int i=1;i<=35;i++){
             BoardDto boardDto = new BoardDto("silver","wjddbs9350",i+"title","content");
             boardDao.insertBoard(boardDto);
         }
@@ -57,7 +57,7 @@ public class BoardDaoTest extends TestCase {
         assertTrue(rowCnt==1);
         rowCnt=boardDao.deleteAllBoard();
         assertTrue(rowCnt==1);
-    }
+    }// 내가
     @Test
     public void testSelect()throws Exception{
         boardDao.deleteAllBoard();
@@ -66,10 +66,7 @@ public class BoardDaoTest extends TestCase {
         assertTrue(boardDto != null);
         assertTrue(boardDto.getTitle().equals("title"));
     }
-    @Test
-    public void testAuto(){
-        boardDao.auto();
-    }
+
     @Test
     public void testUpdate()throws Exception{
         boardDao.deleteAllBoard();

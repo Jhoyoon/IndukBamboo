@@ -9,6 +9,9 @@ import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Repository
 public class UserDao {
     @Autowired
@@ -43,5 +46,17 @@ public class UserDao {
     // userDto 객체를 통해서 user를 업데이트 해준다.
     public int updateUser(UserDto userDto) throws Exception{
         return session.update(namespace+"updateUser",userDto);
+    }
+    public int updateBoardCntById(String id,Integer num) throws Exception{
+        Map map = new HashMap();
+        map.put("id",id);
+        map.put("num",num);
+        return session.update(namespace+"updateBoardCntById",map);
+    }
+    public int countAllUser() throws Exception{
+        return session.selectOne(namespace+"countAllUser");
+    }
+    public int totalBoardCount() throws Exception{
+        return session.selectOne(namespace+"totalBoardCount");
     }
 }

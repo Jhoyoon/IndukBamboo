@@ -1,70 +1,45 @@
 package com.instorage.myproject.service;
 
-import com.instorage.myproject.dao.BoardDao;
-import com.instorage.myproject.dao.CommentDao;
 import com.instorage.myproject.domain.BoardDto;
 import com.instorage.myproject.domain.SearchCondition;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
 
-@Service
-@Transactional
-public class BoardService {
-    @Autowired
-    BoardDao boardDao;
-    @Autowired
-    CommentDao commentDao;
+public interface BoardService {
     // 게시물 개수 반환
-    public int countAllBoard()throws Exception{
-        return boardDao.countAllBoard();
-    }
+    int countAllBoard() throws Exception;
+
     // 게시물 삭제.성공시 1 실패시 다른 숫자
     @Transactional(rollbackFor = Exception.class)
-    public int removeBoardByBnoAndWriter(Integer bno,String writer){
-        int rowCnt = boardDao.deleteBoardByBnoAndWriter(bno,writer);
-        commentDao.deleteAllCommentByBno(bno);
-        return rowCnt;
-    }
+    int removeBoardByBnoAndWriter(Integer bno, String writer) throws Exception;
+
     // 모든 게시물 삭제.삭제된 게시물 개수 반환
-    public int removeAllBoard()throws Exception{
-        return boardDao.deleteAllBoard();
-    }
+    int removeAllBoard() throws Exception;
+
     // 게시물 작성.성고하면 1 실패하면 그 외 숫자
-    public int writeBoard(BoardDto boardDto)throws Exception{
-        return boardDao.insertBoard(boardDto);
-    }
+    @Transactional(rollbackFor = Exception.class)
+    int writeBoard(BoardDto boardDto) throws Exception;
+
     // 모든 게시물을 list 형태로 가져온다
-    public List<BoardDto> getBoardToList()throws Exception{
-        return boardDao.selectAllBoard();
-    }
+    List<BoardDto> getBoardToList() throws Exception;
+
     // 게시물을 bno로 읽는다.객체 하나를 가져옴
-    public BoardDto readBoardByBno(Integer bno)throws Exception{
-        return boardDao.selectBoardByBno(bno);
-    }
+    BoardDto readBoardByBno(Integer bno) throws Exception;
+
     // 페이지를 가져온다.offset pagesize를 amp으로 받고 객체를 list로 반환한다.
-    public List<BoardDto> getPageByMap(Map map)throws Exception{
-        return boardDao.selectPageByMap(map);
-    }
-    
+    List<BoardDto> getPageByMap(Map map) throws Exception;
+
     // 게시물을 업데이트 한다.성공시 1 그 외 실패
-    public int updateBoard(BoardDto boardDto)throws Exception{
-        return boardDao.updateBoard(boardDto);
-    }
-    public int increaseViewCntByBno(Integer bno)throws Exception{
-        return boardDao.increaseViewCntByBno(bno);
-    }
-    public List<BoardDto> selectSearchPage(SearchCondition search)throws Exception{
-        return boardDao.selectSearchPage(search);
-    }
-    public int countSearchPage(SearchCondition search)throws Exception{
-        return boardDao.countSearchPage(search);
-    }
-    public boolean checkBoardByBno(Integer bno) throws Exception{
-        return boardDao.checkBoardByBno(bno);
-    }
+    int updateBoard(BoardDto boardDto) throws Exception;
+
+    int increaseViewCntByBno(Integer bno) throws Exception// 그럼 어떻게 반환할까 이건 디코로 하자 컴온
+    ;
+
+    List<BoardDto> selectSearchPage(SearchCondition search) throws Exception;
+
+    int countSearchPage(SearchCondition search) throws Exception;
+
+    boolean checkBoardByBno(Integer bno) throws Exception;
 }
