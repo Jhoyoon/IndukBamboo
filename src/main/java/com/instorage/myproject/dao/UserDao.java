@@ -1,62 +1,33 @@
 package com.instorage.myproject.dao;
 
 import com.instorage.myproject.domain.UserDto;
-import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.DuplicateKeyException;
-import org.springframework.jdbc.BadSqlGrammarException;
-import org.springframework.jdbc.CannotGetJdbcConnectionException;
-import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.Map;
-
-@Repository
-public class UserDao {
-    @Autowired
-    private SqlSession session;
-    private String namespace = "com.instorage.myproject.userMapper.";
+public interface UserDao {
     // 유저 객체를 db에 넣는다.
-    public int insertUser(UserDto user) throws Exception {
-        return session.insert(namespace+"insertUser",user);
-    }
+    int insertUser(UserDto user) throws Exception;
+
     // 모든 user들을 삭제한다.
-    public int deleteAllUser() throws Exception{
-        return session.delete(namespace+"deleteAllUser");
-    }
+    int deleteAllUser() throws Exception;
+
     // id로 유저 객체 하나를 반환한다.
-    public UserDto selectUserById(String id) throws Exception{
-        return session.selectOne(namespace+"selectUserById",id);
-    }
-    public UserDto selectUserByNickname(String nickname) throws Exception{
-        return session.selectOne(namespace+"selectUserByNickname",nickname);
-    }
+    UserDto selectUserById(String id) throws Exception;
+
+    UserDto selectUserByNickname(String nickname) throws Exception;
+
     // 해당 id가 존재하는지 boolean값을 반환한다.
-    public boolean checkUserById(String id) throws Exception{
-        return session.selectOne(namespace+"checkUserById",id);
-    }
-    public boolean checkUserByNickname(String nickname )throws Exception{
-        return session.selectOne(namespace+"checkUserByNickname",nickname);
-    }
+    boolean checkUserById(String id) throws Exception;
+
+    boolean checkUserByNickname(String nickname) throws Exception;
+
     // id를 통해서 user 객체 하나를 삭제한다.
-    public int deleteUserById(String id) throws Exception{
-        return session.delete(namespace+"deleteUserById",id);
-    }
+    int deleteUserById(String id) throws Exception;
+
     // userDto 객체를 통해서 user를 업데이트 해준다.
-    public int updateUser(UserDto userDto) throws Exception{
-        return session.update(namespace+"updateUser",userDto);
-    }
-    public int updateBoardCntById(String id,Integer num) throws Exception{
-        Map map = new HashMap();
-        map.put("id",id);
-        map.put("num",num);
-        return session.update(namespace+"updateBoardCntById",map);
-    }
-    public int countAllUser() throws Exception{
-        return session.selectOne(namespace+"countAllUser");
-    }
-    public int totalBoardCount() throws Exception{
-        return session.selectOne(namespace+"totalBoardCount");
-    }
+    int updateUser(UserDto userDto) throws Exception;
+
+    int updateBoardCntById(String id, Integer num) throws Exception;
+
+    int countAllUser() throws Exception;
+
+    int totalBoardCount() throws Exception;
 }
