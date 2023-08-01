@@ -1,6 +1,7 @@
 package com.instorage.myproject.filter;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -13,158 +14,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-// 필터를 적용할 요청의 패턴 지정 - 모든 요청에 필터를 적용.
-//@WebFilter(urlPatterns="/*")
-//public class RataLimiterFilter implements Filter {
-//    // 현재 동기 방식으로 요청을 수행하고 있다.병렬 처리 혹은 비동기 방식을 고안해야 한다.
-//    private int MAX_REQUESTS_PER_MINUTE = 50;
-//    private int MAX_REQUESTS_PER_SECOND = 4;
-//    private Map<String, Deque<Long>> requestsMapMinute = new HashMap<>();
-//    private Map<String, Deque<Long>> requestsMapSecond = new HashMap<>();
-//    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-//        // 유저의 ip를 String 형태로 받아온다.
-//        HttpServletRequest httpRequest = (HttpServletRequest) request;
-//        String clientIP = getClientIP(httpRequest);
-//        // 현재 시스템상의 시간을 받아온다.
-//        long currentTimeMillis = System.currentTimeMillis();
-//        // 현재 requestMap에는 Map<clientIp : Deque<유저가 요청한 시간>>이 들어있다.
-//        // 클라이언트의 요청 timestamp를 할당한다.
-//        Deque<Long> requestTimesMinute = requestsMapMinute.get(clientIP);
-//        // timestamp가 비어있다 == 1분간 요청을 보낸적이 없다.
-//        if (requestTimesMinute == null) {
-//            requestTimesMinute = new ArrayDeque<>();
-//            requestsMapMinute.put(clientIP, requestTimesMinute);
-//        }
-//        // '요청시간'을 넣어준다
-//        requestTimesMinute.add(currentTimeMillis);
-//        // 만일 1분을 넘은 '요청시간'이 있을시 deque에서 제거해준다.
-//        while (!requestTimesMinute.isEmpty() && currentTimeMillis - requestTimesMinute.peekFirst() > TimeUnit.MINUTES.toMillis(1)) {
-//            requestTimesMinute.pollFirst();
-//        }
-//        // 초에도 똑같은 작업을 해준다.1초에 4번
-//        Deque<Long> requestTimesSecond = requestsMapSecond.get(clientIP);
-//        if (requestTimesSecond == null) {
-//            requestTimesSecond = new ArrayDeque<>();
-//            requestsMapSecond.put(clientIP, requestTimesSecond);
-//        }
-//        requestTimesSecond.add(currentTimeMillis);
-//        while (!requestTimesSecond.isEmpty() && currentTimeMillis - requestTimesSecond.peekFirst() > TimeUnit.SECONDS.toMillis(1)) {
-//            requestTimesSecond.pollFirst();
-//        }
-//        System.out.println("초당 요청을 보낸 횟수= "+requestTimesSecond.size());
-//        System.out.println("분당 요청을 보낸 횟수= "+requestTimesMinute.size());
-//        if (requestTimesMinute.size() > MAX_REQUESTS_PER_MINUTE || requestTimesSecond.size() > MAX_REQUESTS_PER_SECOND) {
-//            HttpServletResponse httpResponse = (HttpServletResponse) response;
-//            httpResponse.setContentType("text/plain; charset=UTF-8");
-//            httpResponse.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
-//            httpResponse.getWriter().write("너무 많은 요청을 보냈습니다.");
-//            return;
-//        }
-//
-//        chain.doFilter(request, response);
-//    }
-//    private String getClientIP(HttpServletRequest request) {
-//        // 유저가 프록시 서버를 사용할시 ip에 얻어내기
-//        String xfHeader = request.getHeader("X-Forwarded-For");
-//        // 사용하지 않을시 ip 얻어내기
-//        if (xfHeader == null){
-//            return request.getRemoteAddr();
-//        }
-//        //유저가 여러개의 프록시 서버를 거쳤을시 ip가 배열의 형태로 여러개 전달된다
-//        // 유저의 ip만 얻어내기 위해서 이렇게 작성
-//        return xfHeader.split(",")[0];
-//    }
-//    @Override
-//    public void init(FilterConfig filterConfig) throws ServletException {
-//        // 초기화 작업
-//    }
-//
-//    @Override
-//    public void destroy() {
-//        // 정리 작업
-//    }
-//
-//}
-//@WebFilter(urlPatterns="/*")
-//public class RataLimiterFilter implements Filter {
-//    private static final int MAX_REQUESTS_PER_MINUTE = 50;
-//    private static final int MAX_REQUESTS_PER_SECOND = 4;
-//    private static final int BLOCK_TIME_SECONDS = 10;
-//    private Map<String, Deque<Long>> requestsMapMinute = new HashMap<>();
-//    private Map<String, Deque<Long>> requestsMapSecond = new HashMap<>();
-//    private Map<String, Long> blockMap = new HashMap<>();
-//
-//    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-//        HttpServletRequest httpRequest = (HttpServletRequest) request;
-//        String clientIP = getClientIP(httpRequest);
-//        long currentTimeMillis = System.currentTimeMillis();
-//
-//        // Check if user is blocked
-//        if (blockMap.containsKey(clientIP) && currentTimeMillis - blockMap.get(clientIP) <= TimeUnit.SECONDS.toMillis(BLOCK_TIME_SECONDS)) {
-//            HttpServletResponse httpResponse = (HttpServletResponse) response;
-//            httpResponse.setContentType("text/plain; charset=UTF-8");
-//            httpResponse.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
-//            httpResponse.getWriter().write("너무 많은 요청을 보냈습니다. 10초 동안 요청을 보낼 수 없습니다.");
-//            return;
-//        }
-//
-//        // Check requests per minute
-//        Deque<Long> requestTimesMinute = requestsMapMinute.get(clientIP);
-//        if (requestTimesMinute == null) {
-//            requestTimesMinute = new ArrayDeque<>();
-//            requestsMapMinute.put(clientIP, requestTimesMinute);
-//        }
-//        requestTimesMinute.add(currentTimeMillis);
-//        while (!requestTimesMinute.isEmpty() && currentTimeMillis - requestTimesMinute.peekFirst() > TimeUnit.MINUTES.toMillis(1)) {
-//            requestTimesMinute.pollFirst();
-//        }
-//
-//        // Check requests per second
-//        Deque<Long> requestTimesSecond = requestsMapSecond.get(clientIP);
-//        if (requestTimesSecond == null) {
-//            requestTimesSecond = new ArrayDeque<>();
-//            requestsMapSecond.put(clientIP, requestTimesSecond);
-//        }
-//        requestTimesSecond.add(currentTimeMillis);
-//        while (!requestTimesSecond.isEmpty() && currentTimeMillis - requestTimesSecond.peekFirst() > TimeUnit.SECONDS.toMillis(1)) {
-//            requestTimesSecond.pollFirst();
-//        }
-//
-//        // If exceeded, add user to block map
-//        if (requestTimesMinute.size() > MAX_REQUESTS_PER_MINUTE || requestTimesSecond.size() > MAX_REQUESTS_PER_SECOND) {
-//            blockMap.put(clientIP, currentTimeMillis);
-//            HttpServletResponse httpResponse = (HttpServletResponse) response;
-//            httpResponse.setContentType("text/plain; charset=UTF-8");
-//            httpResponse.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
-//            httpResponse.getWriter().write("너무 많은 요청을 보냈습니다. 10초 동안 요청을 보낼 수 없습니다.");
-//            return;
-//        }
-//
-//        chain.doFilter(request, response);
-//    }
-//
-//    private String getClientIP(HttpServletRequest request) {
-//        String xfHeader = request.getHeader("X-Forwarded-For");
-//        if (xfHeader == null){
-//            return request.getRemoteAddr();
-//        }
-//        return xfHeader.split(",")[0];
-//    }
-//
-//    @Override
-//    public void init(FilterConfig filterConfig) throws ServletException {
-//    }
-//
-//    @Override
-//    public void destroy() {
-//    }
-//}
 @WebFilter(urlPatterns="/*")
 public class AccessLimiterFilter implements Filter {
     // 1분당 최대 get 횟수
-    private static final int MAX_REQUESTS_PER_MINUTE = 300;
+    private static final int MAX_REQUESTS_PER_MINUTE = 400;
     // 1초당 최대 get 횟수
-    private static final int MAX_REQUESTS_PER_SECOND = 60;
+    private static final int MAX_REQUESTS_PER_SECOND = 30;
     // 차단되는 시간
     private static final int BLOCK_TIME_SECONDS = 10;
     private Map<String, Deque<Long>> requestsMapMinute = new HashMap<>();
@@ -179,11 +34,13 @@ public class AccessLimiterFilter implements Filter {
 
         // 차단되어 있다면 10초간 접근을 막는다.
         if (blockMap.containsKey(clientIP) && currentTimeMillis - blockMap.get(clientIP) <= TimeUnit.SECONDS.toMillis(BLOCK_TIME_SECONDS)) {
+            // 필터는 spring context 이전에 발생한다.그렇기에 여기서 발생하는 에러는 반드시 서블릿 api에 의해 감지되기에
+            // 반드시 servlet api가 제대로 감지할수 있는 에러를 보내줘야 한다.
+            // 그렇지 않으면 의도치 않은 servlet api 에러가 발생한다
             HttpServletResponse httpResponse = (HttpServletResponse) response;
-            httpResponse.setContentType("text/plain; charset=UTF-8");
-            httpResponse.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
-            httpResponse.getWriter().write("너무 많은 요청을 보냈습니다. 10초 동안 요청을 보낼 수 없습니다.");
+            httpResponse.sendError(HttpStatus.TOO_MANY_REQUESTS.value());
             return;
+
         }
 
         // 1분이 넘었을시 덱에서 제거한다
@@ -211,10 +68,11 @@ public class AccessLimiterFilter implements Filter {
         // 10초간 차단한다.
         if (requestTimesMinute.size() > MAX_REQUESTS_PER_MINUTE || requestTimesSecond.size() > MAX_REQUESTS_PER_SECOND) {
             blockMap.put(clientIP, currentTimeMillis);
+            // 필터는 spring context 이전에 발생한다.그렇기에 여기서 발생하는 에러는 반드시 서블릿 api에 의해 감지되기에
+            // 반드시 servlet api가 제대로 감지할수 있는 에러를 보내줘야 한다.
+            // 그렇지 않으면 의도치 않은 serclet api 에러가 발생한다
             HttpServletResponse httpResponse = (HttpServletResponse) response;
-            httpResponse.setContentType("text/plain; charset=UTF-8");
-            httpResponse.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
-            httpResponse.getWriter().write("너무 많은 요청을 보냈습니다. 10초 동안 요청을 보낼 수 없습니다.");
+            httpResponse.sendError(HttpStatus.TOO_MANY_REQUESTS.value());
             return;
         }
 

@@ -80,7 +80,7 @@ public class RegisterController {
             userDto.setPwd(hashedPassword);
             String answer = userService.registerUser(userDto);
             if(answer.equals("success")){
-                rda.addFlashAttribute("error","회원가입 감사합니다!상단에서 로그인 해주세요!");
+                rda.addFlashAttribute("error","회원가입 감사합니다! 상단에서 로그인 해주세요!");
                 return "redirect:/";
             }else if(answer.equals("duplicateId")){
                 rda.addFlashAttribute("error","이미 존재하는 아이디입니다.다르게 입력해주세요");

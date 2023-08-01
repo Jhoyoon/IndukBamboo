@@ -15,10 +15,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -32,10 +29,10 @@ public class HomeController {
 	@Value("#{property['ADMIN_PAGE']}")
 	private String adminPage;
 
-
 	@GetMapping(value="/")
-	public String main(HttpSession session, RedirectAttributes rda,Model m) throws Exception{
+	public String main(HttpSession session, RedirectAttributes rda,Model m){
 		String id = (String)session.getAttribute("id");
+		//throw new Exception("test");
 		if("".equals(id) || id == null){
 			return "home";
 		}
