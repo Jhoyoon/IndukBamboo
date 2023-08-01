@@ -9,8 +9,8 @@
   <li>CSS3</li>
 </ul>
 <h1>:mega:ERD</h1><br>
-<p align="center">
-  <img src="https://github.com/Jhoyoon/Induk/assets/126047439/9a49170b-9e96-436f-b5d5-9c2bdcc2933d">
+<p align="center" >
+  <img width="100px" height="80px" src="https://github.com/Jhoyoon/Induk/assets/126047439/9a49170b-9e96-436f-b5d5-9c2bdcc2933d">
 </p>
 <h1>:mega:개발 환경</h1>
 <ul>
