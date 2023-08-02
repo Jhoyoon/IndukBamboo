@@ -38,7 +38,7 @@
     </div>
     <div id="board_nickname_time_view_commentcnt">
       <div id="nickname_time">
-        <div id="nickname"><c:out value="${nickname}"/></div>
+        <div id="nickname"><c:out value="${board_nickname}"/></div>
         <div id="reg_date"><c:out value="${board.reg_date}"/></div>
       </div>
       <div id="view_commentcnt">

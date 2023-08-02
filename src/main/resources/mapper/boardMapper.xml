@@ -43,45 +43,36 @@
     <select id="selectSearchPage" parameterType="SearchCondition" resultType="BoardDto">
         <choose>
             <when test='option == "T"'>
-                SELECT board.*, user_info.nickname
+                SELECT board.*,user_info.nickname
                 FROM board
-                INNER JOIN user_info ON board.writer = user_info.id
-                WHERE board.type = #{type} AND board.title LIKE CONCAT('%',#{keyword},'%')
+                LEFT JOIN user_info ON board.writer = user_info.id
+                WHERE board.type = #{type}
                 ORDER BY board.reg_date DESC, board.bno DESC
                 LIMIT #{offset}, #{pageSize};
             </when>
             <when test='option == "A"'>
-                SELECT board.*, user_info.nickname
+                SELECT board.*,user_info.nickname
                 FROM board
-                INNER JOIN user_info ON board.writer = user_info.id
+                LEFT JOIN user_info ON board.writer = user_info.id
                 WHERE board.type = #{type} AND (board.title LIKE CONCAT('%',#{keyword},'%') OR board.content LIKE CONCAT('%',#{keyword},'%'))
                 ORDER BY board.reg_date DESC, board.bno DESC
                 LIMIT #{offset}, #{pageSize};
             </when>
             <when test='option == "W"'>
-                SELECT board.*, user_info.nickname
+                SELECT board.*,user_info.nickname
                 FROM board
-                INNER JOIN user_info ON board.writer = user_info.id
+                LEFT JOIN user_info ON board.writer = user_info.id
                 WHERE board.type = #{type} AND user_info.nickname LIKE CONCAT('%',#{keyword},'%')
                 ORDER BY board.reg_date DESC, board.bno DESC
                 LIMIT #{offset}, #{pageSize};
+
             </when>
             <otherwise>
-                (
-                SELECT board.*, user_info.nickname
+                SELECT board.*,user_info.nickname
                 FROM board
-                INNER JOIN user_info ON board.writer = user_info.id
-                WHERE board.type = #{type} AND board.writer = 'wjddbs9350'
-                ORDER BY reg_date DESC, bno DESC
-                )
-                UNION ALL
-                (
-                SELECT board.*, user_info.nickname
-                FROM board
-                INNER JOIN user_info ON board.writer = user_info.id
-                WHERE board.type = #{type} AND board.writer != 'wjddbs9350'
-                ORDER BY reg_date DESC, bno DESC
-                )
+                LEFT JOIN user_info ON board.writer = user_info.id
+                WHERE board.type = #{type}
+                ORDER BY board.is_notice DESC, board.reg_date DESC, board.bno DESC
                 LIMIT #{offset}, #{pageSize};
             </otherwise>
         </choose>

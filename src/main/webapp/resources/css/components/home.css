@@ -2,14 +2,14 @@
     position: absolute;
     top:15%;
     right:5%;
-    width:1300px;
-    height: 700px;
+    width:1200px;
+    height: 640px;
     background-color:rgb(214,227,242);
 }
 #road{
     position: absolute;
     width:60px;
-    height:538px;
+    height:480px;
     bottom:-5%;
     right:58%;
     background-color: white;
@@ -27,7 +27,7 @@
     width:580px;
     height:280px;
     bottom:-5%;
-    right:1%;
+    right:0%;
     background-color: white;
 }
 #map_article{

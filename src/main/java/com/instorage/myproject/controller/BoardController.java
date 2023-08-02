@@ -3,6 +3,7 @@ package com.instorage.myproject.controller;
 import com.instorage.myproject.domain.BoardDto;
 import com.instorage.myproject.domain.PageHandler;
 import com.instorage.myproject.domain.SearchCondition;
+import com.instorage.myproject.domain.UserDto;
 import com.instorage.myproject.service.BoardService;
 import com.instorage.myproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,17 +51,16 @@ public class BoardController {
         String nav = navCheck(sc.getType());
         String title = titleCheck(sc.getType());
         try{
+            String nickname = userService.readUserById(id).getNickname();
             int totalSize=boardService.countSearchPage(sc);
             PageHandler ph = new PageHandler(totalSize,sc);
-
             List<BoardDto> list =boardService.selectSearchPage(sc);
-            String nickname=userService.readUserById(id).getNickname();
             if(list.size() == 0) m.addAttribute("none","*게시물이 없습니다*");
             m.addAttribute("list",list);
             m.addAttribute("ph",ph);
             m.addAttribute("nav",nav);
-            m.addAttribute("nickname",nickname);
             m.addAttribute("title",title);
+            m.addAttribute("nickname",nickname);
             return "boardList";
         }catch(Exception e){
             e.printStackTrace();
@@ -146,6 +146,10 @@ public class BoardController {
 
             boardService.increaseViewCntByBno(bno);
             String nickname = userService.readUserById(id).getNickname();
+            String board_nickname;
+            UserDto userDto = userService.readUserById(boardDto.getWriter());
+            board_nickname = userDto.getNickname();
+            m.addAttribute("board_nickname",board_nickname);
             m.addAttribute("page",page);
             m.addAttribute("pageSize",pageSize);
             m.addAttribute("board",boardDto);

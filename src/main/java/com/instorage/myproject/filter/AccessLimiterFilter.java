@@ -19,7 +19,7 @@ public class AccessLimiterFilter implements Filter {
     // 1분당 최대 get 횟수
     private static final int MAX_REQUESTS_PER_MINUTE = 400;
     // 1초당 최대 get 횟수
-    private static final int MAX_REQUESTS_PER_SECOND = 30;
+    private static final int MAX_REQUESTS_PER_SECOND = 60;
     // 차단되는 시간
     private static final int BLOCK_TIME_SECONDS = 10;
     private Map<String, Deque<Long>> requestsMapMinute = new HashMap<>();

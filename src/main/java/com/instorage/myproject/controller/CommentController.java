@@ -129,6 +129,7 @@ public class CommentController {
         List<CommentDto> list= new ArrayList<>();
         try{
             //throw new Exception("test");
+            System.out.println(bno);
             list = commentService.getCommentByBnoToList(bno);
         }catch(Exception e){
             e.printStackTrace();
