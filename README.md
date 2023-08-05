@@ -19,7 +19,7 @@
 </ul>
 <h1>:mega:배포</h1>
 현재 aws 배포 준비중
-(http://3.34.197.239:8080/instorage/) 
+www.indukbamboo.com
 임시링크
 <h1>해야하는것들</h1>
 배포 자동화 및 rds 연결
