@@ -18,9 +18,7 @@
   <li>STS4</li>
 </ul>
 <h1>:mega:배포</h1>
-현재 aws 배포 준비중
 www.indukbamboo.com
-임시링크
 <h1>해야하는것들</h1>
 배포 자동화 및 rds 연결
 화면 깨지는 문제 해결
