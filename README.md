@@ -19,6 +19,9 @@
 </ul>
 <h1>:mega:배포</h1>
 www.indukbamboo.com
+<p align="center" >
+  <img width="650px" height="500px" src="https://github.com/Jhoyoon/Induk/assets/126047439/578fbbd2-e450-4f68-969d-991eab9ac9c1">
+</p>
 <h1>해야하는것들</h1>
 배포 자동화 및 rds 연결
 화면 깨지는 문제 해결
