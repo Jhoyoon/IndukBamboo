@@ -46,7 +46,7 @@
                 SELECT board.*,user_info.nickname
                 FROM board
                 LEFT JOIN user_info ON board.writer = user_info.id
-                WHERE board.type = #{type}
+                WHERE board.type = #{type} and board.title like CONCAT('%',#{keyword},'%')
                 ORDER BY board.reg_date DESC, board.bno DESC
                 LIMIT #{offset}, #{pageSize};
             </when>

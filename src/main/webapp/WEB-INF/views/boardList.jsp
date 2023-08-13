@@ -4,7 +4,8 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <html>
 <head>
-  <title>${param.type}</title>
+  <title><c:out value="${title}"/></title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../resources/img/favicon.png">
   <link rel="stylesheet" href="<c:url value="/resources/css/main.css"/>">
   <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
   <script

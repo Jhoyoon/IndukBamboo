@@ -62,7 +62,9 @@ public class BoardServiceImpl implements BoardService {
     }
     // 게시물을 bno로 읽는다.객체 하나를 가져옴
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public BoardDto readBoardByBno(Integer bno)throws Exception{
+        boardDao.increaseViewCntByBno(bno);
         return boardDao.selectBoardByBno(bno);
     }
     // 페이지를 가져온다.offset pagesize를 amp으로 받고 객체를 list로 반환한다.

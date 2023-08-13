@@ -33,7 +33,7 @@ public interface CommentDao {
     int updateComment(CommentDto dto) throws Exception // int update(String statement, Object parameter)
     ;
 
-    int deletedByCno(Integer cno) throws Exception;
+    int deletedSetZeroByCno(Integer cno) throws Exception;
 
     int plusReplyCntByPcno(Integer pcno, Integer num) throws Exception;
 }

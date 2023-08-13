@@ -1,9 +1,6 @@
 package com.instorage.myproject.controller;
 
-import com.instorage.myproject.domain.BoardDto;
-import com.instorage.myproject.domain.PageHandler;
-import com.instorage.myproject.domain.SearchCondition;
-import com.instorage.myproject.domain.UserDto;
+import com.instorage.myproject.domain.*;
 import com.instorage.myproject.service.BoardService;
 import com.instorage.myproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping(value="/board")
@@ -28,10 +23,12 @@ public class BoardController {
     BoardService boardService;
     @Autowired
     UserService userService;
+    @Autowired
+    Validate validate;
     // ***************************************************************************
     // 모든 게시물 보여주기
     @GetMapping(value="/list")
-    public String boardList(SearchCondition sc, HttpServletRequest request,RedirectAttributes rda,Model m){
+    public String boardList(SearchCondition sc, HttpSession session,RedirectAttributes rda,Model m){
         if(sc.getPage() == null) sc.setPage(1);
         if(sc.getPageSize() == null) sc.setPageSize(30);
         if(sc.getType() == null || "".equals(sc.getType())){
@@ -39,8 +36,8 @@ public class BoardController {
             return "redirect:/";
         }
         // req에서 sessionid로 서버에서 세션을 찾는다.
-        HttpSession session = request.getSession();
-        String id = (String)session.getAttribute("id");
+        String id = getSessionId(session);
+        // 연지스퀘어의 경우 visiter 계정을 부여하고 접근을 허가한다.
         if((id==null||"".equals(id)) && (sc.getType().equals("yenji") || sc.getType().equals("gym") || sc.getType().equals("printer") || sc.getType().equals("foodcourt") || sc.getType().equals("stationery"))){
             id = "visiter";
         }
@@ -50,12 +47,18 @@ public class BoardController {
         }
         String nav = navCheck(sc.getType());
         String title = titleCheck(sc.getType());
+
         try{
+            // 헤더에 들어가는 닉네임
             String nickname = userService.readUserById(id).getNickname();
+
+            // ***************** 페이지 list 로직
             int totalSize=boardService.countSearchPage(sc);
             PageHandler ph = new PageHandler(totalSize,sc);
             List<BoardDto> list =boardService.selectSearchPage(sc);
             if(list.size() == 0) m.addAttribute("none","*게시물이 없습니다*");
+            // *****************************
+
             m.addAttribute("list",list);
             m.addAttribute("ph",ph);
             m.addAttribute("nav",nav);
@@ -64,7 +67,7 @@ public class BoardController {
             return "boardList";
         }catch(Exception e){
             e.printStackTrace();
-            rda.addFlashAttribute("error","페이지 로드시 에러가 발생했습니다.다시 시도해주세요.");
+            rda.addFlashAttribute("error","페이지 로드시 에러 발생.다시 시도해주세요.");
             return "redirect:/";
         }
     }
@@ -74,7 +77,7 @@ public class BoardController {
     // 게시물 제거
     @GetMapping(value="/remove")
     public String boardRemove(String type,Integer bno, Integer page, Integer pageSize,HttpSession session,RedirectAttributes rda){
-        String id =(String)session.getAttribute("id");
+        String id =getSessionId(session);
         if(id == null || "".equals(id)){
             rda.addFlashAttribute("error","로그인 해야 대나무숲에 접근할수 있습니다!");
             return "redirect:/";
@@ -85,12 +88,16 @@ public class BoardController {
         }
         String uri;
         try{
+            // ************************** 게시물이 존재하는지 확인한다.****************************
             boolean check = boardService.checkBoardByBno(bno);
             if(!check){
                 uri = "redirect:/board/list?type="+type+"&page=" + page + "&pageSize=" + pageSize;
                 rda.addFlashAttribute("error","게시물이 존재하지 않습니다.");
                 return uri;
             }
+            // *******************************************************************************
+
+            // ************************* 삭제하는 사람이 작성자인지 확인한다*************************
             BoardDto boardDto = boardService.readBoardByBno(bno);
             String writer = boardDto.getWriter();
             if(!(writer.equals(id))){
@@ -98,14 +105,17 @@ public class BoardController {
                 rda.addFlashAttribute("error","게시물은 작성자만 삭제할수 있습니다.");
                 return uri;
             }
+            // *******************************************************************************************
+            // ********************************게시물 삭제 로직 *********************************************
             int answer = boardService.removeBoardByBnoAndWriter(bno,id);
             if(answer==1){
                 uri = "redirect:/board/list?type="+type+"&page=" + page + "&pageSize=" + pageSize ;
                 rda.addFlashAttribute("error","삭제성공");
             }else{
                 uri = "redirect:/board/read?type="+type+"&bno=" + bno + "&page=" + page + "&pageSize=" + pageSize;
-                rda.addFlashAttribute("error","게시물은 작성자만 삭제할수 있습니다.");
+                rda.addFlashAttribute("error","게시물 삭제에 실패했습니다.");
             }
+            // ***************************************************************************************************
         }catch(Exception e) {
             e.printStackTrace();
             uri = "redirect:/board/read?type="+type+"&bno=" + bno + "&page=" + page + "&pageSize=" + pageSize;
@@ -118,7 +128,8 @@ public class BoardController {
     // 특정 게시물 읽어오기
     @GetMapping(value="/read")
     public String boardRead(String type,Integer bno,Integer page,Integer pageSize,RedirectAttributes rda,Model m,HttpSession session){
-        String id = (String)session.getAttribute("id");
+        String id = getSessionId(session);
+        // 연지스퀘어의 경우 visiter 계정을 부여하자
         if((id==null || "".equals(id)) && (type.equals("yenji") || type.equals("gym") || type.equals("printer") || type.equals("foodcourt") || type.equals("stationery")) ){
             id = "visiter";
         }
@@ -130,25 +141,26 @@ public class BoardController {
             rda.addFlashAttribute("error","페이지에 접근할수 없습니다.");
             return "redirect:/";
         }
+
         String nav = navCheck(type);
         String title = titleCheck(type);
+
         try{
+            // *********************게시물이 존재하는지 확인한다.***************************************
             boolean answer = boardService.checkBoardByBno(bno);
             if(!answer){
                 String uri = "redirect:/board/list?page="+page+"&pageSize="+pageSize+"&nav="+nav;
                 rda.addFlashAttribute("error","게시물이 존재하지 않습니다.");
                 return uri;
             }
+            // *****************************************************************************************
+            // 값을 넘기는데 사용하는 boardDto
             BoardDto boardDto = boardService.readBoardByBno(bno);
-            String originalContent = boardDto.getContent();
-            String convertedContent = originalContent.replace("\n","<br>");
-            boardDto.setContent(convertedContent);
-
-            boardService.increaseViewCntByBno(bno);
+            // 헤더에 사용할 nickname
             String nickname = userService.readUserById(id).getNickname();
-            String board_nickname;
+            // 게시물에 사용할 nickname
             UserDto userDto = userService.readUserById(boardDto.getWriter());
-            board_nickname = userDto.getNickname();
+            String board_nickname = userDto.getNickname();
             m.addAttribute("board_nickname",board_nickname);
             m.addAttribute("page",page);
             m.addAttribute("pageSize",pageSize);
@@ -168,17 +180,20 @@ public class BoardController {
     // 게시물 작성하기
     @GetMapping(value="/write")
     public String boardWriteGet(String type,Integer page,Integer pageSize,RedirectAttributes rda,Model m,HttpSession session){
-        String id = (String)session.getAttribute("id");
+        String id = getSessionId(session);
+        // 연지스퀘어는 로그인을 안 해도 접근할수 있다.연지스퀘어에서 글을 작성하려고 시도 할 경우 다른 메세지를 보여주자
         if((id == null || "".equals(id)) && (type.equals("yenji") || type.equals("gym") || type.equals("printer") || type.equals("foodcourt") || type.equals("stationery"))){
             rda.addFlashAttribute("error","글은 로그인을 해야 작성할수 있습니다.회원가입 고고");
             String uri="redirect:/board/list?type="+type+"&page="+page+"&pageSize="+pageSize;
             return uri;
         }
+
         if(id == null || "".equals(id)){
             rda.addFlashAttribute("error","로그인 해야 대나무숲에 접근할수 있습니다!");
             return "redirect:/";
         }
-        if(pageSize == null) pageSize = 10;
+
+
         if(type == null || "".equals(type)){
             rda.addFlashAttribute("error","페이지에 접근할수 없습니다.");
             return "redirect:/";
@@ -197,32 +212,31 @@ public class BoardController {
         }
         return "boardWrite";
     }
-    //왜 boardDto로 한번에 받는게 안 되지...?edit에서는 됐는데
+
     @PostMapping(value="/write")
     public String boardWritePost(String type,String title,String content,Integer page,Integer pageSize,HttpSession session,RedirectAttributes rda,Model m){
-        String writer = (String)session.getAttribute("id");
+        String writer = getSessionId(session);
         if(type == null || "".equals(type)){
             rda.addFlashAttribute("error","게시물 등록에 실패했습니다.");
             return "redirect:/";
         }
 
+        // 게시글 입력값 유효성 검증
+        String resTitle = validate.titleCheck(title);
+        String resContent = validate.contentCheck(content);
+        // 유효하지 않을시 redirect
+        if(!resTitle.equals("success")){
+            String redirectPath = validate.handleResponseTitle(resTitle,rda,type,page,pageSize);
+            return redirectPath;
+        }
+
+        if(!resContent.equals("success")){
+            String redirectPath = validate.handleResponseContent(resContent,rda,type,page,pageSize);
+            return redirectPath;
+        }
+
         BoardDto boardDto = new BoardDto(type,writer,title,content);
         boardDto.setWriter(writer);
-        if(title == null || "".equals(title)){
-            rda.addFlashAttribute("error","제목을 입력해주세요!");
-            String uri = "redirect:/board/write?type="+type+"&page="+page+"&pageSize="+pageSize;
-            return uri;
-        }
-        if(title.length() > 100) {
-            rda.addFlashAttribute("error", "제목은 최대 100글자 입력 가능합니다.");
-            String uri = "redirect:/board/write?type=" + type + "&page=" + page + "&pageSize=" + pageSize;
-            return uri;
-        }
-        if(content == null || "".equals(content)) {
-            rda.addFlashAttribute("error", "내용을 입력해주세요!");
-            String uri = "redirect:/board/write?type=" + type + "&page=" + page + "&pageSize=" + pageSize;
-            return uri;
-        }
         try{
             boardService.writeBoard(boardDto);
             String uri="redirect:/board/list?type="+type+"&pageSize="+pageSize;
@@ -238,7 +252,7 @@ public class BoardController {
     // 게시물 수정하기
     @GetMapping(value="/edit")
     public String boardEditGet(String type,Integer bno,String page,String pageSize,HttpSession session,RedirectAttributes rda,Model m){
-        String id = (String)session.getAttribute("id");
+        String id = getSessionId(session);
         if(id == null || "".equals(id)){
             rda.addFlashAttribute("error","로그인 해야 대나무숲에 접근할수 있습니다!");
         }
@@ -249,6 +263,7 @@ public class BoardController {
         String nav = navCheck(type);
         String title=  titleCheck(type);
         try{
+            // 게시물이 존재하는지 확인
             boolean answer = boardService.checkBoardByBno(bno);
             if(!answer){
                 String uri = "redirect:/board/list?type="+type+"&page="+page+"&pageSize="+pageSize;
@@ -276,13 +291,13 @@ public class BoardController {
         }catch(Exception e){
             e.printStackTrace();
             String uri = "redirect:/board/read?bno="+bno+"&page="+page+"&pageSize="+pageSize;
-            rda.addFlashAttribute("error","페이지 방문에 실패했습니다.다시 시도해주세요.");
+            rda.addFlashAttribute("error","페이지 방문에 실패.다시 시도해주세요.");
             return uri;
         }
     }
     @PostMapping(value="/edit")
     public String boardEditPost(BoardDto boardDto,Integer pageSize,Integer page,HttpSession session,RedirectAttributes rda,Model m){
-        String writer = (String)session.getAttribute("id");
+        String writer = getSessionId(session);
         boardDto.setWriter(writer);
         String type = boardDto.getType();
         if(type == null || "".equals(type)){
@@ -318,6 +333,7 @@ public class BoardController {
             return "boardWrite";
         }
     }
+
     private String navCheck(String type) {
          if(type.equals("silver" ) || type.equals("english") || type.equals("secretary") || type.equals("tour") || type.equals("china") || type.equals("japan") ||
              type.equals("watching") || type.equals("multi") || type.equals("webtoon") || type.equals("vr")){
@@ -402,5 +418,9 @@ public class BoardController {
         if(type.equals("foodcourt")) return "학생식당";
 
         return "error";
+    }
+    private String getSessionId(HttpSession session){
+        String id = (String)session.getAttribute("id");
+        return id;
     }
 }

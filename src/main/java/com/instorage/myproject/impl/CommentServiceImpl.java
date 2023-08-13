@@ -90,6 +90,7 @@ public class CommentServiceImpl implements CommentService {
         if(commentDto != null){
             commentDao.plusReplyCntByPcno(commentDto.getPcno(),-1);
         }
-        return commentDao.deletedByCno(cno);
+        // 여기서 deleted를 0으로 바꿔준다!!
+        return commentDao.deletedSetZeroByCno(cno);
     }
 }

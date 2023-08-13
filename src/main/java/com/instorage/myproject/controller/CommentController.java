@@ -3,6 +3,7 @@ package com.instorage.myproject.controller;
 import com.instorage.myproject.domain.BoardDto;
 import com.instorage.myproject.domain.CommentDto;
 import com.instorage.myproject.service.CommentService;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -33,11 +34,10 @@ public class CommentController {
                     .contentType(MediaType.parseMediaType("application/json;charset=UTF-8"))
                     .body(response);
         }
+        // 특수문자를 바꿔준다.스크립트 공격 방지
+        String convertedComment = StringEscapeUtils.escapeHtml4(dto.getComment());
         dto.setCommenter(commenter);
         dto.setBno(bno);
-
-        String originalComment =  dto.getComment();
-        String convertedComment = originalComment.replace("\n","<br>");
         dto.setComment(convertedComment);
         try {
 //            throw new Exception("test");
@@ -70,18 +70,12 @@ public class CommentController {
                 return ResponseEntity.ok()
                         .contentType(MediaType.parseMediaType("application/json;charset=UTF-8"))
                         .body(response);
-            }// 근데 시간에 쫓겨서 해서 쩔수였음
-            String commenter = commentService.readCommentByCno(cno).getCommenter();
-            if(!(commenter.equals(id))){
-                response.put("error","댓글은 작성자만 삭제할수 있습니다.");
-                return ResponseEntity.badRequest()
-                        .contentType(MediaType.parseMediaType("application/json;charset=UTF-8"))
-                        .body(response);
             }
-            int rowCnt = commentService.removeCommentByCnoAndBnoAndCommenter(cno,bno,commenter);
-            if(rowCnt!=1) throw new Exception("delete failed");
-            response.put("res","댓글 삭제에 성공했습니다.");
-        }catch (Exception e){
+            // 대댓글이 없을 경우 그냥 삭제한다
+            int rowCnt = commentService.removeCommentByCnoAndBnoAndCommenter(cno, bno, commenter);
+            if (rowCnt != 1) throw new Exception("delete failed");
+            response.put("res", "댓글 삭제에 성공했습니다.");
+        } catch (Exception e) {
             e.printStackTrace();
             response.put("res","댓글 삭제에 실패했습니다.다시 시도해 주세요.");
             return ResponseEntity.badRequest()
@@ -98,6 +92,7 @@ public class CommentController {
     public ResponseEntity<Map<String,String>> update(@PathVariable Integer cno,@RequestBody Map<String, String> commentMap,HttpSession session){
         String id = (String)session.getAttribute("id");
         Map response = new HashMap();
+        // 스크립트 공격을 방지해준다.
         String originalComment = commentMap.get("comment");
         String convertedComment = originalComment.replace("\n","<br>");
         try{
@@ -129,7 +124,6 @@ public class CommentController {
         List<CommentDto> list= new ArrayList<>();
         try{
             //throw new Exception("test");
-            System.out.println(bno);
             list = commentService.getCommentByBnoToList(bno);
         }catch(Exception e){
             e.printStackTrace();
@@ -144,6 +138,10 @@ public class CommentController {
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/json;charset=UTF-8"))
                 .body(list);
+    }
+    private String getSessionId(HttpSession session){
+        String id = (String)session.getAttribute("id");
+        return id;
     }
 }
 

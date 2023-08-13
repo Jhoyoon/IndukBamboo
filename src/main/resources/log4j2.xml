@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="trace">
     <Appenders>
-        <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
-        </Console>
-        <File name="File" fileName="C:\Collection of source codes\Java\instorage\instorage\src\main\java\com\instorage\myproject\log\app.log">
+<!--        <Console name="Console" target="SYSTEM_OUT">-->
+<!--            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>-->
+<!--        </Console>-->
+<!--        <File name="File" fileName="C:\Collection of source codes\Java\instorage\instorage\src\main\java\com\instorage\myproject\log\app.log">-->
+        <File name="File" fileName="C:/app.log" >
             <PatternLayout>
                 <pattern>%d %p %c{1.} [%t] %m%n</pattern>
             </PatternLayout>
         </File>
+        <param name="Encoding" value="UTF-8"/>
     </Appenders>
     <Loggers>
         <Root level="info">
-            <AppenderRef ref="Console"/>
+<!--            <AppenderRef ref="Console"/>-->
             <AppenderRef ref="File"/>
         </Root>
     </Loggers>

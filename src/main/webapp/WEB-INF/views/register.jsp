@@ -4,15 +4,17 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>회원가입</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../resources/img/favicon.png">
     <link rel="stylesheet" href="<c:url value="/resources/css/main.css"/>">
     <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script
             src="https://kit.fontawesome.com/634362e31b.js"
             crossorigin="anonymous"
     ></script>
 </head>
-<body>
+<body id="register_body">
 <jsp:include page="template/header.jsp" />
 <article id="register">
 <form method="post" id="register_form">
@@ -166,7 +168,7 @@
 
         // 서버에 POST 요청을 보내서 중복 검사를 합니다.
         $.ajax({
-            url: '/instorage/checkId',
+            url: '/checkId',
             type: 'post',
             dataType: 'json',
             contentType: 'application/json', // contentType 추가
@@ -205,7 +207,7 @@
             return;
         }
         $.ajax({
-            url: '/instorage/checkNickname',
+            url: '/checkNickname',
             type: 'post',
             dataType: 'json',
             contentType: 'application/json', // contentType 추가

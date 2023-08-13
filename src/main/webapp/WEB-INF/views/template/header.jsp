@@ -5,7 +5,7 @@
     <div id="header_left">
         <a href="<c:url value="/"/>"><i class="fa-regular fa-map"></i>인덕 대나무숲</a>
     </div>
-    <div id="header_right">
+    <div id="header_right" class="container">
     <c:choose>
         <c:when test="${nickname == '방문객'}">
             <div id="header_right_login">

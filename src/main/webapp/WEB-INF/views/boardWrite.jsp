@@ -5,7 +5,8 @@
 <c:url var="formUrl" value="${mode == 'edit' ? '/board/edit':'/board/write'}"/>
 <html>
 <head>
-  <title>Home</title>
+  <title>글작성</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../resources/img/favicon.png">
     <link rel="stylesheet" href="<c:url value="/resources/css/main.css"/>">
     <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
     <script

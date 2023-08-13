@@ -4,7 +4,8 @@
 
 <html>
 <head>
-  <title>Home</title>
+  <title>글 읽기</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../resources/img/favicon.png">
   <link rel="stylesheet" href="<c:url value="/resources/css/main.css"/>">
   <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
   <script
@@ -47,7 +48,7 @@
       </div>
     </div>
     <div id="board_content">
-      <div><c:out value="${board.content}"/></div>
+      <div style="white-space: pre;"><c:out value="${board.content}"/></div>
     </div>
     <h1 id = "comment_h1">전체 댓글 <span><c:out value="${board.comment_cnt}"/></span></h1>
     <div id="commentContainer"></div>
@@ -101,12 +102,13 @@
     let showList = function (bno){
       $.ajax({
         type:'get',       // 요청 메서드
-        url: '/instorage/comments?bno='+bno,  // 요청 URI
+        url: '/comments?bno='+bno,  // 요청 URI
         dataType : 'json', // 전송받을 데이터의 타입
         success : function(data){ // 콜백함수
           $("#commentContainer").html(doHtml(data));
         },
         error   : function(data){
+
           $("#error").css("display","flex");
           $("#error p:first-child").html(data.responseJSON[0].comment);
         }
@@ -128,7 +130,7 @@
       }
       $.ajax({
         type:'post',       // 요청 메서드
-        url: '/instorage/comments?bno='+bno,  // 요청 URI
+        url: '/comments?bno='+bno,  // 요청 URI
         dataType : 'json', // 전송받을 데이터의 타입
         headers : { "content-type": "application/json"}, // 요청 헤더
         data : JSON.stringify({"comment":comment}),
@@ -137,12 +139,12 @@
           $("#comment").val('');
         },
         error   : function(data){
-          console.log("이거 작동함");
           if(data.responseJSON === undefined){
             $("#error p:first-child").html("너무 많은 요청을 보냈습니다.1분간 기다려주세요.");
             $("#error").css("display", "flex");
           }else{
-            $("#error p:first-child").html(data.responseJSON.error);
+
+            $("#error p:first-child").html(data.responseJSON.res);
             $("#error").css("display", "flex");
 
           }
@@ -188,7 +190,7 @@
     let update = function(cno, comment){
       $.ajax({
         type:'patch',       // 요청 메서드
-        url: '/instorage/comments/'+cno,  // 요청 URI
+        url: '/comments/'+cno,  // 요청 URI
         dataType : 'json', // 전송받을 데이터의 타입
         headers : { "content-type": "application/json"}, // 요청 헤더
         data : JSON.stringify({"comment":comment}),
@@ -222,7 +224,7 @@
       if (confirm("정말 삭제하시겠습니까?")){
         $.ajax({
           type:'delete',       // 요청 메서드
-          url: '/instorage/comments/'+cno+'?bno='+bno,  // 요청 URI
+          url: '/comments/'+cno+'?bno='+bno,  // 요청 URI
           dataType : 'json', // 전송받을 데이터의 타입
           success : function(data){ // 콜백함수
             $("#error").css("display","flex");
@@ -266,7 +268,7 @@
       }
       $.ajax({
         type:'post',       // 요청 메서드
-        url: '/instorage/comments?bno='+bno,  // 요청 URI
+        url: '/comments?bno='+bno,  // 요청 URI
         dataType : 'json', // 전송받을 데이터의 타입
         headers : { "content-type": "application/json"}, // 요청 헤더
         data : JSON.stringify({"pcno":cno,"comment":comment}),
@@ -274,12 +276,11 @@
           showList(bno);
         },
         error   : function(data) {
-          console.log("이거 작동함");
           if (data.responseJSON === undefined) {
             $("#error p:first-child").html("너무 많은 요청을 보냈습니다.1분간 기다려주세요.");
             $("#error").css("display", "flex");
           } else {
-            $("#error p:first-child").html(data.responseJSON.error);
+            $("#error p:first-child").html(data.responseJSON.res);
             $("#error").css("display", "flex");
 
           }
@@ -305,11 +306,11 @@
       return formattedDate;
     }
 
-
     let doHtml = function (comments){
       let tmp = "<ul>";
       let id = $("body").data("id");
       comments.forEach(function (comments){
+
         let date = dateFormatter(comments.reg_date);
         tmp = tmp + "<li data-cno='"+comments.cno+"'"
         tmp = tmp + " data-bno='"+comments.bno+"'"
@@ -332,7 +333,7 @@
           tmp = tmp + "</div>"
           tmp = tmp + "</div>"
           tmp = tmp + "<div class='comment_li_comment'>"
-          tmp = tmp +"<span>"+comments.comment+"</span>"
+          tmp = tmp +"<span style='white-space: pre-line;'>"+comments.comment+"</span>"
           tmp = tmp + "</div>"
           tmp = tmp + "<div class='comment_li_reply'>"
           if(comments.cno == comments.pcno)

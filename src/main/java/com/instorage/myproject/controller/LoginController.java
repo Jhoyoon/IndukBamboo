@@ -2,6 +2,7 @@ package com.instorage.myproject.controller;
 
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import com.instorage.myproject.domain.Validate;
 import com.instorage.myproject.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ import javax.servlet.http.HttpSession;
 public class LoginController {
     @Autowired
     UserService userService;
+    @Autowired
+    Validate validate;
 
     @GetMapping(value="/logout")
     public String logoutGet(HttpSession session){
@@ -34,15 +37,15 @@ public class LoginController {
     }
     @PostMapping(value="/login")
     public String loginPost(String id, String pwd, boolean rememberId, Model m, RedirectAttributes rda, HttpServletResponse res, HttpServletRequest req){
-        boolean check = checkId(id);
-        if(!check){
-            rda.addFlashAttribute("error","id값이 유효하지 않습니다.다시 입력해주세요.");
-            return "redirect:/";
+        String resId = validate.idCheck(id);
+        String resPwd = validate.pwdCheck(pwd);
+        if(!resId.equals("success")){
+            String redirectPath = validate.handleResponseId(rda,resId);
+            return redirectPath;
         }
-        boolean check2 = checkPwd(pwd);
-        if(!check2){
-            rda.addFlashAttribute("error","pwd 값이 유효하지 않습니다.다시 입력해주세요.");
-            return "redirect:/";
+        if(!resPwd.equals("success")){
+            String redirectPath = validate.handleResponsePwd(rda,resPwd);
+            return redirectPath;
         }
         try {
             String loginCheck = userService.loginCheck(id,pwd);
@@ -51,7 +54,7 @@ public class LoginController {
                 return "redirect:/";
             }
             if(loginCheck.equals("MismatchedPassword")){
-                rda.addFlashAttribute("error","비밀번호가 id와 일치하지 않습니다.다시 확인해주세요.");
+                rda.addFlashAttribute("error","비밀번호가 일치하지 않습니다.다시 확인해주세요.");
                 return "redirect:/";
             }
             // 아이디 기억하기 기능을 사용할시 쿠키를 한달동안 저장시킨다.
@@ -80,30 +83,4 @@ public class LoginController {
             return "redirect:/";
         }
     }
-    private boolean checkId(String id){
-        if(id == null || "".equals(id)){
-            return false;
-        }
-        if(id.contains(" ")){
-           return false;
-        }
-        if(id.length() <= 4 || id.length() >= 20){
-            return false;
-        }
-        return true;
-    }
-    private boolean checkPwd(String pwd){
-        if(pwd == null || "".equals(pwd)){
-            return false;
-        }
-        if(pwd.length() <= 7 || pwd.length() >= 51){
-            return false;
-        }
-
-        if(pwd.contains(" ")){
-           return false;
-        }
-        return true;
-    }
-
 }

@@ -36,28 +36,6 @@ public class PageHandler {
 
         if(endPage == totalPage) showNext = false;
         else showNext = true;
-
-//        this.totalCnt = totalCnt;
-//        this.page = page;
-//        this.pageSize = pageSize;
-//        // beginpage 설정
-//        if(page%10 == 0) beginPage=page-9;
-//        else  beginPage = page/10*10+1;
-//        // 전체 페이지수 설정.Math.ceil에 결과가 실수로 들어가야 하기에 (double)
-//        totalPage = (int)Math.ceil((double)totalCnt/10);
-//        // 끝 페이지 설정
-//        endPage = Math.min(beginPage+9,totalPage);
-//        // 앞으로 뒤로를 보여줄지 말지 결정하는 설정
-//        showPrev = beginPage!=1;
-//        showNext = endPage!=totalPage;
-//
-//        if(showPrev) System.out.print("<< ");
-//        for(int i = beginPage;i<=endPage;i++){
-//            if(page == i) System.out.print("["+i+"]");
-//            else System.out.print(i);
-//        }
-//        if(showNext) System.out.println(">>");
-//        else System.out.println();
     }
 
     public int getTotalCnt() {

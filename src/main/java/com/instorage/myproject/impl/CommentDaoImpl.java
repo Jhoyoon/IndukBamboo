@@ -60,7 +60,7 @@ public class CommentDaoImpl implements CommentDao {
         return session.update(namespace+"updateComment", dto);
     } // int update(String statement, Object parameter)
     @Override
-    public int deletedByCno(Integer cno) throws Exception{
+    public int deletedSetZeroByCno(Integer cno) throws Exception{
         return session.update(namespace+"deletedByCno",cno);
     }
     @Override

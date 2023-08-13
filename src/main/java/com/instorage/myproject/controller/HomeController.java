@@ -5,6 +5,8 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import com.instorage.myproject.service.BoardService;
+import com.instorage.myproject.service.CommentService;
 import com.instorage.myproject.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +27,8 @@ import javax.servlet.http.HttpSession;
 public class HomeController {
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private BoardService boardService;
 
 	@Value("#{property['ADMIN_PAGE']}")
 	private String adminPage;
@@ -32,7 +36,7 @@ public class HomeController {
 	@GetMapping(value="/")
 	public String main(HttpSession session, RedirectAttributes rda,Model m){
 		String id = (String)session.getAttribute("id");
-		//throw new Exception("test");
+
 		if("".equals(id) || id == null){
 			return "home";
 		}
@@ -49,9 +53,11 @@ public class HomeController {
 	// 어드민 페이지
 	@GetMapping("/admin/{page}")
 	public String adminPage(@PathVariable String page,Model m) throws Exception{
+
 		if (adminPage.equals(page)) {
 			Integer totalUserCount = userService.countAllUser();
-			Integer totalBoardCount = userService.totalBoardCount();
+			Integer totalBoardCount = boardService.countAllBoard();
+
 			m.addAttribute("totalUserCount",totalUserCount);
 			m.addAttribute("totalBoardCount",totalBoardCount);
 			return "adminPage";

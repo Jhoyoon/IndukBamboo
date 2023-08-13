@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 @WebFilter(urlPatterns="/*")
 public class PostLimitFilter implements Filter {
     //1분당 보낼수 있는 최대 post 요청 회수
-    private static final int MAX_POST_REQUESTS_PER_MINUTE = 40;
+    private static final int MAX_POST_REQUESTS_PER_MINUTE = 70;
     // 1초간 보낼수 있는 최대 POST 요청 회수
     private int MAX_POST_REQUESTS_PER_SECOND = 10;
     // 유저가 차단되는 시간

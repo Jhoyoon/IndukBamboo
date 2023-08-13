@@ -22,13 +22,4 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="com.instorage" />
-	<!-- validator에서 지정해주는 error_message 저장소 등록-->
-	<beans:bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-		<beans:property name="basenames">
-			<beans:list>
-				<beans:value>error_message</beans:value> <!-- /src/main/resources/error_message.properties -->
-			</beans:list>
-		</beans:property>
-		<beans:property name="defaultEncoding" value="UTF-8"/>
-	</beans:bean>
 </beans:beans>

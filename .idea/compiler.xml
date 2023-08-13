@@ -6,13 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="instorage" />
+        <module name="ROOT" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="instorage" options="-Xlint:all" />
+      <module name="ROOT" options="-Xlint:all" />
     </option>
   </component>
 </project>
