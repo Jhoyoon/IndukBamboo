@@ -10,7 +10,7 @@
 </ul>
 <h1>:mega:ERD</h1><br>
 <p align="center" >
-  <img width="650px" height="500px" src="https://github.com/Jhoyoon/Induk/assets/126047439/9a49170b-9e96-436f-b5d5-9c2bdcc2933d">
+  <img width="650px" height="500px" src="https://github.com/Jhoyoon/Induk/assets/126047439/3a6bd3ce-3745-41e2-a9b7-750a5faec41d">
 </p>
 <h1>:mega:개발 환경</h1>
 <ul>
@@ -18,6 +18,10 @@
   <li>STS4</li>
 </ul>
 <h1>:mega:배포</h1>
+www.indukbamboo.com
+<p align="center" >
+  <img width="650px" height="500px" src="https://github.com/Jhoyoon/Induk/assets/126047439/578fbbd2-e450-4f68-969d-991eab9ac9c1">
+</p>
 
 
 
