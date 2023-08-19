@@ -22,7 +22,7 @@ www.indukbamboo.com
 <p align="center" >
   <img width="650px" height="500px" src="https://github.com/Jhoyoon/Induk/assets/126047439/578fbbd2-e450-4f68-969d-991eab9ac9c1">
 </p>
-<h1>추가해야 할 기능들</h1>
+<h1>:mega:ERD추가해야할 기능들</h1><br>
 <ul>
   <li>html 연결</li>
   <li>통합 게시판 만들기</li>
