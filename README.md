@@ -22,6 +22,13 @@ www.indukbamboo.com
 <p align="center" >
   <img width="650px" height="500px" src="https://github.com/Jhoyoon/Induk/assets/126047439/578fbbd2-e450-4f68-969d-991eab9ac9c1">
 </p>
+<h1>추가해야 할 기능들</h1>
+<ul>
+  <li>html 연결</li>
+  <li>통합 게시판 만들기</li>
+  <li>마이페이지 및 회원탈퇴 기능 만들기</li>
+</ul>
+
 
 
 
